@@ -7,6 +7,10 @@
 #      (added 2026-08-23 by the eighteenth seam close's protection ruling,
 #       on b126's finding that six of these sit UNTRACKED in the working tree
 #       where a single `git add -A` would carry them onto main).
+# (v) refuse any outgoing commit whose patch or message carries the ZENODO_TOKEN string
+#     (added b499, 2026-09-23, under ruling (R110)); the string is read by awk from
+#     ENVIRON, never passed as an argument and never written to a file; if the variable
+#     is not set in the pushing shell the scan cannot run, and the guard SAYS SO.
 # Tracked at .githooks/pre-push (moved there b371, 2026-09-08). Install: git config core.hooksPath .githooks
 
 remote="$1"
@@ -46,6 +50,28 @@ while read local_ref local_sha remote_ref remote_sha; do
         exit 1
       fi
     done
+  fi
+
+  # (v) the token scan -- added b499 under (R110). Every outgoing commit on every pushed ref,
+  # its patch AND its message. The token is read by awk from ENVIRON and never printed.
+  if [ "$local_sha" != "0000000000000000000000000000000000000000" ]; then
+    if [ -n "$ZENODO_TOKEN" ]; then
+      if [ "$remote_sha" = "0000000000000000000000000000000000000000" ]; then
+        if git log -p --format='%H%n%B' "$local_sha" --not --remotes="$remote" 2>/dev/null \
+            | awk 'BEGIN{t=ENVIRON["ZENODO_TOKEN"]; f=0} index($0,t){f=1} END{exit f?0:1}'; then
+          echo "pre-push: REFUSED — an outgoing commit carries the ZENODO_TOKEN string (R110). It is not printed." >&2
+          exit 1
+        fi
+      else
+        if git log -p --format='%H%n%B' "$remote_sha..$local_sha" 2>/dev/null \
+            | awk 'BEGIN{t=ENVIRON["ZENODO_TOKEN"]; f=0} index($0,t){f=1} END{exit f?0:1}'; then
+          echo "pre-push: REFUSED — an outgoing commit carries the ZENODO_TOKEN string (R110). It is not printed." >&2
+          exit 1
+        fi
+      fi
+    else
+      echo "pre-push: WARNING — ZENODO_TOKEN is not set in this shell; the (R110) token scan did NOT run." >&2
+    fi
   fi
 
   if [ "$remote_ref" = "refs/heads/main" ]; then
