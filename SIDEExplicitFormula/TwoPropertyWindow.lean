@@ -9,12 +9,14 @@ supported `phi`, and `k = weilTest h h`. Proved here for EVERY real `phi` with `
 (ii) `paperFT h gamma_0 = 0`; (iii) `paperFT h z = (gamma_0^2 - z^2) * paperFT (cos(gamma_0 .) phi) z`, by
 integration by parts twice on the whole line (compact support kills the boundary terms).
 
-THE PLATEAU. `plateau F L` is Mathlib's smooth bump centred at 0 with `rIn = (1 - F) L`, `rOut = L`: flat (= 1) on
-`[-(1-F)L, (1-F)L]`, support `(-L, L)`, the two ramps together a fraction `F` of the support, `C^n` for EVERY `n`, even.
-The b519 values are the named instance `b519Plateau a = plateau (1/4) (log a)`. **ITS RAMP IS MATHLIB'S SMOOTH BUMP,
-NOT THE ORDER-p B-SPLINE OF THE NUMERICAL INSTRUMENT (b519, b522 at p = 7)**: the two share support, flat part, ramp
-fraction and the zero factor, and differ in the ramp's profile; (i)-(iii) hold for either, being stated for every
-`C^4` compactly supported real `phi`.
+THE PLATEAU (made concrete at b527, ruling (R137)(2)). `plateau F L` is `smoothTransition ((L - |u|) / (F L))`,
+written as `smoothTransition ((L - u) / (F L)) * smoothTransition ((L + u) / (F L))` -- `Real.smoothTransition` in
+Mathlib's closed form, no base chosen: flat (= 1) on `[-(1-F)L, (1-F)L]`, support `(-L, L)`, the two ramps together a
+fraction `F` of the support, `C^n` for EVERY `n`, even. (At b524 it was a `ContDiffBump` over `someContDiffBumpBase`,
+a base picked by `Classical.choice` with no values to evaluate -- b526.) The b519 values are the named instance
+`b519Plateau a = plateau (1/4) (log a)`. **ITS RAMP IS THE exp(-1/x) TRANSITION, NOT THE ORDER-p B-SPLINE OF THE
+NUMERICAL INSTRUMENT (b519, b522 at p = 7)**: the two share support, flat part, ramp fraction and the zero factor, and
+differ in the ramp's profile; (i)-(iii) hold for either, being stated for every `C^4` compactly supported real `phi`.
 
 THE HYPOTHESIS OF (f), STATED AND NOT PROVED (`f_pair_hypothesis`): at `rho_0 = beta + i gamma_0`, `delta = beta - 1/2`,
 the real part of the pair's term (the four images' `paperFT k (gammaOf rho)`) is at most
@@ -46,38 +48,73 @@ namespace B321
 
 /-! ### The plateau -/
 
-/-- Mathlib's smooth bump at 0 with `rIn = (1 - F) L` and `rOut = L`. -/
-def plateauBump (F L : ℝ) (hF0 : 0 < F) (hF1 : F < 1) (hL : 0 < L) : ContDiffBump (0 : ℝ) where
-  rIn := (1 - F) * L
-  rOut := L
-  rIn_pos := mul_pos (by linarith) hL
-  rIn_lt_rOut := by nlinarith
-
-/-- **The plateau**, ramp fraction `F`, half-width `L`. -/
+/-- **The plateau**, ramp fraction `F`, half-width `L`: `phi(u) = smoothTransition ((L - |u|) / (F L))`, written as the
+product of the two one-sided transitions so that it is visibly smooth (`plateau_apply_abs` proves the two forms equal):
+flat (= 1) on `[-(1-F)L, (1-F)L]`, zero outside `(-L, L)`, the ramps a fraction `F` of the support. The hypotheses fix the
+parameters' range; the formula does not use them. `Real.smoothTransition` is Mathlib's closed form
+`expNegInvGlue x / (expNegInvGlue x + expNegInvGlue (1 - x))`, `expNegInvGlue x = exp (-1/x)` for `x > 0` and `0` else. -/
 def plateau (F L : ℝ) (hF0 : 0 < F) (hF1 : F < 1) (hL : 0 < L) : ℝ → ℝ :=
-  ⇑(plateauBump F L hF0 hF1 hL)
+  fun u => Real.smoothTransition ((L - u) / (F * L)) * Real.smoothTransition ((L + u) / (F * L))
 
 /-- The plateau is `C^n` for every `n`. -/
 theorem plateau_contDiff (F L : ℝ) (hF0 : 0 < F) (hF1 : F < 1) (hL : 0 < L) (n : ℕ∞) :
-    ContDiff ℝ n (plateau F L hF0 hF1 hL) :=
-  (plateauBump F L hF0 hF1 hL).contDiff
+    ContDiff ℝ n (plateau F L hF0 hF1 hL) := by
+  unfold plateau
+  first
+  | exact (Real.smoothTransition.contDiff.comp (((contDiff_const (c := L)).sub contDiff_id).div_const (F * L))).mul
+      (Real.smoothTransition.contDiff.comp (((contDiff_const (c := L)).add contDiff_id).div_const (F * L)))
+  | fun_prop
 
 /-- The plateau is even. -/
 theorem plateau_even (F L : ℝ) (hF0 : 0 < F) (hF1 : F < 1) (hL : 0 < L) (x : ℝ) :
-    plateau F L hF0 hF1 hL (-x) = plateau F L hF0 hF1 hL x :=
-  (plateauBump F L hF0 hF1 hL).neg x
+    plateau F L hF0 hF1 hL (-x) = plateau F L hF0 hF1 hL x := by
+  show Real.smoothTransition ((L - -x) / (F * L)) * Real.smoothTransition ((L + -x) / (F * L)) =
+    Real.smoothTransition ((L - x) / (F * L)) * Real.smoothTransition ((L + x) / (F * L))
+  rw [sub_neg_eq_add, ← sub_eq_add_neg, mul_comm]
 
 /-- The plateau has compact support. -/
 theorem plateau_hasCompactSupport (F L : ℝ) (hF0 : 0 < F) (hF1 : F < 1) (hL : 0 < L) :
-    HasCompactSupport (plateau F L hF0 hF1 hL) :=
-  (plateauBump F L hF0 hF1 hL).hasCompactSupport
+    HasCompactSupport (plateau F L hF0 hF1 hL) := by
+  have hFL : 0 < F * L := mul_pos hF0 hL
+  refine HasCompactSupport.intro (K := Set.Icc (-L) L) isCompact_Icc ?_
+  intro x hx
+  rw [Set.mem_Icc, not_and_or, not_le, not_le] at hx
+  show Real.smoothTransition ((L - x) / (F * L)) * Real.smoothTransition ((L + x) / (F * L)) = 0
+  rcases hx with h | h
+  · have h2 : (L + x) / (F * L) ≤ 0 := div_nonpos_of_nonpos_of_nonneg (by linarith) hFL.le
+    rw [Real.smoothTransition.zero_of_nonpos h2, mul_zero]
+  · have h1 : (L - x) / (F * L) ≤ 0 := div_nonpos_of_nonpos_of_nonneg (by linarith) hFL.le
+    rw [Real.smoothTransition.zero_of_nonpos h1, zero_mul]
 
 /-- The plateau is flat, equal to 1, on `[-(1-F)L, (1-F)L]`. -/
 theorem plateau_eq_one (F L : ℝ) (hF0 : 0 < F) (hF1 : F < 1) (hL : 0 < L) (x : ℝ) (hx : |x| ≤ (1 - F) * L) :
-    plateau F L hF0 hF1 hL x = 1 :=
-  (plateauBump F L hF0 hF1 hL).one_of_mem_closedBall (by
-    rw [Metric.mem_closedBall, dist_zero_right, Real.norm_eq_abs]
-    exact hx)
+    plateau F L hF0 hF1 hL x = 1 := by
+  have hFL : 0 < F * L := mul_pos hF0 hL
+  have hx' : |x| ≤ L - F * L := by linarith [show (1 - F) * L = L - F * L by ring]
+  have h1 : 1 ≤ (L - x) / (F * L) := by
+    rw [one_le_div₀ hFL]
+    linarith [le_abs_self x]
+  have h2 : 1 ≤ (L + x) / (F * L) := by
+    rw [one_le_div₀ hFL]
+    linarith [neg_abs_le x]
+  show Real.smoothTransition ((L - x) / (F * L)) * Real.smoothTransition ((L + x) / (F * L)) = 1
+  rw [Real.smoothTransition.one_of_one_le h1, Real.smoothTransition.one_of_one_le h2, one_mul]
+
+/-- The two forms agree: `plateau F L u = smoothTransition ((L - |u|) / (F L))` at every `u`. -/
+theorem plateau_apply_abs (F L : ℝ) (hF0 : 0 < F) (hF1 : F < 1) (hL : 0 < L) (x : ℝ) :
+    plateau F L hF0 hF1 hL x = Real.smoothTransition ((L - |x|) / (F * L)) := by
+  have hFL : 0 < F * L := mul_pos hF0 hL
+  have hle : F * L ≤ L := by nlinarith
+  show Real.smoothTransition ((L - x) / (F * L)) * Real.smoothTransition ((L + x) / (F * L)) = _
+  rcases le_total 0 x with hx | hx
+  · have h2 : 1 ≤ (L + x) / (F * L) := by
+      rw [one_le_div₀ hFL]
+      linarith
+    rw [Real.smoothTransition.one_of_one_le h2, mul_one, abs_of_nonneg hx]
+  · have h1 : 1 ≤ (L - x) / (F * L) := by
+      rw [one_le_div₀ hFL]
+      linarith
+    rw [Real.smoothTransition.one_of_one_le h1, one_mul, abs_of_nonpos hx, sub_neg_eq_add]
 
 /-- **The b519 values as the named instance:** ramp fraction `1/4`, half-width `log a`. -/
 def b519Plateau (a : ℝ) (ha : 1 < a) : ℝ → ℝ :=
