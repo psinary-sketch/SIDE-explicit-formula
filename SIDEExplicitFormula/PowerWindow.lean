@@ -416,6 +416,8 @@ nonreal half needs `Im rho ≠ 0` as well as the off-line `delta ≠ 0`: `(gamma
 def nodes_distinct_nonreal (Z : Zeta23.ZeroConfig) (g : ℝ → ℝ) (M : ℝ) : Prop :=
   (∀ ρ ∈ tieSet Z g M, ((Zeta23.gammaOf ρ) ^ 2).im ≠ 0) ∧
     ∀ ρ ∈ tieSet Z g M, ∀ ρ' ∈ tieSet Z g M, (Zeta23.gammaOf ρ) ^ 2 = (Zeta23.gammaOf ρ') ^ 2 → ρ' = ρ ∨ ρ' = 1 - ρ
+-- (R144)(2), act b534: `nodes_distinct_nonreal` above stays as written and unproved. It is superseded by `nodes_distinct`
+-- (PowerLimit.lean), which needs no non-reality: equal `v = (rho - 1/2)^2` forces `rho' ∈ {rho, 1 - rho}` by real algebra.
 
 /-! ### L6 -- the interpolant -/
 
