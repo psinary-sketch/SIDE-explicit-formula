@@ -351,7 +351,11 @@ theorem truncMember_EF (n : ℕ) {c : ℝ} (f : ContDiffBump c) :
 that tend to `1` at every `u < 0`, the zero side of EF_lit at the truncations tends to `LiCoeff n`. At each member the
 zero sum is absolutely convergent (EF_lit); the target is the paired (real-part) Li sum, whose unpaired terms decay only
 like `n/ρ`. A dominant for the truncated transforms uniform along the family is what the Tannery route needs, and
-EF_lit's own bound grows with the bump's derivatives near `0`: that is the pairing hazard, and it is not crossed here. -/
+EF_lit's own bound grows with the bump's derivatives near `0`: that is the pairing hazard, and it is not crossed here.
+**FALSE AS STATED for `n ≥ 1` (b561's reading, relay `data/b561_decay_read.txt` (7), lines 42-55):** the one-sided
+smoothing moves the jump's midpoint into `u < 0`, and the zero side drifts like `-(n/2) log(1/δ)` along every family in
+the hypothesis. That is a derivation resting on Stirling and the Riemann-von Mangoldt count, neither compiled here; it
+is not a theorem of this kernel. The `Prop` is kept as stated and not withdrawn (ruling (R172)(1)(a), act b562). -/
 def LiLimitExchange (n : ℕ) : Prop :=
   ∀ (c : ℕ → ℝ) (fs : ∀ m, ContDiffBump (c m)), (∀ m, c m + (fs m).rOut ≤ 0) →
     (∀ u : ℝ, u < 0 → Filter.Tendsto (fun m => (fs m) u) Filter.atTop (nhds 1)) →
