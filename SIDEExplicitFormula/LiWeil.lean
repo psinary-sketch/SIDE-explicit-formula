@@ -364,7 +364,11 @@ def LiLimitExchange (n : ℕ) : Prop :=
 
 /-- **The identity, conditional on the exchange:** if `LiLimitExchange n` holds, then along the same family the
 literature right-hand sides of EF_lit -- the pole terms, the prime sum and the Γ-integral at the truncations -- tend to
-`LiCoeff n`. The step is EF_lit itself (`truncMember_EF`); the exchange is the hypothesis, not proved. -/
+`LiCoeff n`. The step is EF_lit itself (`truncMember_EF`); the exchange is the hypothesis, not proved.
+**ITS PREMISE IS FALSE AS STATED for `n ≥ 1` (b561's reading, relay `data/b561_decay_read.txt` (7), lines 42-55):**
+`LiLimitExchange n` fails along the one-sided families it quantifies over, so this conditional is INTERFACES on a
+premise false as stated, graded T2 by the superseding correspondence row (ruling (R172)(1)(a), act b562). The derivation
+rests on Stirling and the Riemann-von Mangoldt count, neither compiled here. -/
 theorem li_identity_of_exchange (n : ℕ) (hX : LiLimitExchange n) (c : ℕ → ℝ) (fs : ∀ m, ContDiffBump (c m))
     (hc : ∀ m, c m + (fs m).rOut ≤ 0) (h1 : ∀ u : ℝ, u < 0 → Filter.Tendsto (fun m => (fs m) u) Filter.atTop (nhds 1)) :
     Filter.Tendsto (fun m => EF.literatureRHS (truncMember n (fs m))) Filter.atTop (nhds (LiCoeff n : ℂ)) :=
