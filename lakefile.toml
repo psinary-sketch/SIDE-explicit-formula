@@ -9,3 +9,13 @@ rev = "51e6992efd06126df61a496bebf8f49482a4e129"
 [[lean_lib]]
 name = "SIDEExplicitFormula"
 globs = ["Zeta23.+", "SIDEExplicitFormula.+"]
+
+# Vendored at b566 under (R176)(3): Bulka's li-criterion-rh-equivalence-lean at 35df682f, the closure of
+# Lc.LiCriterion.Fidelity (which contains the converse's). Bodies byte-identical under Zeta23's header form.
+# The two elaboration options Bulka's package sets are carried; its pretty-printer option and weak linters are not.
+[[lean_lib]]
+name = "BulkaVendored"
+srcDir = "Vendored/Bulka"
+roots = ["Lc.LiCriterion.Fidelity"]
+globs = ["Lc.+", "Hadamard.+", "FunctionsOfOneComplexVariable.+"]
+leanOptions = { autoImplicit = false, maxSynthPendingDepth = 3 }

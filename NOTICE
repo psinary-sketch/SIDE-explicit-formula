@@ -16,3 +16,12 @@ mathlib4 with its standard dependency set — fetched by the build tool from the
 revisions pinned in lake-manifest.json: batteries, aesop, Qq, ProofWidgets4, import-graph, LeanSearchClient and
 plausible are released under the Apache License, Version 2.0; Cli (leanprover/lean4-cli) is released under the
 MIT License (Copyright (c) 2021 Marc Huisinga). None of these dependencies is included in this repository.
+
+----------------------------------------------------------------------------------------------------
+This product also includes software from li-criterion-rh-equivalence-lean
+(https://github.com/nicholasbulka/li-criterion-rh-equivalence-lean), at 35df682f3b709ffe5fbcfdd452dfa964bd622b87,
+Copyright 2026 Nicholas Bulka, licensed under the Apache License, Version 2.0; the licence is carried whole at
+Vendored/Bulka/LICENSE. The source repository carries no NOTICE file. The vendored files are the ones under
+Vendored/Bulka/ (the import closure of Lc.LiCriterion.Fidelity within that repository); each carries a prepended
+attribution header recording its source path, the pin and the sha256 of its unaltered body, and each keeps its
+original copyright header. Vendored at act b566 under the author's ruling (R176)(3).
