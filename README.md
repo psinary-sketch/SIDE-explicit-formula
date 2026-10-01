@@ -63,3 +63,24 @@ by name. Their prints are banked at relay `data/b566_prints.txt`. A vendored cop
 
 Their prints: `AxiomCheckResidue.lean` and `AxiomCheckChiStrip.lean`, banked at relay `data/b567_residue_prints.txt` and
 `data/b567_chi_prints.txt`. Nothing here proves RH or GRH; a print is a print.
+
+## Appended at act b569 (ruling (R179)(2), (6)) -- the page's two converses, and EF_lit's route for χ to its good heights
+
+**Nothing above this section is edited; the toolchain and pins are b566's.** What this programme wrote at b569:
+
+| module | what it holds |
+|:--|:--|
+| `SIDEExplicitFormula/PageConverses.lean` | `rh_imp_register4_positivity_liCoeff`, `register4_positivity_liCoeff_iff_rh`, `rh_imp_taylorCoeff_nonneg`, `taylorCoeff_nonneg_iff_rh` -- the converses of the two compiled implications the page THE_CLAUSE_AND_ITS_COMPILED_FACES.md carried at v0.10, each a composition of compiled pieces |
+| `SIDEExplicitFormula/Chi/ZetaGrowth.lean` | for `χ ≠ 1`: `LFunction χ` entire; `‖L(s, χ)‖ ≤ (N + 1)‖s‖ / Re s` on `0 < Re s`; linear growth and its consumer forms; on `Re s ≥ 2`, `‖L(s, χ) − 1‖ ≤ π²/6 − 1` and the bounds it gives (the analogue of Zeta23's `RvM/ZetaGrowth.lean`) |
+| `SIDEExplicitFormula/Chi/LocalCount.lean` | `chiZeroConfig_local_count : N_χ(t, t+1] ≤ A₀ log(|t| + 3)` (the analogue of `RvM/LocalCount.lean`) |
+| `SIDEExplicitFormula/Chi/ZeroSummability.lean` | `EF_zero_sum_summable_chi` -- the Summable conjunct of `EF_lit_chi` (Zeta23's generic summability at `chiZeroConfig`) |
+| `SIDEExplicitFormula/Chi/XiLogDeriv.lean` | `Λ(·, χ) = gammaFactor χ · L(·, χ)` on `0 < Re s`; `rootNumber_ne_zero`; `Λ'/Λ(1 − s, χ) = −(log N + Λ'/Λ(s, χ⁻¹))` |
+| `SIDEExplicitFormula/Chi/CountByIntegral.lean` | the zeros of `Λ(·, χ)` are exactly the nontrivial zeros of `L(·, χ)`; its order on `0 < Re s` |
+| `SIDEExplicitFormula/Chi/Landau.lean` | `LFunction_logDeriv_partial_fraction` -- Landau's partial fraction for `L'/L(·, χ)` |
+| `SIDEExplicitFormula/Chi/GoodHeights.lean` | `good_heights_chi` -- heights with `L ≠ 0` and `‖L'/L‖ ≪ log²` on the horizontal segments |
+
+`EF_lit_chi`'s proof is HELD at the χ-analogue of Zeta23's `WeilEF/VerticalLine.lean`: for odd `χ` the Γ factor is
+`Γℝ(s + 1)`, and Zeta23's `norm_logDeriv_Gammaℝ_le` (from `digamma_growth_strip`, `1/4 ≤ Re w ≤ 1`) does not reach
+`σ + 1 ∈ [3/2, 5/2]`; the attempt is on the branch `grh-weil-b569-held` and is not on main. Their prints:
+`AxiomCheckConverses.lean` and `AxiomCheckChiRoute.lean`, banked at relay `data/b569_converse_axiomcheck.txt` and
+`data/b569_chi_prints.txt`. Nothing here proves RH or GRH; a print is a print.
