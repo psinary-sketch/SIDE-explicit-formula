@@ -100,3 +100,20 @@ programme wrote at b570:
 `Λ'/Λ(1 − s) = −Λ'/Λ(s)`, which for χ is `−(log N + Λ'/Λ(s, χ⁻¹))` (`Chi/XiLogDeriv.lean`); FullLine's χ statement carries
 χ⁻¹ and the conductor and is not yet stated. Prints: `AxiomCheckChiAct5.lean`, banked at relay `data/b570_chi_prints.txt`.
 Nothing here proves RH or GRH; a print is a print.
+
+## Appended at act b571 (ruling (R181)(4)) -- FullLine at χ⁻¹ with the conductor, the route after it, the explicit formula for χ
+
+**Nothing above this section is edited; the toolchain and pins are b566's; Zeta23's files are unedited.** What this
+programme wrote at b571:
+
+| module | what it holds |
+|:--|:--|
+| `SIDEExplicitFormula/Chi/FullLine.lean` | the full-line integrand for χ, `Fline_chi` -- `H(c+it)·Λ'/Λ(c+it, χ) + H(1−c−it)·Λ'/Λ(c+it, χ⁻¹) + H(1−c−it)·log N`, the conductor term (`FlineCond_chi`) its own summand; the fold `verticals_eq_chi` through `Λ'/Λ(1 − s, χ) = −(log N + Λ'/Λ(s, χ⁻¹))`; the heights lemma (the left half by the functional equation onto χ⁻¹ and b562's pairing) |
+| `SIDEExplicitFormula/Chi/Horizontal.lean` | `horizontal_vanish_chi`: the horizontal sides vanish along good heights; the χ⁻¹ side bounded through the pairing differentiated, `logDeriv_LFunction_inv_conj` |
+| `SIDEExplicitFormula/Chi/ZeroSumLimit.lean` | `zero_sum_limit_chi`: the truncated zero sums converge to the tsum over `chiZeroConfig` |
+| `SIDEExplicitFormula/Chi/FullLineAssembly.lean` | `full_line_identity_chi`: `(1/2π)∫ Fline_chi = Σ_ρ m_ρ H(ρ)`, no pole terms |
+| `SIDEExplicitFormula/Chi/Main.lean` | `EF_lit_chi_holds : EF_lit_chi χ hχ h1` for primitive `χ ≠ 1`: the Γ part on the critical line (`gammaFactor_bracket`), the prime lines at χ and at χ⁻¹ (`χ⁻¹(n) = conj χ(n)`), and the conductor term `log N·(1/2π)∫ h`, which joins the Γ part's `−log π` in the bracket's `log(N/π)` |
+
+Prints: `AxiomCheckChiAct6.lean`, banked at relay `data/b571_chi_prints.txt` -- every declaration within
+`[propext, Classical.choice, Quot.sound]`. `EF_lit_chi` (Chi/Statement.lean) is unedited; this act proves it.
+Nothing here proves RH or GRH or locates any zero of any `L(s, χ)`; a print is a print.
