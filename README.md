@@ -50,3 +50,16 @@ core lemmas that enter Lean at `v4.34.0-rc1`), and the forward move built every 
 the equality of the kernel's `LiCoeff (n + 1)` with the vendored Taylor coefficient's real part, and from it
 `li_nonneg_iff_rh : (∀ n, 0 ≤ LiCoeff n) ↔ RiemannHypothesis` and `arith_limit_nonneg_iff_rh`, the vendored converse consumed
 by name. Their prints are banked at relay `data/b566_prints.txt`. A vendored copy is not a result; a print is a print.
+
+## Appended at act b567 (ruling (R177)(5)-(6)) -- the residue premise, and the representation of L(s, χ) on the strip
+
+**Nothing above this section is edited; the toolchain and pins are b566's.** What this programme wrote at b567:
+
+| module | what it holds |
+|:--|:--|
+| `SIDEExplicitFormula/ResidueDischarge.lean` | `Register4_positivity`, restated from SIDE-lv-conservation (`RegisterPentagon.lean` :152 at `2f71068`, cited, not imported); `liCoeff_zero`; `register4_positivity_liCoeff_imp_rh : Register4_positivity LiCoeff → RiemannHypothesis` -- the Li-channel premise of lv's `residue_irreducible` at `lam := LiCoeff` |
+| `SIDEExplicitFormula/Chi/ZetaBoundsStrip.lean` | for `χ ≠ 1`: `LFunction_eq_mul_integral : L(s, χ) = s ∫_(1,∞) S_χ(t) t^(−s−1) dt` on `0 < re s` (Mathlib's `LSeries_eq_mul_integral`, its Mellin differentiability, the identity theorem); the analogues of Zeta23's `HasDerivAtZeta0`, `Zeta0EqZeta`, `DerivZeta0EqDerivZeta` and `ZetaBnd_aux1b` for `LFunction0` |
+| `SIDEExplicitFormula/Chi/Statement.lean` | `literatureRHS_chi` and `EF_lit_chi`, the explicit formula for `χ`, STATED and not proved; the archimedean bracket by parity |
+
+Their prints: `AxiomCheckResidue.lean` and `AxiomCheckChiStrip.lean`, banked at relay `data/b567_residue_prints.txt` and
+`data/b567_chi_prints.txt`. Nothing here proves RH or GRH; a print is a print.
