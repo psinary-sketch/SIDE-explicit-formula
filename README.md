@@ -28,3 +28,25 @@ a push is not a verification, and a launched build is not a built build.
 **TOOLCHAIN DIVERGENCE IS EXPECTED.** SPIRAL_MAP section 7 rule 4 pins the federation to one
 toolchain "unless stated otherwise"; this kernel states otherwise, and pins what its source
 pins, because a vendored body must compile against the library its author compiled it against.
+
+## Amended at act b566 (ruling (R176)(3)) -- the toolchain moved, and a second source vendored
+
+**The two pin rows above are superseded by this section, which is appended; nothing above it is edited.** At b566 the kernel's
+toolchain and Mathlib moved to the pins of the second vendored source, after a trial both ways (relay `data/b566_trials.txt`):
+the backport of that source to `v4.33.0-rc2` / `51e6992e` stopped on three unknown identifiers (`ite_eq_right`, `ite_eq_left`,
+core lemmas that enter Lean at `v4.34.0-rc1`), and the forward move built every module of this kernel with no source edit.
+
+| | |
+|:--|:--|
+| toolchain | `leanprover/lean4:v4.34.0-rc1` |
+| mathlib | `de5ce8a9a66a4aa68a9bdbb35b63a06d34d9ca11` |
+| second source | `github.com/nicholasbulka/li-criterion-rh-equivalence-lean` |
+| its pin | `35df682f3b709ffe5fbcfdd452dfa964bd622b87` |
+| modules vendored | 33 -- the local import closure of `Lc.LiCriterion.Fidelity`, which contains that of the converse `LiCriterion.positivity_implies_RH`; under `Vendored/Bulka/`, as the library `BulkaVendored` |
+| licence | Apache 2.0; its `LICENSE` carried whole at `Vendored/Bulka/LICENSE`; attribution in `NOTICE`; the source carries no NOTICE file |
+| bodies | byte-identical to the source at the pin, each under a prepended attribution header carrying its body's sha256 (Zeta23's form) |
+
+**What this programme wrote at b566** is `SIDEExplicitFormula/LiCriterionBridge.lean` (with `AxiomCheckLiCriterion.lean`):
+the equality of the kernel's `LiCoeff (n + 1)` with the vendored Taylor coefficient's real part, and from it
+`li_nonneg_iff_rh : (∀ n, 0 ≤ LiCoeff n) ↔ RiemannHypothesis` and `arith_limit_nonneg_iff_rh`, the vendored converse consumed
+by name. Their prints are banked at relay `data/b566_prints.txt`. A vendored copy is not a result; a print is a print.
