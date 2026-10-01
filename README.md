@@ -84,3 +84,19 @@ Their prints: `AxiomCheckResidue.lean` and `AxiomCheckChiStrip.lean`, banked at 
 `σ + 1 ∈ [3/2, 5/2]`; the attempt is on the branch `grh-weil-b569-held` and is not on main. Their prints:
 `AxiomCheckConverses.lean` and `AxiomCheckChiRoute.lean`, banked at relay `data/b569_converse_axiomcheck.txt` and
 `data/b569_chi_prints.txt`. Nothing here proves RH or GRH; a print is a print.
+
+## Appended at act b570 (ruling (R180)(5)) -- the wider strip, the odd case, the prime and Γ sides for χ, the rectangle
+
+**Nothing above this section is edited; the toolchain and pins are b566's; Zeta23's files are unedited.** What this
+programme wrote at b570:
+
+| module | what it holds |
+|:--|:--|
+| `SIDEExplicitFormula/Chi/GammaWide.lean` | `digamma_growth_strip_wide` (`1/4 ≤ Re s ≤ 2`) and `norm_logDeriv_Gammaℝ_le_wide` (`3/2 ≤ σ ≤ 5/2`): Zeta23's own argument with the interval changed |
+| `SIDEExplicitFormula/Chi/VerticalLine.lean` | `norm_logDeriv_gammaFactor_le` (the odd case by the wider strip); the prime side for χ on `Re s = c > 1` (`prime_side_line_chi`: `Σ χ(n)Λ(n) n^(−1/2) k(log n)`, from Mathlib's `LSeries_twist_vonMangoldt_eq`); the Γ side `gamma_line_shift_chi` |
+| `SIDEExplicitFormula/Chi/Contour.lean` | `rectangle_identity_chi`: the weighted argument principle for `H·Λ'/Λ(·, χ)`; no pole terms |
+
+`EF_lit_chi`'s proof is HELD at Zeta23's `WeilEF/FullLine.lean`: its fold of the left vertical onto the right line uses
+`Λ'/Λ(1 − s) = −Λ'/Λ(s)`, which for χ is `−(log N + Λ'/Λ(s, χ⁻¹))` (`Chi/XiLogDeriv.lean`); FullLine's χ statement carries
+χ⁻¹ and the conductor and is not yet stated. Prints: `AxiomCheckChiAct5.lean`, banked at relay `data/b570_chi_prints.txt`.
+Nothing here proves RH or GRH; a print is a print.
