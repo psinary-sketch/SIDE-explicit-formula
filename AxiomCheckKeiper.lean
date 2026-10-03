@@ -91,6 +91,8 @@ compiler`s output is the verdict, not this comment.
 #check @SIDEExplicitFormula.Keiper.SaltCheck.split_needs_inv_s
 #check @SIDEExplicitFormula.Keiper.SaltCheck.split_needs_zeta
 #check @SIDEExplicitFormula.Keiper.SaltCheck.split_needs_gammaR
+#check @SIDEExplicitFormula.Keiper.SaltCheck.keiperTaylor_zero_holds
+#check @SIDEExplicitFormula.Keiper.SaltCheck.bounds_form_satisfiable
 #check @SIDEExplicitFormula.Keiper.SaltCheck.bounds_form_refutable
 
 #print SIDEExplicitFormula.Keiper.KeiperTaylor
