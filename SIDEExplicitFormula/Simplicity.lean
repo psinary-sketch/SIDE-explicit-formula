@@ -38,6 +38,14 @@ theorem simplicity_iff : simplicity ↔ ∀ ρ : ℂ, Zeta23.IsNontrivialZero ρ
 3635e748 (`Zeta23/FinalMult.lean` :350, not vendored): for every `ε > 0` and all large `T`, at least `(2/3 − ε)` of the
 nontrivial zeros with `T < Im ρ ≤ 2T`, counted with multiplicity, are simple and on the critical line. -/
 structure SimpleProportion : Prop where
+  /-- **THE CITATION (act b628, ruling (R238)(4)).** This field is the statement of `Zeta23.thmB₀_mult`
+  (`Zeta23/FinalMult.lean` :350) in the repository github.com/anthropics/formal-math at the pin v1.0 =
+  3635e74826a4c1fcece7d1cd2b6fa75e43a00510, toolchain leanprover/lean4:v4.33.0-rc2 with Mathlib 51e6992e. Its axiom
+  profile, `[propext, Classical.choice, Quot.sound]`, is read from that repository's `AUDIT.md` :80 at the pin -- the
+  upstream's recorded run, not a build made here -- and banked with `ThmB_statement`'s print from a build of
+  `Zeta23.Statement` in a clone at the pin (relay `data/b628_zeta23_axioms.txt`, sha256
+  0ce2338fef17abcf5acf4ff5bc218a5590a873b7ceaa47304c79571a0f43bb85). The theorem is discharged at its source kernel,
+  not in this one: here the field stays a named premise, and `exceptional_mass_le_third` stays INTERFACES on it. -/
   two_thirds : ∀ ε > 0, ∃ T₀ : ℝ, ∀ T ≥ T₀, (2 / 3 - ε) * (Zeta23.Ncount T (2 * T) : ℝ) ≤ Zeta23.N0simple T (2 * T)
 
 /-- **AT INTERFACES ON THE PROPORTION**: under the named premise, the count with multiplicity less the simple zeros on
