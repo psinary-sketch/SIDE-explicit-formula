@@ -44,8 +44,9 @@ structure SimpleProportion : Prop where
   profile, `[propext, Classical.choice, Quot.sound]`, is read from that repository's `AUDIT.md` :80 at the pin -- the
   upstream's recorded run, not a build made here -- and banked with `ThmB_statement`'s print from a build of
   `Zeta23.Statement` in a clone at the pin (relay `data/b628_zeta23_axioms.txt`, sha256
-  0ce2338fef17abcf5acf4ff5bc218a5590a873b7ceaa47304c79571a0f43bb85). The theorem is discharged at its source kernel,
-  not in this one: here the field stays a named premise, and `exceptional_mass_le_third` stays INTERFACES on it. -/
+  0ce2338fef17abcf5acf4ff5bc218a5590a873b7ceaa47304c79571a0f43bb85). The theorem is
+  discharged at its source kernel, not in this one: here the field stays a named premise, and
+  `exceptional_mass_le_third` stays INTERFACES on it. -/
   two_thirds : ∀ ε > 0, ∃ T₀ : ℝ, ∀ T ≥ T₀, (2 / 3 - ε) * (Zeta23.Ncount T (2 * T) : ℝ) ≤ Zeta23.N0simple T (2 * T)
 
 /-- **AT INTERFACES ON THE PROPORTION**: under the named premise, the count with multiplicity less the simple zeros on
