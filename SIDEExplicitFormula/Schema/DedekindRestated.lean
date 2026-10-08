@@ -47,6 +47,24 @@ theorem trivialSummandPremise'_of_even (k : ℝ → ℂ) (he : ∀ x, k (-x) = k
 theorem trivialSummandPremise'_witness : TrivialSummandPremise' (fun _ => 1) :=
   trivialSummandPremise'_of_even _ fun _ => rfl
 
+/-- **THE SUMMED ARITHMETIC SIDE AS THE DEDEKIND READING'S, ON THE RESTATED PREMISE**: under `TrivialSummandPremise' k` (the trivial
+summand with its pole term carried) and `EulerFactorPremise q`, the summed side is the pole term plus the trivial summand's plus every
+non-trivial character's at its own level. Both premises carry a witness (`trivialSummandPremise'_witness`; `eulerFactorPremise_three`).
+The v0.25 `dedekind_rhs`, on the refuted `TrivialSummandPremise`, is kept. -/
+theorem dedekind_rhs' (q : ℕ) [NeZero q] (k : ℝ → ℂ) (hT : TrivialSummandPremise' k) (hE : EulerFactorPremise q) :
+    (DedekindConfig q).rhs k
+      = poleTerm k + (archTerm_chi (1 : DirichletCharacter ℂ 1) k - primeSum_chi (1 : DirichletCharacter ℂ 1) k)
+        + ∑ χ ∈ family q, (archTerm_chi χ k - primeSum_chi χ k) := by
+  unfold DedekindConfig
+  rw [Product.sum_rhs, hT, familyConfig_arith q k]
+  congr 1
+  exact Finset.sum_congr rfl fun χ hχ => (hE χ ((mem_family q χ).mp hχ) k).symm
+
+/-- **`dedekind_three`, re-checked at v0.26**: the statement at `q = 3` is the instance's, by definition. -/
+theorem dedekind_three_v026 :
+    DedekindTheorem 3 = (h2_sign_cfg (DedekindConfig 3) ↔ zetaWeilConfig.target ∧ ∀ χ ∈ family 3, GRH_chi χ.primitiveCharacter) :=
+  rfl
+
 end Dedekind
 end Schema
 end SIDEExplicitFormula
