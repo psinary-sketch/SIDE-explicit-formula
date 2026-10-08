@@ -253,7 +253,10 @@ theorem zeta_rhs_pole (k : ℝ → ℂ) : zetaWeilConfig.rhs k = poleTerm k - pr
   rfl
 
 /-- **OBSTRUCTION (1), THE POLE, as the premise the reading would need**: the trivial character's summand in the family's
-form, ζ's arithmetic side with no pole term. NOT DISCHARGED HERE. -/
+form, ζ's arithmetic side with no pole term. NOT DISCHARGED HERE. **REFUTED at b642, ruling (R252)(3)(d)**: the premise is false
+-- `Family.not_trivialSummandPremise` (Schema/FamilyPremises.lean), the pole term positive at a test function where it would need
+to vanish; kept as it stands. The premise restated with the pole term carried is `Dedekind.TrivialSummandPremise'`
+(Schema/DedekindRestated.lean), with its witness. -/
 def TrivialSummandPremise : Prop :=
   ∀ k : ℝ → ℂ,
     zetaWeilConfig.rhs k = archTerm_chi (1 : DirichletCharacter ℂ 1) k - primeSum_chi (1 : DirichletCharacter ℂ 1) k
