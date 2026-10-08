@@ -16,8 +16,8 @@ raised to a power `2^j` -- a different window, as b546/b550 recorded. Here the b
   supported, and its self-convolution `weilTest` is in `classK`; `PlateauRampWindow W h` is the two together, the item.
 * PROVED: the box's transform in closed form (`box_paperFT`, C1 at `p = 0`, `window_paperFT_zero`) and the normalised box's
   (`nbox_paperFT`); the window even (`window_even`) and compactly supported (`window_hasCompactSupport`) at every `p`.
-* CARRIED TO TWO NAMED OBLIGATIONS (`WindowObligations`): (O1) `ConvStep`, the convolution theorem for the transform on the
-  family (Mathlib at the pin holds it for Schwartz functions only, `fourier_convolution`, and the box is not one); (O2)
+* CARRIED TO TWO NAMED OBLIGATIONS (`WindowObligations`): (O1) `ConvStep`, the transform's convolution theorem (the pin's is
+  `Real.fourier_mul_convolution_eq`, Mathlib/Analysis/Fourier/Convolution.lean :119: integrable functions, real frequency); (O2)
   `Smooth4`, the window `C^4` for `p ≥ 6` (convolution with a box raises the order by one; no Mathlib lemma at the pin).
   `plateauRampWindow_of` derives the item from them, at INTERFACES.
 * ITS RELATION TO THE EPSTEIN PREMISES: INDEPENDENT. The window is a statement about test functions and names no zero
