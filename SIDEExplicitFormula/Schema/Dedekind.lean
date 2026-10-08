@@ -55,7 +55,9 @@ theorem dedekind_instance :
 /-- **THE SUMMED ARITHMETIC SIDE AS THE DEDEKIND READING'S, ON THE TWO PREMISES**: under `TrivialSummandPremise` (the trivial
 summand in the family's form, without the pole term) and `EulerFactorPremise q` (every non-trivial character mod `q` with its
 primitive inducer's arithmetic side), the summed side is the trivial summand's plus every non-trivial character's at its own level.
-Both premises are used; neither is discharged. -/
+Both premises are used; neither is discharged. **ON A REFUTED PREMISE, b642, ruling (R252)(3)(d)**: `TrivialSummandPremise` is false
+(`Family.not_trivialSummandPremise`), so this theorem has no instance; it is kept, not deleted. The re-proof on the restated premise,
+the pole term carried, is `dedekind_rhs'` (Schema/DedekindRestated.lean). -/
 theorem dedekind_rhs (hT : TrivialSummandPremise) (hE : EulerFactorPremise q) (k : ℝ → ℂ) :
     (DedekindConfig q).rhs k
       = (archTerm_chi (1 : DirichletCharacter ℂ 1) k - primeSum_chi (1 : DirichletCharacter ℂ 1) k)
