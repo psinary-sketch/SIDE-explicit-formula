@@ -1,0 +1,8 @@
+SIDEExplicitFormula.B321.rest_norm_le_rate
+SIDEExplicitFormula.B321.zeroSide_neg_at_rate
+SIDEExplicitFormula.transversalityWidth
+SIDEExplicitFormula.Schema.dominant_summable_hcount
+SIDEExplicitFormula.Schema.rest_norm_le_rate_cfg
+SIDEExplicitFormula.Schema.zeroSide_neg_at_rate_cfg
+SIDEExplicitFormula.Schema.rest_norm_le_rate_cfg_zeta
+SIDEExplicitFormula.Schema.zeroSide_neg_at_rate_cfg_zeta
