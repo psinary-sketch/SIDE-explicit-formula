@@ -26,16 +26,12 @@ namespace Keiper
 
 /-- **Keiper's Taylor identity at every index**: `taylorCoeff riemannXi n = keiperSum n` for every `n`. -/
 theorem keiperTaylor_holds : KeiperTaylor := fun n => by
-  first
-  | rw [binomialTransform_holds n, keiperSum]
-    exact Finset.sum_congr rfl fun k _ => by rw [logDerivSplit_holds k]
-  | sorry
+  rw [binomialTransform_holds n, keiperSum]
+  exact Finset.sum_congr rfl fun k _ => by rw [logDerivSplit_holds k]
 
 /-- **The finite-n equality**: the programme's Li coefficient at `n + 1` is the real part of `keiperSum n`. -/
 theorem liCoeff_succ_eq_keiperSum (n : ℕ) : LiWeil.LiCoeff (n + 1) = (keiperSum n).re := by
-  first
-  | rw [LiCriterionBridge.li_coeff_eq_taylorCoeff n, keiperTaylor_holds n]
-  | sorry
+  rw [LiCriterionBridge.li_coeff_eq_taylorCoeff n, keiperTaylor_holds n]
 
 end Keiper
 end SIDEExplicitFormula
