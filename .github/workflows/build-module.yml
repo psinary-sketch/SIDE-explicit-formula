@@ -3,6 +3,8 @@
 # lean-toolchain; lake exe cache get; a free-memory logger beside the build that stops lake if free memory falls beneath the 2,560 MB hold;
 # lake build of the target; a scratch file through lake env lean carrying #print axioms for every named terminal; the build log, the memory log
 # and the axioms output uploaded as the run's artifact. No secret is used; the platform's own token alone (read-only contents).
+# From b658 ((R263)(4), standing): the named terminals are read from print_targets.txt at the kernel's root, one name per line, and the
+# scratch file imports each module of the target; no workflow edit is needed to print a new theorem.
 name: build-module
 
 on:
@@ -74,13 +76,17 @@ jobs:
       - name: Axioms of the named terminals
         if: always()
         run: |
-          cat > out/Axioms.lean <<'EOF'
-          import SIDEExplicitFormula.RateIndex
-          import SIDEExplicitFormula.TransversalityWidth
-          #print axioms SIDEExplicitFormula.B321.rest_norm_le_rate
-          #print axioms SIDEExplicitFormula.B321.zeroSide_neg_at_rate
-          #print axioms SIDEExplicitFormula.transversalityWidth
-          EOF
+          : > out/Axioms.lean
+          for m in $TARGET; do echo "import $m" >> out/Axioms.lean; done
+          cp print_targets.txt out/print_targets.txt
+          while IFS= read -r n || [ -n "$n" ]; do
+            n=$(printf '%s' "$n" | tr -d '\r' | sed 's/^[[:space:]]*//; s/[[:space:]]*$//')
+            [ -z "$n" ] && continue
+            case "$n" in
+              *[!A-Za-z0-9_.\']*) echo "print target refused: $n" >> out/axioms_refused.txt; continue ;;
+            esac
+            echo "#print axioms $n" >> out/Axioms.lean
+          done < print_targets.txt
           if [ "$(cat out/build_exit.txt)" = "0" ] && ! grep -q '^STOP ' out/mem.log; then
             lake env lean out/Axioms.lean > out/axioms.txt 2>&1 || true
           else
