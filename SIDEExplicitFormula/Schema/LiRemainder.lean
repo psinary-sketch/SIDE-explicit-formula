@@ -110,14 +110,15 @@ theorem liTerm_re_abs_le_pow {ρ : ℂ} (h0 : 0 < ρ.re) (h1 : ρ.re < 1) {s : �
 theorem summable_rest (Z : ZeroConfig) {A₀ : ℝ} (hc : B321.HCount Z A₀) (s : ℝ) :
     Summable (fun ρ : {ρ : ℂ // ρ ∈ Z.carrier ∧ ‖1 - ρ⁻¹‖ < s} =>
       (Z.mult ρ : ℝ) / (1 + Complex.normSq (gammaOf (ρ : ℂ)))) := by
-  have h := WeilEF.zero_sum_inv_sq_gen Z hc.1 hc.2
-  have hi : Function.Injective
-      (fun ρ : {ρ : ℂ // ρ ∈ Z.carrier ∧ ‖1 - ρ⁻¹‖ < s} => (⟨ρ.1, ρ.2.1⟩ : Z.carrier)) := by
-    intro a b hab
-    apply Subtype.ext
-    have h2 := congrArg (fun x : Z.carrier => (x : ℂ)) hab
-    exact h2
-  exact h.comp_injective hi
+  have h : Summable (fun ρ : Z.carrier => (Z.mult ρ : ℝ) / (1 + Complex.normSq (gammaOf (ρ : ℂ)))) :=
+    WeilEF.zero_sum_inv_sq_gen Z hc.1 hc.2
+  have hG : Summable (Z.carrier.indicator (fun ρ : ℂ => (Z.mult ρ : ℝ) / (1 + Complex.normSq (gammaOf ρ)))) :=
+    (summable_subtype_iff_indicator (f := fun ρ : ℂ => (Z.mult ρ : ℝ) / (1 + Complex.normSq (gammaOf ρ)))
+      (s := Z.carrier)).mp h
+  have hS : Summable (fun ρ : {ρ : ℂ // ρ ∈ Z.carrier ∧ ‖1 - ρ⁻¹‖ < s} =>
+      Z.carrier.indicator (fun ρ : ℂ => (Z.mult ρ : ℝ) / (1 + Complex.normSq (gammaOf ρ))) (ρ : ℂ)) :=
+    hG.subtype (fun ρ : ℂ => ρ ∈ Z.carrier ∧ ‖1 - ρ⁻¹‖ < s)
+  exact hS.congr fun ρ => Set.indicator_of_mem ρ.2.1 _
 
 /-- **(V5), per point:** in the open strip, for `‖1 - ρ⁻¹‖ < s`, `1 < s`,
 `|m_ρ Re (liTerm n ρ)| ≤ 2 (2 + 2 (1 + s) ^ 2) (n + 1) ^ 2 s ^ n · m_ρ / (1 + |γ| ^ 2)`. -/
