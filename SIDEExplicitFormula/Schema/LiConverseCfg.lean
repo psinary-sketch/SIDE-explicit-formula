@@ -253,12 +253,12 @@ theorem li_nonneg_cfg_imp_online (Z : ZeroConfig) {A₀ : ℝ} (hc : B321.HCount
   have hT4 := (tendsto_pow_atTop_nhds_zero_of_lt_one hq2 hq2').const_mul C
   have hT := ((hT1.add hT2).add hT3).add hT4
   simp only [mul_zero, add_zero] at hT
-  obtain ⟨N0, hN0⟩ := Filter.eventually_atTop.mp (hT.eventually (gt_mem_nhds hc0))
-  -- (V4+) at some `n ≥ N0`
-  obtain ⟨n, hn, hX⟩ := powerSum_re_ge_infinitely DF (wD R) Z.mult hDne hwn hw1 hinj hm1 N0
+  obtain ⟨Nq, hNq⟩ := Filter.eventually_atTop.mp (hT.eventually (gt_mem_nhds hc0))
+  -- (V4+) at some `n ≥ Nq`
+  obtain ⟨n, hn, hX⟩ := powerSum_re_ge_infinitely DF (wD R) Z.mult hDne hwn hw1 hinj hm1 Nq
   have hlt : (∑ x ∈ DF, (Z.mult x : ℝ)) * (1 / R) ^ n + C * ((n : ℝ) ^ 2 * (s / R) ^ n) +
       2 * C * ((n : ℝ) ^ 1 * (s / R) ^ n) + C * (s / R) ^ n <
-        (∑ x ∈ DF, (Z.mult x : ℝ) ^ 2) / (4 * ∑ x ∈ DF, (Z.mult x : ℝ)) := hN0 n hn
+        (∑ x ∈ DF, (Z.mult x : ℝ) ^ 2) / (4 * ∑ x ∈ DF, (Z.mult x : ℝ)) := hNq n hn
   -- the split of the coefficient at `D`
   have hdec : ∀ x, Z.carrier.indicator (gL Z n) x =
       (domSet Z R).indicator (gL Z n) x + (restSet Z s).indicator (gL Z n) x := by

@@ -106,26 +106,27 @@ theorem liTerm_re_abs_le_pow {ρ : ℂ} (h0 : 0 < ρ.re) (h1 : ρ.re < 1) {s : �
   unfold LiWeil.liTerm
   nlinarith
 
-/-- **(V5):** for `1 < s`, the points with `‖1 - ρ⁻¹‖ < s` contribute at most `C (n + 1) ^ 2 s ^ n` to the real part of the
-Li sum, under the local count and the open strip. -/
-theorem remainder_le (Z : ZeroConfig) {A₀ : ℝ} (hc : B321.HCount Z A₀) (hs : B321.HStrip Z) {s : ℝ} (hs1 : 1 < s) :
-    ∃ C : ℝ, ∀ n : ℕ,
-      |∑' ρ : {ρ : ℂ // ρ ∈ Z.carrier ∧ ‖1 - ρ⁻¹‖ < s}, (Z.mult ρ : ℝ) * (LiWeil.liTerm n ρ).re| ≤
-        C * ((n : ℝ) + 1) ^ 2 * s ^ n := by
-  let e : {ρ : ℂ // ρ ∈ Z.carrier ∧ ‖1 - ρ⁻¹‖ < s} → Z.carrier := fun ρ => ⟨ρ.1, ρ.2.1⟩
-  have he : Function.Injective e := fun a b h => Subtype.ext (congrArg Subtype.val h)
-  have hg : Summable (fun ρ : {ρ : ℂ // ρ ∈ Z.carrier ∧ ‖1 - ρ⁻¹‖ < s} =>
-      (Z.mult ρ : ℝ) / (1 + Complex.normSq (gammaOf (ρ : ℂ)))) :=
-    (WeilEF.zero_sum_inv_sq_gen Z hc.1 hc.2).comp_injective he
-  refine ⟨2 * (2 + 2 * (1 + s) ^ 2) * ∑' ρ : {ρ : ℂ // ρ ∈ Z.carrier ∧ ‖1 - ρ⁻¹‖ < s},
-    (Z.mult ρ : ℝ) / (1 + Complex.normSq (gammaOf (ρ : ℂ))), fun n => ?_⟩
-  have hbound : ∀ ρ : {ρ : ℂ // ρ ∈ Z.carrier ∧ ‖1 - ρ⁻¹‖ < s}, ‖(Z.mult ρ : ℝ) * (LiWeil.liTerm n ρ).re‖ ≤
+/-- The local count's sum `Σ m_ρ / (1 + |γ| ^ 2)` restricted to (V5)'s set is summable: the set injects into the carrier. -/
+theorem summable_rest (Z : ZeroConfig) {A₀ : ℝ} (hc : B321.HCount Z A₀) (s : ℝ) :
+    Summable (fun ρ : {ρ : ℂ // ρ ∈ Z.carrier ∧ ‖1 - ρ⁻¹‖ < s} =>
+      (Z.mult ρ : ℝ) / (1 + Complex.normSq (gammaOf (ρ : ℂ)))) := by
+  have h := WeilEF.zero_sum_inv_sq_gen Z hc.1 hc.2
+  have hi : Function.Injective
+      (fun ρ : {ρ : ℂ // ρ ∈ Z.carrier ∧ ‖1 - ρ⁻¹‖ < s} => (⟨ρ.1, ρ.2.1⟩ : Z.carrier)) := by
+    intro a b hab
+    apply Subtype.ext
+    have h2 := congrArg (fun x : Z.carrier => (x : ℂ)) hab
+    exact h2
+  exact h.comp_injective hi
+
+/-- **(V5), per point:** in the open strip, for `‖1 - ρ⁻¹‖ < s`, `1 < s`,
+`|m_ρ Re (liTerm n ρ)| ≤ 2 (2 + 2 (1 + s) ^ 2) (n + 1) ^ 2 s ^ n · m_ρ / (1 + |γ| ^ 2)`. -/
+theorem rest_term_le (Z : ZeroConfig) (hs : B321.HStrip Z) {s : ℝ} (hs1 : 1 < s) (n : ℕ) {ρ : ℂ}
+    (hmem : ρ ∈ Z.carrier) (hlt : ‖1 - ρ⁻¹‖ < s) :
+    ‖(Z.mult ρ : ℝ) * (LiWeil.liTerm n ρ).re‖ ≤
       (2 * (2 + 2 * (1 + s) ^ 2) * ((n : ℝ) + 1) ^ 2 * s ^ n) *
-        ((Z.mult ρ : ℝ) / (1 + Complex.normSq (gammaOf (ρ : ℂ)))) := by
-    intro ρ
-    have hmem : (ρ : ℂ) ∈ Z.carrier := ρ.2.1
-    have hlt : ‖1 - (ρ : ℂ)⁻¹‖ < s := ρ.2.2
-    have hst : 0 < (ρ : ℂ).re ∧ (ρ : ℂ).re < 1 := hs _ hmem
+        ((Z.mult ρ : ℝ) / (1 + Complex.normSq (gammaOf ρ))) := by
+    have hst : 0 < ρ.re ∧ ρ.re < 1 := hs ρ hmem
     have hb := liTerm_re_abs_le_pow hst.1 hst.2 hs1.le hlt.le n
     have hρ0 : (ρ : ℂ) ≠ 0 := by
       intro h
@@ -167,6 +168,20 @@ theorem remainder_le (Z : ZeroConfig) {A₀ : ℝ} (hc : B321.HCount Z A₀) (hs
           mul_le_mul_of_nonneg_left (mul_le_mul_of_nonneg_left key hc2) hm
       _ = (2 * (2 + 2 * (1 + s) ^ 2) * ((n : ℝ) + 1) ^ 2 * s ^ n) *
             ((Z.mult ρ : ℝ) / (1 + Complex.normSq (gammaOf (ρ : ℂ)))) := by ring
+
+/-- **(V5):** for `1 < s`, the points with `‖1 - ρ⁻¹‖ < s` contribute at most `C (n + 1) ^ 2 s ^ n` to the real part of the
+Li sum, under the local count and the open strip. -/
+theorem remainder_le (Z : ZeroConfig) {A₀ : ℝ} (hc : B321.HCount Z A₀) (hs : B321.HStrip Z) {s : ℝ} (hs1 : 1 < s) :
+    ∃ C : ℝ, ∀ n : ℕ,
+      |∑' ρ : {ρ : ℂ // ρ ∈ Z.carrier ∧ ‖1 - ρ⁻¹‖ < s}, (Z.mult ρ : ℝ) * (LiWeil.liTerm n ρ).re| ≤
+        C * ((n : ℝ) + 1) ^ 2 * s ^ n := by
+  have hg := summable_rest Z hc s
+  refine ⟨2 * (2 + 2 * (1 + s) ^ 2) * ∑' ρ : {ρ : ℂ // ρ ∈ Z.carrier ∧ ‖1 - ρ⁻¹‖ < s},
+    (Z.mult ρ : ℝ) / (1 + Complex.normSq (gammaOf (ρ : ℂ))), fun n => ?_⟩
+  have hbound : ∀ ρ : {ρ : ℂ // ρ ∈ Z.carrier ∧ ‖1 - ρ⁻¹‖ < s}, ‖(Z.mult ρ : ℝ) * (LiWeil.liTerm n ρ).re‖ ≤
+      (2 * (2 + 2 * (1 + s) ^ 2) * ((n : ℝ) + 1) ^ 2 * s ^ n) *
+        ((Z.mult ρ : ℝ) / (1 + Complex.normSq (gammaOf (ρ : ℂ)))) :=
+    fun ρ => rest_term_le Z hs hs1 n ρ.2.1 ρ.2.2
   have hsumb := hg.mul_left (2 * (2 + 2 * (1 + s) ^ 2) * ((n : ℝ) + 1) ^ 2 * s ^ n)
   calc |∑' ρ : {ρ : ℂ // ρ ∈ Z.carrier ∧ ‖1 - ρ⁻¹‖ < s}, (Z.mult ρ : ℝ) * (LiWeil.liTerm n ρ).re|
       = ‖∑' ρ : {ρ : ℂ // ρ ∈ Z.carrier ∧ ‖1 - ρ⁻¹‖ < s}, (Z.mult ρ : ℝ) * (LiWeil.liTerm n ρ).re‖ :=

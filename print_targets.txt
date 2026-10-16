@@ -16,6 +16,8 @@ SIDEExplicitFormula.Schema.powerSum_re_ge_infinitely
 SIDEExplicitFormula.Schema.powerSum_re_le_neg_infinitely
 SIDEExplicitFormula.Schema.one_sub_pow_expand
 SIDEExplicitFormula.Schema.liTerm_re_abs_le_pow
+SIDEExplicitFormula.Schema.summable_rest
+SIDEExplicitFormula.Schema.rest_term_le
 SIDEExplicitFormula.Schema.remainder_le
 SIDEExplicitFormula.Schema.liCoeffCfg_eq_indicator
 SIDEExplicitFormula.Schema.sum_gL_dom
