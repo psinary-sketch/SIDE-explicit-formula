@@ -121,7 +121,8 @@ def wD (R : ℝ) (x : ℂ) : ℂ := (1 - x⁻¹) / (R : ℂ)
 /-- The coefficient as a sum over `ℂ`: `liCoeffCfg Z n = Σ' x, 1_Z(x) m_x Re (liTerm n x)` (`pairTerm_re`). -/
 theorem liCoeffCfg_eq_indicator (Z : ZeroConfig) (n : ℕ) :
     liCoeffCfg Z n = ∑' x : ℂ, Z.carrier.indicator (gL Z n) x := by
-  have h : (fun ρ : Z.carrier => (Z.mult ρ : ℝ) * (LiWeil.pairTerm n ρ).re) = fun ρ => 2 * gL Z n ρ := by
+  have h : (fun ρ : Z.carrier => (Z.mult ρ : ℝ) * (LiWeil.pairTerm n ρ).re) =
+      fun ρ : Z.carrier => 2 * gL Z n ρ := by
     funext ρ
     rw [LiWeil.pairTerm_re, gL]
     ring
