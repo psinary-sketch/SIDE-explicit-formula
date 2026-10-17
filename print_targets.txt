@@ -29,7 +29,7 @@ SIDEExplicitFormula.LiCriterionBridge.li_nonneg_iff_rh
 LiCriterion.positivity_implies_RH
 SIDEExplicitFormula.Schema.Wide.ne_zero_of_excl
 SIDEExplicitFormula.Schema.Wide.localCount_ofWindowCount
-SIDEExplicitFormula.Schema.Wide.zero_sum_inv_sq
+SIDEExplicitFormula.Schema.Wide.zero_sum_inv_sq_wide
 SIDEExplicitFormula.Schema.Wide.liTerm_re_abs_le_pow
 SIDEExplicitFormula.Schema.Wide.summable_rest
 SIDEExplicitFormula.Schema.Wide.rest_term_le

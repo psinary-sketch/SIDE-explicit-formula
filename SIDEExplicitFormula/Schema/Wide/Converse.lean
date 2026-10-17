@@ -38,7 +38,7 @@ theorem liCoeff_summable (Z : WideConfig) {A₀ : ℝ} (hc : HCount Z A₀) (n :
     Summable (fun ρ : Z.carrier => (Z.mult ρ : ℝ) * (LiWeil.pairTerm n ρ).re) := by
   have hg : Summable (fun ρ : Z.carrier =>
       (12 * ((n : ℝ) + 1) ^ 2 * 2 ^ n) * ((Z.mult ρ : ℝ) / (1 + Complex.normSq (gammaOf (ρ : ℂ))))) :=
-    (zero_sum_inv_sq Z hc.1 hc.2).mul_left _
+    (zero_sum_inv_sq_wide Z hc.1 hc.2).mul_left _
   refine Summable.of_norm_bounded_eventually hg ?_
   have hfin : (window Z (-1) 1).Finite := Z.finite_window _ _
   have hSfin : ((fun ρ : Z.carrier => (ρ : ℂ)) ⁻¹' (window Z (-1) 1)).Finite :=

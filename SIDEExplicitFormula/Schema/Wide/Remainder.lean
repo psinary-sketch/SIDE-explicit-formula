@@ -52,7 +52,7 @@ theorem summable_rest (Z : WideConfig) {A₀ : ℝ} (hc : HCount Z A₀) (s : �
     Summable (fun ρ : {ρ : ℂ // ρ ∈ Z.carrier ∧ ‖1 - ρ⁻¹‖ < s} =>
       (Z.mult ρ : ℝ) / (1 + Complex.normSq (gammaOf (ρ : ℂ)))) := by
   have h : Summable (fun ρ : Z.carrier => (Z.mult ρ : ℝ) / (1 + Complex.normSq (gammaOf (ρ : ℂ)))) :=
-    zero_sum_inv_sq Z hc.1 hc.2
+    zero_sum_inv_sq_wide Z hc.1 hc.2
   have hG : Summable (Z.carrier.indicator (fun ρ : ℂ => (Z.mult ρ : ℝ) / (1 + Complex.normSq (gammaOf ρ)))) :=
     (summable_subtype_iff_indicator (f := fun ρ : ℂ => (Z.mult ρ : ℝ) / (1 + Complex.normSq (gammaOf ρ)))
       (s := Z.carrier)).mp h

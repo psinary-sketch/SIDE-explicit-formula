@@ -9,7 +9,7 @@ with a point off `[0, 1]` is no ZeroConfig). Beside it the named hypothesis `Wid
 positive real part -- inside the strip, no point is a real number in `(-1/2, 0]`. Its half at `0` gives `ρ ≠ 0` where the v0.32
 proofs took it from `0 < Re ρ`; its half on `(-1/2, 0)` excludes the point `1 / (1 - R)` at which the composition's direction
 `w = (1 - x⁻¹) / R` would be `1` (Schema/LiConverseCfg.lean :231). The local count `Wide.HCount` is RestBound.lean :44's statement
-over the widened class, and `Wide.zero_sum_inv_sq` is `WeilEF.zero_sum_inv_sq_gen`'s proof over it (that proof reads no strip).
+over the widened class, and `Wide.zero_sum_inv_sq_wide` (named apart from ζ's `WeilEF.zero_sum_inv_sq`) is `WeilEF.zero_sum_inv_sq_gen`'s proof over it (that proof reads no strip).
 Every v0.32 declaration stands as it is; nothing here replaces one. Nothing here proves RH or GRH or locates any zero.
 -/
 import SIDEExplicitFormula.LiWeil
@@ -83,7 +83,7 @@ theorem localCount_ofWindowCount (Z : WideConfig) {A₀ : ℝ} (hA₀ : 1 ≤ A�
 
 /-- **`Σ_ρ m_ρ / (1 + |γ_ρ|²)` converges** over the widened class under the local count (WeilEF.zero_sum_inv_sq_gen's proof,
 Zeta23/WeilEF/ZeroSummability.lean :121; it reads no strip). -/
-theorem zero_sum_inv_sq (Z : WideConfig) {A₀ : ℝ} (hA₀ : 1 ≤ A₀)
+theorem zero_sum_inv_sq_wide (Z : WideConfig) {A₀ : ℝ} (hA₀ : 1 ≤ A₀)
     (hloc' : ∀ t : ℝ, (N Z t (t + 1) : ℝ) ≤ A₀ * Real.log (|t| + 3)) :
     Summable (fun ρ : Z.carrier =>
       (Z.mult ρ : ℝ) / (1 + Complex.normSq (gammaOf ρ))) := by
