@@ -47,3 +47,14 @@ SIDEExplicitFormula.Schema.Wide.c2Config
 SIDEExplicitFormula.Schema.Wide.c2_not_excl
 SIDEExplicitFormula.Schema.Wide.c2bConfig
 SIDEExplicitFormula.Schema.Wide.c2b_nonneg_offline
+SIDEExplicitFormula.Schema.Wide.rest_term_le_ne_zero
+SIDEExplicitFormula.Schema.Wide.remainder_le_ne_zero
+SIDEExplicitFormula.Schema.Wide.exists_dominant_point_ne_zero
+SIDEExplicitFormula.Schema.Wide.powerSum_re_ge_split
+SIDEExplicitFormula.Schema.Wide.li_nonneg_cfg_imp_online_ne_zero
+SIDEExplicitFormula.Schema.Wide.c2_ne_zero
+SIDEExplicitFormula.Schema.Wide.c2_w_eq_one
+SIDEExplicitFormula.Schema.Wide.c2_liCoeff_one_neg
+SIDEExplicitFormula.Schema.Wide.c3_real_segment
+SIDEExplicitFormula.Schema.Wide.c2b_not_ne_zero
+SIDEExplicitFormula.Schema.Wide.c2b_lesson
