@@ -53,6 +53,7 @@ def kindOf : ConstantInfo → String
 
 def keepName (c : Name) : Bool := !c.isInternal || isPrivateName c
 
+set_option maxHeartbeats 0 in
 run_cmd liftTermElabM do
   let env ← getEnv
   let mods := env.header.moduleNames
