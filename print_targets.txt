@@ -58,3 +58,15 @@ SIDEExplicitFormula.Schema.Wide.c2_liCoeff_one_neg
 SIDEExplicitFormula.Schema.Wide.c3_real_segment
 SIDEExplicitFormula.Schema.Wide.c2b_not_ne_zero
 SIDEExplicitFormula.Schema.Wide.c2b_lesson
+SIDEExplicitFormula.Schema.qE0_re_ne_half
+SIDEExplicitFormula.Schema.qE0_mem
+SIDEExplicitFormula.Schema.rhoE_mem
+SIDEExplicitFormula.Schema.Q0Count
+SIDEExplicitFormula.Schema.Q0Premises
+SIDEExplicitFormula.Schema.q0_target_false
+SIDEExplicitFormula.Schema.q0_h2_iff_target
+SIDEExplicitFormula.Schema.q0_not_h2_sign_cfg
+SIDEExplicitFormula.Schema.q0_not_h2_sign_cfg_rhoE
+SIDEExplicitFormula.Schema.q0_detector
+SIDEExplicitFormula.Schema.q0_hA
+SIDEExplicitFormula.Schema.q0_rate
