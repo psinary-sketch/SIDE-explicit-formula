@@ -66,7 +66,7 @@ run_cmd liftTermElabM do
       prog := prog.insert c
   let h ← IO.FS.Handle.mk "out/closure.jsonl" IO.FS.Mode.write
   let mut groups : Std.HashMap Expr Nat := {}
-  let mut n := 0
+  let mut n : Nat := 0
   for i in [0:mods.size] do
     let m := mods[i]!
     if isLibModule m then continue
