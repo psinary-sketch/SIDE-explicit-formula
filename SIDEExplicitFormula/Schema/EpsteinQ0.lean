@@ -103,12 +103,12 @@ def Q0Complete (Z : Zeta23.ZeroConfig) : Prop := ∀ ρ ∈ Z.carrier, |ρ.im| <
 unlisted points above 150. No source line; its reason is that bank. -/
 def A0Q : ℝ := 10
 
-/-- **(P3) THE LOCAL COUNT WITH A NUMBER** -- stated, not proved; open. `HCount Z A0Q` (RestBound.lean :44-:45): T3 below 150,
+/-- **(P3) THE LOCAL COUNT WITH A NUMBER** -- derived with certified constants and sourced steps (b685, b687), not compiled. `HCount Z A0Q` (RestBound.lean :44-:45): T3 below 150,
 T4 above it. -/
 def Q0Count (Z : Zeta23.ZeroConfig) : Prop := HCount Z A0Q
 
-/-- **THE Q0 PREMISES**: (P1)-(P3) and (P4) b590's `EpsteinPremises` (the explicit formula, T1-lit, cited; the count) -- each
-stated, not proved; open. -/
+/-- **THE Q0 PREMISES**: (P1)-(P3) and (P4) b590's `EpsteinPremises` (the explicit formula, T1-lit, cited; the count) --
+(P1), (P2) each stated, not proved; open; (P3) derived with certified constants and sourced steps (b685, b687), not compiled; (P4) its explicit formula cited, not compiled, its count T3 read off the bench's zero list. -/
 structure Q0Premises (Z : Zeta23.ZeroConfig) (rhs : (ℝ → ℂ) → ℂ) : Prop where
   listed : Q0Listed Z
   complete : Q0Complete Z
