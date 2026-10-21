@@ -70,3 +70,5 @@ SIDEExplicitFormula.Schema.q0_not_h2_sign_cfg_rhoE
 SIDEExplicitFormula.Schema.q0_detector
 SIDEExplicitFormula.Schema.q0_hA
 SIDEExplicitFormula.Schema.q0_rate
+SIDEExplicitFormula.RegisterBridge.h2_sign_iff_register4_positivity_liCoeff
+SIDEExplicitFormula.RegisterBridge.h2_sign_imp_pairing_rh
