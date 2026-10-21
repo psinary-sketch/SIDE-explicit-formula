@@ -1,96 +1,43 @@
 /-
 SIDE-explicit-formula -- SIDEExplicitFormula/H2Bridge.lean
-THIS PROGRAMME'S WORK (act b532, ruling (R142)(4); W-ORD-H2-BRIDGE) -- NOT VENDORED.
+THIS PROGRAMME'S WORK (act b701, ruling (R311)(2); W-ORD-H2-BRIDGE-THEOREM, PLACE-papers OPEN_TRAILS.md :15334) -- NOT VENDORED.
 SPIRAL_MAP section 7 rule 9 applies here in full: `theorem`, never `lemma`.
 
-THE BRIDGE, IN ITS TRIVIAL DIRECTION. The deposit's Route 3 premise, `ConservationBridge.ConservationHypothesis`
-(SIDE-kernel v1.5 = 0e5233f, Bridge/ConservationBridge.lean), is restated here word for word in Mathlib's objects
-(`conservationHypothesis`): every real part `sigma` of a nontrivial zero of `riemannZeta` (not a trivial zero, not the
-pole) admits a prime `p` with `p ^ (-sigma) = p ^ (-(1 - sigma))`. SIDE-kernel's `is_xi_zero` and `prime_as_real` are
-unfolded; the two kernels cannot import each other (Lean v4.29.0-rc8 / Mathlib e960b84 against v4.33.0-rc2 / 51e6992),
-so the identity of this restatement with the deposited one is a statement-read, not a kernel fact.
-
-`balance_lemma` is SIDE-kernel's `techne_kernel_voice1.balance_theorem`, ported: for a prime `p`,
-`p ^ (-sigma) = p ^ (-(1 - sigma)) ↔ sigma = 1 / 2`. So `ch_iff_rh`: THE PREMISE IS RH RESTATED. `ch_imp_h2_sign`
-composes with b513's `rh_imp_h2_sign`: both objects called h2 live in this kernel with the implication between them.
-The converse `h2_sign_imp_ch` is a Prop, NOT PROVED, and `h2_sign_imp_ch_iff` shows it is b513's `h2_sign_imp_rh` --
-Weil's converse, W-ORD-WEIL-CONVERSE, open at f4. `conservationHypothesisConfig` is the premise over the kernel's zero
-configuration; it follows from the verbatim form (`ch_imp_config`), and the reverse would need the classical fact that
-every nontrivial zero lies in the open strip, which Zeta23 records as not in the kernel. Nothing here is a statement
-about the zeros of zeta or about RH beyond these implications.
+THE CLAUSE AND THE REGISTER FACE, JOINED THROUGH RH. Two theorems this kernel already compiles meet at Mathlib's
+`RiemannHypothesis`: `B321.h2_sign_iff_rh` (Seam.lean :101) -- Weil positivity on classK is RH -- and
+`PageConverses.register4_positivity_liCoeff_iff_rh` (PageConverses.lean :32) -- the restated register-four positivity
+of the Li coefficients is RH; beneath the second stands `LiCriterionBridge.li_nonneg_iff_rh` through `liCoeff_zero`
+(ResidueDischarge.lean :41-:46). `ResidueDischarge.Register4_positivity` restates SIDE-lv-conservation's
+`RegisterPentagon.Register4_positivity` (v0.13.0, RegisterPentagon.lean :153-:154) with its body unchanged, read
+HOLDS-BY-CORRESPONDENCE at every binder before this file was written (relay data/b701_correspondence_restatement.txt).
+(S1) `h2_sign ↔ Register4_positivity LiCoeff` -- the two faces' targets equivalent, joined through RH: a translation of
+     propositions, not of objects (no map k ↦ lam stands in either kernel; relay data/b699_bridge_plan.txt, binder 1).
+(S2) the face's third conjunct's shape: `h2_sign` gives RH under any pairing predicate on two channels and a ledger.
+     SIDE-lv-conservation's `ZeroActingPairing` is a structure over its own Register5 objects (ZeroActingPairing.lean
+     :37-:47 at v0.13.0) and is not restated here (the two kernels share no toolchain), so the predicate is left free;
+     the implication is (S1)'s forward half and adds nothing beyond it.
+No new analysis. Nothing here proves RH or h2_sign: (S1) is an equivalence between open statements.
 -/
-import SIDEExplicitFormula.RHChain
-
-open Complex
+import SIDEExplicitFormula.Seam
+import SIDEExplicitFormula.PageConverses
 
 noncomputable section
 
 namespace SIDEExplicitFormula
-namespace B321
+namespace H2Bridge
 
-/-- **The deposit's Route 3 premise, restated word for word:** every real part `sigma` of a nontrivial zero of
-`riemannZeta` admits a prime `p` with `p ^ (-sigma) = p ^ (-(1 - sigma))`. -/
-def conservationHypothesis : Prop :=
-  ∀ σ : ℝ, (∃ t : ℝ, riemannZeta (⟨σ, t⟩ : ℂ) = 0 ∧ ¬ (∃ n : ℕ, (⟨σ, t⟩ : ℂ) = -2 * ((n : ℂ) + 1)) ∧ (⟨σ, t⟩ : ℂ) ≠ 1) →
-    ∃ p : ℕ, ∃ _ : Nat.Prime p, (p : ℝ) ^ (-σ) = (p : ℝ) ^ (-(1 - σ))
+open B321 LiWeil ResidueDischarge PageConverses
 
-/-- The same premise over the kernel's zero configuration. -/
-def conservationHypothesisConfig : Prop :=
-  ∀ ρ ∈ Zeta23.zetaZeroConfig.carrier, ∃ p : ℕ, ∃ _ : Nat.Prime p, (p : ℝ) ^ (-ρ.re) = (p : ℝ) ^ (-(1 - ρ.re))
+/-- **(S1) THE BRIDGE.** Weil positivity on classK is the restated register-four positivity of the Li coefficients,
+through RH: `h2_sign_iff_rh.trans register4_positivity_liCoeff_iff_rh.symm`. -/
+theorem h2_sign_iff_register4_positivity_liCoeff : h2_sign ↔ Register4_positivity LiCoeff :=
+  h2_sign_iff_rh.trans register4_positivity_liCoeff_iff_rh.symm
 
-/-- **The balance lemma** (SIDE-kernel's `balance_theorem`, ported): at a prime, the Euler balance holds iff
-`sigma = 1 / 2`. -/
-theorem balance_lemma (p : ℕ) (hp : Nat.Prime p) (σ : ℝ) :
-    (p : ℝ) ^ (-σ) = (p : ℝ) ^ (-(1 - σ)) ↔ σ = 1 / 2 := by
-  have h1 : (1 : ℝ) < p := by exact_mod_cast hp.one_lt
-  constructor
-  · intro h
-    rcases lt_trichotomy (-σ) (-(1 - σ)) with hlt | heq | hgt
-    · exact absurd h (ne_of_lt ((Real.rpow_lt_rpow_left_iff h1).mpr hlt))
-    · linarith
-    · exact absurd h (ne_of_gt ((Real.rpow_lt_rpow_left_iff h1).mpr hgt))
-  · intro h
-    rw [h]
-    first
-    | norm_num
-    | (congr 1; ring)
+/-- **(S2)** The face's third conjunct's shape: under any pairing predicate on two channels and a ledger, `h2_sign` gives
+`RiemannHypothesis` -- (S1)'s forward half through `h2_sign_iff_rh`; nothing beyond it. -/
+theorem h2_sign_imp_pairing_rh (Pairing : (ℕ → ℝ) → (ℕ → ℝ) → (ℕ → ℝ) → Prop) (lam_A lam_Z : ℕ → ℝ) :
+    h2_sign → ∀ ledger : ℕ → ℝ, Pairing lam_A lam_Z ledger → RiemannHypothesis :=
+  fun h _ _ => h2_sign_iff_rh.mp h
 
-/-- **The premise gives RH.** -/
-theorem ch_imp_rh : conservationHypothesis → RiemannHypothesis := by
-  intro h s hs hnt hne
-  obtain ⟨p, hp, hbal⟩ := h s.re ⟨s.im, by rwa [Complex.eta], by rwa [Complex.eta], by rwa [Complex.eta]⟩
-  exact (balance_lemma p hp s.re).mp hbal
-
-/-- **RH gives the premise back**, at the prime 2. -/
-theorem rh_imp_ch : RiemannHypothesis → conservationHypothesis := by
-  intro hRH σ ⟨t, hz, hnt, hne⟩
-  have hσ : σ = 1 / 2 := hRH ⟨σ, t⟩ hz hnt hne
-  exact ⟨2, Nat.prime_two, (balance_lemma 2 Nat.prime_two σ).mpr hσ⟩
-
-/-- **THE PREMISE IS RH RESTATED.** -/
-theorem ch_iff_rh : conservationHypothesis ↔ RiemannHypothesis := ⟨ch_imp_rh, rh_imp_ch⟩
-
-/-- The verbatim premise gives the premise over the kernel's zero configuration. -/
-theorem ch_imp_config : conservationHypothesis → conservationHypothesisConfig := by
-  intro h ρ hρ
-  have hρ' : Zeta23.IsNontrivialZero ρ := by
-    rw [Zeta23.zetaZeroConfig_carrier] at hρ
-    exact hρ
-  have hnt := Zeta23.IsNontrivialZero.not_trivial hρ'
-  exact h ρ.re ⟨ρ.im, by rw [Complex.eta]; exact hρ'.1, by rw [Complex.eta]; exact hnt.1,
-    by rw [Complex.eta]; exact hnt.2⟩
-
-/-- **THE BRIDGE, compiled:** the deposit's Route 3 premise implies `h2_sign`, through RH. -/
-theorem ch_imp_h2_sign : conservationHypothesis → h2_sign := fun h => rh_imp_h2_sign (ch_imp_rh h)
-
-/-- **The converse, a Prop, NOT PROVED:** `h2_sign` implies the Route 3 premise. By `h2_sign_imp_ch_iff` it is
-b513's `h2_sign_imp_rh` -- Weil's converse, W-ORD-WEIL-CONVERSE, compiled to f3 and open at f4. -/
-def h2_sign_imp_ch : Prop := h2_sign → conservationHypothesis
-
-/-- The converse is exactly f4's target. -/
-theorem h2_sign_imp_ch_iff : h2_sign_imp_ch ↔ h2_sign_imp_rh := by
-  unfold h2_sign_imp_ch h2_sign_imp_rh
-  exact ⟨fun h hs => ch_imp_rh (h hs), fun h hs => rh_imp_ch (h hs)⟩
-
-end B321
+end H2Bridge
 end SIDEExplicitFormula
