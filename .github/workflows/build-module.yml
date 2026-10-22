@@ -7,6 +7,9 @@
 # scratch file imports each module of the target; no workflow edit is needed to print a new theorem.
 # From b692 ((R302)(3)(a)): where the ref carries CircuitClosure.lean (at the root, imported by no module), a closure step imports each module
 # of the target above that file's text and runs it; its out/closure.jsonl.gz -- one record per programme constant -- joins the artifact.
+# From b706 ((R316)(5), W-ORD-WORKFLOW-PROBE-STEP): where the ref carries ChainProbe.lean (at the root, imported by no module), a probe step
+# after the print step and before the closure imports each module of the target above that file's text and runs it; its output goes to a
+# SEPARATE artifact (chain-probe-<run id>), so a chain probe needs no scratch branch.
 name: build-module
 
 on:
@@ -95,6 +98,22 @@ jobs:
             echo "NOT RUN: the build did not complete under the hold" > out/axioms.txt
           fi
 
+      - name: Chain probe of the ref's root ChainProbe.lean
+        if: always()
+        run: |
+          mkdir -p probe
+          if [ ! -f ChainProbe.lean ]; then
+            echo "NOT RUN: no ChainProbe.lean at the ref" > probe/chainprobe_log.txt
+          elif [ "$(cat out/build_exit.txt)" = "0" ] && ! grep -q '^STOP ' out/mem.log; then
+            : > probe/ChainProbe.lean
+            for m in $TARGET; do echo "import $m" >> probe/ChainProbe.lean; done
+            cat ChainProbe.lean >> probe/ChainProbe.lean
+            lake env lean probe/ChainProbe.lean > probe/chainprobe.txt 2>&1 || true
+            echo "RUN: ChainProbe.lean at the ref, its print in probe/chainprobe.txt" > probe/chainprobe_log.txt
+          else
+            echo "NOT RUN: the build did not complete under the hold" > probe/chainprobe_log.txt
+          fi
+
       - name: Constant closure of the kernel's own declarations
         if: always()
         run: |
@@ -117,3 +136,11 @@ jobs:
           name: build-module-${{ github.run_id }}
           path: out/
           if-no-files-found: error
+
+      - name: Upload the chain probe's artifact, separate from the run's
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: chain-probe-${{ github.run_id }}
+          path: probe/
+          if-no-files-found: ignore
