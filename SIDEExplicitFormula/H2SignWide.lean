@@ -56,7 +56,7 @@ theorem acDeriv_of_contDiff_two {f : ℝ → ℂ} (hf : ContDiff ℝ 2 f) (hs : 
   refine ⟨hf.of_le (by norm_num), deriv (deriv f), hint, ?_⟩
   intro x
   have hftc := intervalIntegral.integral_deriv_eq_sub' (a := 0) (b := x) (deriv f) rfl
-    (fun y _ => (hf.deriv'.differentiable le_rfl) y) ((hf.deriv'.continuous_deriv le_rfl).continuousOn)
+    (fun y _ => (hf.deriv'.differentiable one_ne_zero) y) ((hf.deriv'.continuous_deriv le_rfl).continuousOn)
   rw [hftc]
   ring
 
