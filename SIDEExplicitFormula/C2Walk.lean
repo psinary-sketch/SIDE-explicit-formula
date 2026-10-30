@@ -7,7 +7,8 @@ Mathlib, no native_decide).
   * Route (B): the sweep table (the box [-s, s]², s the least with s * s > 2N), Omega by trial division, and the table
     W(n) = Omega(n) · L · b(n) by the Omega recursion W(n) = Omega(n) · L · a(n) - SUM over d | n, 1 < d < n, of W(d) · a(n / d).
   * (L1) and (L2) as Props: what joins the certificates to the statement. Not proved here.
-  * The eighteen certificates `cert D n0 v q = true`, each by `decide +kernel` under a heartbeat cap, a traced sorry its fallback.
+  * The eighteen certificates `cert D n0 v q = true`, each by `decide +kernel` under a heartbeat cap, a traced sorry its fallback, one
+    module per field from b726 ((R336)(3)): SIDEExplicitFormula/C2Field/M<|D|>.lean, one dispatch per field.
     The route is mirrored in Python at 18 of 18 against the statement's own values (relay tools/b725_c2.py).
 Every loop carries its own fuel (structural recursion); each loop over a table matches the table at every step, so the kernel holds
 each step's table at its head before the next.
@@ -189,114 +190,6 @@ def L1 : Prop :=
 def L2 : Prop :=
   ∀ (D : Int) (N n : Nat), N < 65536 → 2 ≤ n → n ≤ N → Tab.get (wTab (aQ D) N) n = (bigOmega n : Int) * bL D n
 
-/-! ## The eighteen certificates, in the order of n0 -/
-
-set_option maxHeartbeats 5000000 in
-theorem cert_m15 : cert (-15) 24 (-2) 1 = true := by
-  first
-    | (decide +kernel; trace "CERT D=-15 KERNEL")
-    | (trace "CERT D=-15 SORRY"; sorry)
-
-set_option maxHeartbeats 5000000 in
-theorem cert_m20 : cert (-20) 36 (-2) 1 = true := by
-  first
-    | (decide +kernel; trace "CERT D=-20 KERNEL")
-    | (trace "CERT D=-20 SORRY"; sorry)
-
-set_option maxHeartbeats 5000000 in
-theorem cert_m24 : cert (-24) 36 (-1) 2 = true := by
-  first
-    | (decide +kernel; trace "CERT D=-24 KERNEL")
-    | (trace "CERT D=-24 SORRY"; sorry)
-
-set_option maxHeartbeats 5000000 in
-theorem cert_m40 : cert (-40) 100 (-1) 2 = true := by
-  first
-    | (decide +kernel; trace "CERT D=-40 KERNEL")
-    | (trace "CERT D=-40 SORRY"; sorry)
-
-set_option maxHeartbeats 5000000 in
-theorem cert_m35 : cert (-35) 135 (-2) 1 = true := by
-  first
-    | (decide +kernel; trace "CERT D=-35 KERNEL")
-    | (trace "CERT D=-35 SORRY"; sorry)
-
-set_option maxHeartbeats 5000000 in
-theorem cert_m52 : cert (-52) 196 (-2) 1 = true := by
-  first
-    | (decide +kernel; trace "CERT D=-52 KERNEL")
-    | (trace "CERT D=-52 SORRY"; sorry)
-
-set_option maxHeartbeats 5000000 in
-theorem cert_m51 : cert (-51) 225 (-2) 1 = true := by
-  first
-    | (decide +kernel; trace "CERT D=-51 KERNEL")
-    | (trace "CERT D=-51 SORRY"; sorry)
-
-set_option maxHeartbeats 5000000 in
-theorem cert_m88 : cert (-88) 484 (-1) 2 = true := by
-  first
-    | (decide +kernel; trace "CERT D=-88 KERNEL")
-    | (trace "CERT D=-88 SORRY"; sorry)
-
-set_option maxHeartbeats 5000000 in
-theorem cert_m91 : cert (-91) 875 (-2) 1 = true := by
-  first
-    | (decide +kernel; trace "CERT D=-91 KERNEL")
-    | (trace "CERT D=-91 SORRY"; sorry)
-
-set_option maxHeartbeats 5000000 in
-theorem cert_m123 : cert (-123) 1089 (-2) 1 = true := by
-  first
-    | (decide +kernel; trace "CERT D=-123 KERNEL")
-    | (trace "CERT D=-123 SORRY"; sorry)
-
-set_option maxHeartbeats 5000000 in
-theorem cert_m115 : cert (-115) 1225 (-2) 1 = true := by
-  first
-    | (decide +kernel; trace "CERT D=-115 KERNEL")
-    | (trace "CERT D=-115 SORRY"; sorry)
-
-set_option maxHeartbeats 5000000 in
-theorem cert_m148 : cert (-148) 1444 (-2) 1 = true := by
-  first
-    | (decide +kernel; trace "CERT D=-148 KERNEL")
-    | (trace "CERT D=-148 SORRY"; sorry)
-
-set_option maxHeartbeats 5000000 in
-theorem cert_m232 : cert (-232) 3364 (-1) 2 = true := by
-  first
-    | (decide +kernel; trace "CERT D=-232 KERNEL")
-    | (trace "CERT D=-232 SORRY"; sorry)
-
-set_option maxHeartbeats 5000000 in
-theorem cert_m187 : cert (-187) 3773 (-2) 1 = true := by
-  first
-    | (decide +kernel; trace "CERT D=-187 KERNEL")
-    | (trace "CERT D=-187 SORRY"; sorry)
-
-set_option maxHeartbeats 5000000 in
-theorem cert_m235 : cert (-235) 4225 (-2) 1 = true := by
-  first
-    | (decide +kernel; trace "CERT D=-235 KERNEL")
-    | (trace "CERT D=-235 SORRY"; sorry)
-
-set_option maxHeartbeats 5000000 in
-theorem cert_m267 : cert (-267) 4761 (-2) 1 = true := by
-  first
-    | (decide +kernel; trace "CERT D=-267 KERNEL")
-    | (trace "CERT D=-267 SORRY"; sorry)
-
-set_option maxHeartbeats 5000000 in
-theorem cert_m427 : cert (-427) 14161 (-2) 1 = true := by
-  first
-    | (decide +kernel; trace "CERT D=-427 KERNEL")
-    | (trace "CERT D=-427 SORRY"; sorry)
-
-set_option maxHeartbeats 5000000 in
-theorem cert_m403 : cert (-403) 17303 (-2) 1 = true := by
-  first
-    | (decide +kernel; trace "CERT D=-403 KERNEL")
-    | (trace "CERT D=-403 SORRY"; sorry)
+/-! ## The eighteen certificates stand one module each, SIDEExplicitFormula/C2Field/M<|D|>.lean (b726, (R336)(3)) -/
 
 end C2Walk
