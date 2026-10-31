@@ -16,7 +16,8 @@ each step's table at its head before the next.
 
 namespace C2Walk
 
-/-! ## The statement's definitions, as data/b722_c2_statement.txt writes them -/
+/-! ## The statement's definitions, as data/b722_c2_statement.txt writes them, with binder annotations at rQ and bL (b726: that text does not
+    elaborate, `(i : Int)` typing the binder Int ahead of the list; run 41147584871). Every term and C2ValueLaw's header unchanged. -/
 
 /-- the walk: (D, n0, v, q) -- at the discriminant D the least n with b(n) < 0 is n0 and b(n0) = v / q.
     The eighteen imaginary quadratic fields of class number 2 (completeness: Baker 1971, Stark 1975; cited, not compiled). -/
@@ -47,8 +48,8 @@ def pform (D x y : Int) : Int :=
 /-- r_Q(n): the number of (x, y) with Q(x, y) = n, by finite enumeration over the box [-n, n]² (every representation lies in it,
     since Q(x, y) ≥ (x² + y²)/2 for the principal form of D < -4) -/
 def rQ (D : Int) (n : Nat) : Nat :=
-  ((List.range (2 * n + 1)).flatMap fun i => (List.range (2 * n + 1)).map fun j => ((i : Int) - n, (j : Int) - n)).countP
-    fun p => decide (pform D p.1 p.2 = (n : Int))
+  ((List.range (2 * n + 1)).flatMap fun (i : Nat) => (List.range (2 * n + 1)).map fun (j : Nat) => ((i : Int) - n, (j : Int) - n)).countP
+    fun (p : Int × Int) => decide (pform D p.1 p.2 = (n : Int))
 
 /-- a(n) = r_Q(n) / 2 (two units) -/
 def aQ (D : Int) (n : Nat) : Int := (rQ D n : Int) / 2
@@ -61,7 +62,7 @@ def F (D : Int) : Nat → Nat → Int
 /-- L · b(n), L = 360360 = lcm(1, …, 15): b(n), the coefficient of n^-s in log(Z_Q / 2), is SUM over k ≥ 1 of (-1)^(k+1) F_k(n) / k,
     and k ≤ 15 for n < 2^16 -/
 def bL (D : Int) (n : Nat) : Int :=
-  (List.range 15).foldl (fun s i => s + (if i % 2 = 0 then 1 else -1) * (360360 / ((i : Int) + 1)) * F D (i + 1) n) 0
+  (List.range 15).foldl (fun (s : Int) (i : Nat) => s + (if i % 2 = 0 then (1 : Int) else -1) * (360360 / ((i : Int) + 1)) * F D (i + 1) n) 0
 
 /-- THE C2 VALUE LAW AT THE LEAST NEGATIVE INDEX, at each field of the list: b(n0) = v / q, and b(n) ≥ 0 for 2 ≤ n < n0.
     (data/b722_c2_statement.txt's `theorem c2_value_law`, its binders taken under one ∀.) -/
