@@ -117,7 +117,7 @@ theorem rQ_eq (D : Int) (n : Nat) : (rQ D n : Int) = BC D n n := by
     | simp [e1, e2]
 
 /-- the box as a Finset of Int -/
-def Ibox (s : Nat) : Finset Int := Finset.Icc (-(s : Int)) (s : Int)
+noncomputable def Ibox (s : Nat) : Finset Int := Finset.Icc (-(s : Int)) (s : Int)
 
 theorem range_sum (s : Nat) (f : Int → Int) :
     ∑ i ∈ Finset.range (2 * s + 1), f (-(s : Int) + (i : Int)) = ∑ x ∈ Ibox s, f x := by

@@ -1,4 +1,5 @@
 import SIDEExplicitFormula.C2Chain
+import SIDEExplicitFormula.C2Field.M235
 
 namespace C2Walk
 

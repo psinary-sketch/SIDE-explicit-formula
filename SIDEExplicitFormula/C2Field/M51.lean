@@ -1,5 +1,6 @@
 /- b726, (R336)(3): the certificate at D = -51, one module, one dispatch. -/
 import SIDEExplicitFormula.C2Walk
+import SIDEExplicitFormula.C2Field.M40
 
 namespace C2Walk
 
