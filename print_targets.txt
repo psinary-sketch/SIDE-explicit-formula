@@ -7,3 +7,6 @@ SIDEExplicitFormula.KeiperTwo.liCoeff_two_pos_of_obligations
 SIDEExplicitFormula.KeiperTwo.gammaRZetaOne_holds
 SIDEExplicitFormula.KeiperTwo.liCoeff_two_closed
 SIDEExplicitFormula.KeiperTwo.liCoeff_two_pos_of_stieltjes_one
+SIDEExplicitFormula.KeiperTwo.deriv_bound
+SIDEExplicitFormula.KeiperTwo.stieltjes_one_lt
+SIDEExplicitFormula.KeiperTwo.liCoeff_two_pos
