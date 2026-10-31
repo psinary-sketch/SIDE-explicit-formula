@@ -16,3 +16,14 @@ C2Walk.cert_m235
 C2Walk.cert_m267
 C2Walk.cert_m427
 C2Walk.cert_m403
+C2Walk.get_set
+C2Walk.bigOmega_eq
+C2Walk.divSum_full
+C2Walk.wf_rec
+C2Walk.get_rTab_eq
+C2Walk.L1_holds
+C2Walk.L2_holds
+C2Walk.law_of_cert
+C2Walk.value_law_of_certs
+C2Walk.c2_value_law
+C2Walk.c2_least_negative
