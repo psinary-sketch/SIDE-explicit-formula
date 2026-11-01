@@ -61,7 +61,7 @@ theorem dbl_summable {x y : ℝ} (hx : 0 < x) (hy : 0 < y) : Summable (Function.
   have h := (eG_summable hx).mul_of_nonneg (eG_summable hy) (fun n => eG_nonneg x n) (fun k => eG_nonneg y k)
   refine h.congr (fun p => ?_)
   obtain ⟨n, k⟩ := p
-  show ‖dblTerm x y n k‖ = eG x n * eG y k
+  show eG x n * eG y k = ‖dblTerm x y n k‖
   unfold dblTerm
   rw [norm_mul, norm_mul, norm_cTerm, one_mul, Complex.norm_real, Complex.norm_real,
     Real.norm_of_nonneg (eG_nonneg x n), Real.norm_of_nonneg (eG_nonneg y k)]
