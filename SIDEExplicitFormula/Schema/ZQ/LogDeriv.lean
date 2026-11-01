@@ -11,6 +11,8 @@ import SIDEExplicitFormula.Schema.ZQ.Bound
 import Mathlib.NumberTheory.LSeries.Deriv
 import Mathlib.NumberTheory.LSeries.Convolution
 
+open scoped LSeries.notation
+
 noncomputable section
 
 namespace SIDEExplicitFormula
@@ -210,7 +212,7 @@ theorem double_le (g : ℕ → ℕ → ℝ) (hg : ∀ a b, 0 ≤ g a b) (N : ℕ
       = ∑ x ∈ (tQ N).sigma (fun n => n.properDivisors), g x.2 (x.1 / x.2) :=
         Finset.sum_sigma' (tQ N) (fun n => n.properDivisors) (fun n d => g d (n / d))
     _ = ∑ y ∈ ((tQ N).sigma (fun n => n.properDivisors) : Finset (Σ _ : ℕ, ℕ)).image pairQ, g y.1 y.2 :=
-        (Finset.sum_image hinj).symm
+        (Finset.sum_image (f := fun y : ℕ × ℕ => g y.1 y.2) hinj).symm
     _ ≤ ∑ y ∈ Finset.range N ×ˢ tQ N, g y.1 y.2 :=
         Finset.sum_le_sum_of_subset_of_nonneg hsub (fun y _ _ => hg _ _)
     _ = ∑ d ∈ Finset.range N, ∑ k ∈ tQ N, g d k := Finset.sum_product' (Finset.range N) (tQ N) g
@@ -263,6 +265,142 @@ theorem uQ_sum_le (hv : Summable vQ) (N : ℕ) :
 /-- **The absolute series of `c` at `3/2`**, on the summability of `−Z_Q'(3/2)`. -/
 theorem uQ_summable (hv : Summable vQ) : Summable uQ :=
   summable_of_sum_range_le uQ_nonneg (uQ_sum_le hv)
+
+/-- `r_Q` as complex coefficients. -/
+abbrev aQ (k : ℕ) : ℂ := (rQ k : ℂ)
+
+/-- `c` as complex coefficients. -/
+abbrev cC (k : ℕ) : ℂ := (cQ k : ℂ)
+
+theorem aQ_abscissa {s : ℂ} (hs : 3 / 2 ≤ s.re) : LSeries.abscissaOfAbsConv aQ < s.re := by
+  have h : LSeriesSummable aQ ((5 / 4 : ℝ) : ℂ) := zq_summable _ (by
+    rw [Complex.ofReal_re]
+    norm_num)
+  refine h.abscissaOfAbsConv_le.trans_lt ?_
+  rw [Complex.ofReal_re]
+  exact EReal.coe_lt_coe_iff.mpr (by linarith)
+
+theorem logMul_norm (n : ℕ) : ‖LSeries.logMul aQ n‖ = (rQ n : ℝ) * Real.log n := by
+  have e : LSeries.logMul aQ n = (((rQ n : ℝ) * Real.log n : ℝ) : ℂ) := by
+    show Complex.log (n : ℂ) * (rQ n : ℂ) = _
+    rw [Complex.ofReal_mul, Complex.natCast_log, Complex.ofReal_natCast, mul_comm]
+  rw [e, Complex.norm_real, Real.norm_of_nonneg (mul_nonneg (Nat.cast_nonneg _) (Real.log_natCast_nonneg n))]
+
+/-- **`−Z_Q'(3/2)` converges absolutely.** -/
+theorem vQ_summable : Summable vQ := by
+  have h0 : LSeriesSummable (LSeries.logMul aQ) ((3 / 2 : ℝ) : ℂ) :=
+    LSeriesSummable_logMul_of_lt_re (aQ_abscissa (Complex.ofReal_re _).ge)
+  have h : Summable fun n => ‖LSeries.term (LSeries.logMul aQ) ((3 / 2 : ℝ) : ℂ) n‖ :=
+    summable_norm_iff.mpr h0
+  refine h.congr (fun n => ?_)
+  show ‖LSeries.term (LSeries.logMul aQ) ((3 / 2 : ℝ) : ℂ) n‖ = vQ n
+  rw [LSeries.norm_term_eq, Complex.ofReal_re, logMul_norm]
+  by_cases hn : n = 0
+  · subst hn
+    rw [if_pos rfl]
+    unfold vQ
+    rw [rQ_zero, Nat.cast_zero, zero_mul, zero_div]
+  · rw [if_neg hn]
+    rfl
+
+/-- **The series of `c` converges absolutely on `Re s ≥ 3/2`.** -/
+theorem cC_summable {s : ℂ} (hs : 3 / 2 ≤ s.re) : LSeriesSummable cC s := by
+  have h0 : LSeriesSummable cC ((3 / 2 : ℝ) : ℂ) := by
+    refine Summable.of_norm ((uQ_summable vQ_summable).congr (fun n => ?_))
+    show uQ n = ‖LSeries.term cC ((3 / 2 : ℝ) : ℂ) n‖
+    rw [LSeries.norm_term_eq, Complex.ofReal_re]
+    by_cases hn : n = 0
+    · subst hn
+      rw [if_pos rfl]
+      unfold uQ
+      rw [cQ_le_one (Nat.zero_le 1), abs_zero, zero_div]
+    · rw [if_neg hn]
+      show uQ n = ‖((cQ n : ℝ) : ℂ)‖ / (n : ℝ) ^ (3 / 2 : ℝ)
+      rw [Complex.norm_real, Real.norm_eq_abs]
+      rfl
+  exact h0.of_re_le_re (by
+    rw [Complex.ofReal_re]
+    exact hs)
+
+theorem conv_eq {n : ℕ} (hn : n ≠ 0) : (cC ⍟ aQ) n = LSeries.logMul aQ n := by
+  rw [LSeries.convolution_def]
+  show ∑ p ∈ n.divisorsAntidiagonal, ((cQ p.1 : ℝ) : ℂ) * ((rQ p.2 : ℕ) : ℂ) = Complex.log (n : ℂ) * (rQ n : ℂ)
+  have e : ∑ p ∈ n.divisorsAntidiagonal, ((cQ p.1 : ℝ) : ℂ) * ((rQ p.2 : ℕ) : ℂ)
+      = ((∑ p ∈ n.divisorsAntidiagonal, cQ p.1 * (rQ p.2 : ℝ) : ℝ) : ℂ) := by
+    rw [Complex.ofReal_sum]
+    exact Finset.sum_congr rfl (fun p _ => by rw [Complex.ofReal_mul, Complex.ofReal_natCast])
+  rw [e, cQ_conv hn, Complex.ofReal_mul, Complex.natCast_log, Complex.ofReal_natCast, mul_comm]
+
+theorem zq_series {s : ℂ} (hs : 3 / 2 ≤ s.re) :
+    LSeries cC s * LSeries aQ s = LSeries (LSeries.logMul aQ) s := by
+  have h1 : LSeriesSummable aQ s := zq_summable s (by linarith)
+  rw [← LSeries_convolution' (cC_summable hs) h1]
+  exact LSeries_congr (fun hn => conv_eq hn) s
+
+/-- **`Z_Q` has no zero in `Re s ≥ 3/2`**: `|Z_Q(s) − 2| ≤ Z_Q(3/2) − 2 < 2`. -/
+theorem zq_ne_zero_of_three_halves_le (s : ℂ) (hs : 3 / 2 ≤ s.re) : zqFn s ≠ 0 := by
+  have hs1 : 1 < s.re := by linarith
+  have h1 : LSeriesSummable aQ s := zq_summable s hs1
+  have ht : ∑' k, wQ k < 4 := zq_three_halves_tsum_lt
+  have hone : LSeries.term aQ s 1 = 2 := by
+    rw [LSeries.term_of_ne_zero one_ne_zero]
+    show ((rQ 1 : ℕ) : ℂ) / ((1 : ℕ) : ℂ) ^ s = 2
+    rw [rQ_one, Nat.cast_one, Complex.one_cpow]
+    norm_num
+  have h2 : HasSum (LSeries.term aQ s) (LSeries aQ s) := Summable.hasSum h1
+  have hE : HasSum (fun k => LSeries.term aQ s k - if k = 1 then (2 : ℂ) else 0) (LSeries aQ s - 2) :=
+    h2.sub (hasSum_ite_eq (1 : ℕ) (2 : ℂ))
+  have hG : HasSum (fun k => wQ k - if k = 1 then (2 : ℝ) else 0) (∑' k, wQ k - 2) :=
+    wQ_summable.hasSum.sub (hasSum_ite_eq (1 : ℕ) (2 : ℝ))
+  have hb : ∀ k, ‖LSeries.term aQ s k - if k = 1 then (2 : ℂ) else 0‖ ≤ wQ k - if k = 1 then (2 : ℝ) else 0 := by
+    intro k
+    by_cases hk : k = 1
+    · subst hk
+      refine le_of_eq ?_
+      rw [if_pos rfl, if_pos rfl, hone, sub_self, norm_zero, wQ_one, sub_self]
+    · rw [if_neg hk, if_neg hk, sub_zero, sub_zero, LSeries.norm_term_eq]
+      by_cases h0 : k = 0
+      · rw [if_pos h0]
+        exact wQ_nonneg k
+      · rw [if_neg h0]
+        have hk1 : (1 : ℝ) ≤ k := by exact_mod_cast Nat.one_le_iff_ne_zero.mpr h0
+        have hp : (k : ℝ) ^ (3 / 2 : ℝ) ≤ (k : ℝ) ^ s.re := Real.rpow_le_rpow_of_exponent_le hk1 hs
+        have hq : 0 < (k : ℝ) ^ (3 / 2 : ℝ) := Real.rpow_pos_of_pos (by linarith) _
+        show ‖((rQ k : ℕ) : ℂ)‖ / (k : ℝ) ^ s.re ≤ (rQ k : ℝ) / (k : ℝ) ^ (3 / 2 : ℝ)
+        rw [Complex.norm_natCast]
+        exact div_le_div_of_nonneg_left (Nat.cast_nonneg _) hq hp
+  have hn : ‖LSeries aQ s - 2‖ ≤ ∑' k, wQ k - 2 := by
+    rw [← hE.tsum_eq]
+    exact tsum_of_norm_bounded hG hb
+  intro h0
+  have h3 : LSeries aQ s = 0 := by
+    have h4 := zqFn_agrees s hs1
+    rw [h0] at h4
+    exact h4.symm
+  rw [h3, zero_sub, norm_neg] at hn
+  have h5 : ‖(2 : ℂ)‖ = 2 := by
+    first
+      | norm_num
+      | simpa using Complex.norm_natCast 2
+  linarith
+
+theorem deriv_zq {s : ℂ} (hs : 3 / 2 ≤ s.re) : deriv zqFn s = -LSeries (LSeries.logMul aQ) s := by
+  have hs1 : 1 < s.re := by linarith
+  have hopen : IsOpen {z : ℂ | 1 < z.re} := isOpen_lt continuous_const Complex.continuous_re
+  have h : Filter.EventuallyEq (nhds s) zqFn (LSeries aQ) := by
+    filter_upwards [hopen.mem_nhds hs1] with z hz
+    exact zqFn_agrees z hz
+  rw [h.deriv_eq, LSeries_deriv (aQ_abscissa hs)]
+
+/-- **THE logDeriv FIELD**: `∑ c(n) n^{−s} = −Z_Q'(s)/Z_Q(s)` on `Re s ≥ 3/2`. -/
+theorem zq_logDeriv : ∀ s : ℂ, 3 / 2 ≤ s.re → LSeries (fun n => (cQ n : ℂ)) s = -(deriv zqFn s / zqFn s) := by
+  intro s hs
+  show LSeries cC s = -(deriv zqFn s / zqFn s)
+  have h0 := zq_ne_zero_of_three_halves_le s hs
+  have h1 : zqFn s = LSeries aQ s := zqFn_agrees s (by linarith)
+  have e : deriv zqFn s / zqFn s = -LSeries cC s := by
+    rw [deriv_zq hs, ← zq_series hs, ← h1, neg_div, mul_div_assoc, div_self h0, mul_one]
+  rw [e, neg_neg]
 
 end ZQ
 end Schema

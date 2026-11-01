@@ -120,3 +120,6 @@ SIDEExplicitFormula.Schema.ZQ.zq_continuation
 SIDEExplicitFormula.Schema.ZQ.exists_zq_continuation
 SIDEExplicitFormula.Schema.ZQ.zq_three_halves_lt
 SIDEExplicitFormula.Schema.ZQ.zq_three_halves_tsum_lt
+SIDEExplicitFormula.Schema.ZQ.cQ
+SIDEExplicitFormula.Schema.ZQ.zq_ne_zero_of_three_halves_le
+SIDEExplicitFormula.Schema.ZQ.zq_logDeriv
