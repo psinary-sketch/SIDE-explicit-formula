@@ -107,3 +107,14 @@ SIDEExplicitFormula.Schema.zqZeros_ne_zero
 SIDEExplicitFormula.Schema.zq_count
 SIDEExplicitFormula.Schema.zq_explicit_formula
 SIDEExplicitFormula.Schema.zq_li_nonneg_imp_online
+SIDEExplicitFormula.Schema.ZQ.zq_summable
+SIDEExplicitFormula.Schema.ZQ.thetaU_inversion
+SIDEExplicitFormula.Schema.ZQ.thetaC_feq
+SIDEExplicitFormula.Schema.ZQ.zqPair_Λ_one_sub
+SIDEExplicitFormula.Schema.ZQ.zqPair_Λ_eq_of_re
+SIDEExplicitFormula.Schema.ZQ.zqFn_agrees
+SIDEExplicitFormula.Schema.ZQ.zqFn_holomorphic
+SIDEExplicitFormula.Schema.ZQ.zqFn_functional_equation
+SIDEExplicitFormula.Schema.ZQ.zqFn_real
+SIDEExplicitFormula.Schema.ZQ.zq_continuation
+SIDEExplicitFormula.Schema.ZQ.exists_zq_continuation
