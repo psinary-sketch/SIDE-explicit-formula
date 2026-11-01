@@ -70,7 +70,7 @@ theorem gauss_summable {c : ℝ} (hc : 0 < c) : Summable (fun n : ℤ => Real.ex
   congr 1
   have hc' : Real.pi * (c / Real.pi) = c := by
     field_simp
-  linear_combination ((n : ℝ) ^ 2) * hc'
+  linear_combination (-(n : ℝ) ^ 2) * hc'
 
 /-- **The Gaussian sum over the lattice.** -/
 theorem lattice_summable {c : ℝ} (hc : 0 < c) : Summable (fun p : ℤ × ℤ => Real.exp (-c * qR p)) := by
@@ -229,7 +229,7 @@ theorem rQ_term_summable {σ : ℝ} (hσ : 1 < σ) : Summable (fun k : ℕ => (r
   have h := (hasSum_fiber (fun k : ℕ => (k : ℝ) ^ (-σ)) (lattice_rpow_summable hσ)).summable
   have hσ0 : σ ≠ 0 := by linarith
   refine h.congr (fun k => ?_)
-  show (rQ k : ℝ) / (k : ℝ) ^ σ = if k = 0 then ((0 : ℕ) : ℝ) ^ (-σ) else (rQ k : ℝ) * (k : ℝ) ^ (-σ)
+  show (if k = 0 then ((0 : ℕ) : ℝ) ^ (-σ) else (rQ k : ℝ) * (k : ℝ) ^ (-σ)) = (rQ k : ℝ) / (k : ℝ) ^ σ
   by_cases hk : k = 0
   · subst hk
     simp [rQ_zero, Real.zero_rpow (neg_ne_zero.mpr hσ0)]
