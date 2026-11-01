@@ -30,12 +30,8 @@ theorem wR_sq {a : ℝ} (ha : 0 < a) (x : ℝ) : wR a x ^ 2 = x ^ 2 + a :=
   Real.sq_sqrt (by positivity)
 
 theorem hasDerivAt_wR {a : ℝ} (ha : 0 < a) (x : ℝ) : HasDerivAt (wR a) (x / wR a x) x := by
-  have h1 : HasDerivAt (fun y : ℝ => y ^ 2 + a) (2 * x) x := by
-    have h := ((hasDerivAt_id' x).fun_mul (hasDerivAt_id' x)).add_const a
-    convert h using 1
-    · funext y
-      ring
-    · ring
+  have h1 : HasDerivAt (fun y : ℝ => y ^ 2 + a) (2 * x) x :=
+    ((hasDerivAt_pow 2 x).add_const a).congr_deriv (by norm_num)
   have h2 : HasDerivAt (wR a) (2 * x / (2 * wR a x)) x :=
     h1.sqrt (show x ^ 2 + a ≠ 0 by positivity)
   rwa [mul_div_mul_left x (wR a x) two_ne_zero] at h2
