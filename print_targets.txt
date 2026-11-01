@@ -118,3 +118,5 @@ SIDEExplicitFormula.Schema.ZQ.zqFn_functional_equation
 SIDEExplicitFormula.Schema.ZQ.zqFn_real
 SIDEExplicitFormula.Schema.ZQ.zq_continuation
 SIDEExplicitFormula.Schema.ZQ.exists_zq_continuation
+SIDEExplicitFormula.Schema.ZQ.zq_three_halves_lt
+SIDEExplicitFormula.Schema.ZQ.zq_three_halves_tsum_lt
