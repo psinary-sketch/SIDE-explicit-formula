@@ -167,3 +167,8 @@ SIDEExplicitFormula.Schema.ZQ.EF.zq_full_line_identity
 SIDEExplicitFormula.Schema.ZQ.EF.zq_prime_side_line
 SIDEExplicitFormula.Schema.ZQ.EF.zq_gamma_line_shift
 SIDEExplicitFormula.Schema.ZQ.EF.zq_bracket
+SIDEExplicitFormula.Schema.ZQ.EF.zq_explicitFormula
+SIDEExplicitFormula.Schema.ZQ.EF.zq_premises
+SIDEExplicitFormula.Schema.ZQ.EF.zq_count_instance
+SIDEExplicitFormula.Schema.ZQ.EF.zq_explicit_formula_instance
+SIDEExplicitFormula.Schema.ZQ.EF.zq_li_nonneg_imp_online_instance
