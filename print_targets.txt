@@ -137,3 +137,9 @@ SIDEExplicitFormula.Schema.ZQ.aE_strip_bound
 SIDEExplicitFormula.Schema.ZQ.aE_right
 SIDEExplicitFormula.Schema.ZQ.aE_left
 SIDEExplicitFormula.Schema.ZQ.aE_growth
+SIDEExplicitFormula.Schema.ZQ.wide_N_le_two_mul_half
+SIDEExplicitFormula.Schema.ZQ.aE_order_eq
+SIDEExplicitFormula.Schema.ZQ.analyticOrderNatAt_gQ
+SIDEExplicitFormula.Schema.ZQ.aE_lower
+SIDEExplicitFormula.Schema.ZQ.halfQ_count
+SIDEExplicitFormula.Schema.ZQ.zq_count_holds
