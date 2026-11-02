@@ -297,7 +297,7 @@ theorem norm_self_le {s : ℂ} (h : -1 / 2 ≤ s.re) : ‖s‖ ≤ ‖s + 2‖ :
 theorem one_le_norm_add_two {s : ℂ} (h : -1 / 2 ≤ s.re) : 1 ≤ ‖s + 2‖ := by
   have h1 := Complex.abs_re_le_norm (s + 2)
   have h2 := le_abs_self (s + 2).re
-  rw [add_two_re] at h2
+  rw [add_two_re] at h1 h2
   linarith
 
 /-- `aE` on the strip, off the real axis: `exp(π|t|)` times a polynomial. -/
