@@ -28,7 +28,7 @@ theorem lamQ_residue_zero :
     have h1 : ContinuousAt zqPair.Λ₀ 0 := zqPair.differentiable_Λ₀.continuous.continuousAt
     exact ((continuousAt_id.mul h1).sub continuousAt_const).sub
       (continuousAt_id.div (continuousAt_const.sub continuousAt_id) (by simp))
-  have h0 : (fun s : ℂ => s * zqPair.Λ₀ s - 1 - s / (1 - s)) 0 = -1 := by simp
+  have h0 : (0 : ℂ) * zqPair.Λ₀ 0 - 1 - 0 / (1 - 0) = -1 := by simp
   have ht := hc.tendsto
   rw [h0] at ht
   refine (ht.mono_left nhdsWithin_le_nhds).congr' ?_
@@ -45,7 +45,7 @@ theorem lamQ_residue_one :
     have h1 : ContinuousAt zqPair.Λ₀ 1 := zqPair.differentiable_Λ₀.continuous.continuousAt
     have h2 : ContinuousAt (fun s : ℂ => s - 1) 1 := continuousAt_id.sub continuousAt_const
     exact ((h2.mul h1).sub (h2.div continuousAt_id (by simp))).add continuousAt_const
-  have h0 : (fun s : ℂ => (s - 1) * zqPair.Λ₀ s - (s - 1) / s + 1) 1 = 1 := by simp
+  have h0 : ((1 : ℂ) - 1) * zqPair.Λ₀ 1 - (1 - 1) / 1 + 1 = 1 := by simp
   have ht := hc.tendsto
   rw [h0] at ht
   refine (ht.mono_left nhdsWithin_le_nhds).congr' ?_
@@ -96,11 +96,11 @@ theorem zq_rectangle_identity {k : ℝ → ℂ} (hk : ContDiff ℝ 2 k) (hkc : H
     exact Iff.rfl
   have hstrip : ∀ ρ ∈ zqZeroConfig.carrier, -1 / 2 < ρ.re ∧ ρ.re < 3 / 2 := zqZeroConfig.strip
   have hzero : ∀ ρ ∈ zqZeroConfig.carrier, lamQ ρ = 0 := fun ρ h =>
-    (lamQ_eq_zero_iff (mem_C h).1 (mem_C h).2.1 (hstrip ρ h).1).mpr h
+    (lamQ_eq_zero_iff (mem_C h).1 (mem_C h).2 (hstrip ρ h).1).mpr h
   have hZcoe : (Z : Set ℂ) = {ρ : ℂ | ρ ∈ zqZeroConfig.carrier ∧ -R < ρ.im ∧ ρ.im < R} := by
     ext ρ
     rw [Finset.mem_coe, hZmemiff]
-    simp only [Set.mem_setOf_eq]
+    show _ ↔ (ρ ∈ zqZeroConfig.carrier ∧ -R < ρ.im ∧ ρ.im < R)
     constructor
     · rintro ⟨h1, h2, h3⟩
       refine ⟨h1, h2, lt_of_le_of_ne h3 ?_⟩
@@ -117,7 +117,7 @@ theorem zq_rectangle_identity {k : ℝ → ℂ} (hk : ContDiff ℝ 2 k) (hkc : H
     simp only [Finset.mem_insert, Finset.mem_singleton] at hρP
     rcases hρP with rfl | rfl
     · exact (mem_C h1).1 rfl
-    · exact (mem_C h1).2.1 rfl
+    · exact (mem_C h1).2 rfl
   have hPint : ∀ p ∈ P, Rectangle z w ∈ 𝓝 p := by
     intro p hp
     rw [rectangle_mem_nhds_iff, Complex.mem_reProdIm, Set.uIoo_of_le hre, Set.uIoo_of_le him,
