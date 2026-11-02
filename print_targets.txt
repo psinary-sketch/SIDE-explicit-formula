@@ -156,3 +156,5 @@ SIDEExplicitFormula.Schema.ZQ.EF.lamQ_residue_zero
 SIDEExplicitFormula.Schema.ZQ.EF.lamQ_residue_one
 SIDEExplicitFormula.Schema.ZQ.EF.zq_rectangle_identity
 SIDEExplicitFormula.Schema.ZQ.EF.zq_horizontal_vanish
+SIDEExplicitFormula.Schema.ZQ.EF.wide_zero_sum_summable
+SIDEExplicitFormula.Schema.ZQ.EF.zq_zero_sum_limit
