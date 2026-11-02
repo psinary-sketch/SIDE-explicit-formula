@@ -152,3 +152,7 @@ SIDEExplicitFormula.Schema.ZQ.EF.norm_zqFn_le
 SIDEExplicitFormula.Schema.ZQ.EF.zq_logDeriv_partial_fraction
 SIDEExplicitFormula.Schema.ZQ.EF.zq_good_heights_at
 SIDEExplicitFormula.Schema.ZQ.EF.zq_good_heights
+SIDEExplicitFormula.Schema.ZQ.EF.lamQ_residue_zero
+SIDEExplicitFormula.Schema.ZQ.EF.lamQ_residue_one
+SIDEExplicitFormula.Schema.ZQ.EF.zq_rectangle_identity
+SIDEExplicitFormula.Schema.ZQ.EF.zq_horizontal_vanish
