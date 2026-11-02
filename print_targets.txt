@@ -164,3 +164,6 @@ SIDEExplicitFormula.Schema.ZQ.EF.continuous_logDeriv_lamQ_line
 SIDEExplicitFormula.Schema.ZQ.EF.integrable_FlineQ
 SIDEExplicitFormula.Schema.ZQ.EF.zq_verticals_eq
 SIDEExplicitFormula.Schema.ZQ.EF.zq_full_line_identity
+SIDEExplicitFormula.Schema.ZQ.EF.zq_prime_side_line
+SIDEExplicitFormula.Schema.ZQ.EF.zq_gamma_line_shift
+SIDEExplicitFormula.Schema.ZQ.EF.zq_bracket
