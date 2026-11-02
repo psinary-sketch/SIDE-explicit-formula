@@ -150,3 +150,5 @@ SIDEExplicitFormula.Schema.ZQ.EF.analyticOrderNatAt_lamQ
 SIDEExplicitFormula.Schema.ZQ.EF.lamQ_ne_zero_on_horizontals
 SIDEExplicitFormula.Schema.ZQ.EF.norm_zqFn_le
 SIDEExplicitFormula.Schema.ZQ.EF.zq_logDeriv_partial_fraction
+SIDEExplicitFormula.Schema.ZQ.EF.zq_good_heights_at
+SIDEExplicitFormula.Schema.ZQ.EF.zq_good_heights
