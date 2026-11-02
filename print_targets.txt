@@ -158,3 +158,9 @@ SIDEExplicitFormula.Schema.ZQ.EF.zq_rectangle_identity
 SIDEExplicitFormula.Schema.ZQ.EF.zq_horizontal_vanish
 SIDEExplicitFormula.Schema.ZQ.EF.wide_zero_sum_summable
 SIDEExplicitFormula.Schema.ZQ.EF.zq_zero_sum_limit
+SIDEExplicitFormula.Schema.ZQ.EF.norm_logDeriv_zqFn_line_le
+SIDEExplicitFormula.Schema.ZQ.EF.norm_logDeriv_lamQ_line_le
+SIDEExplicitFormula.Schema.ZQ.EF.continuous_logDeriv_lamQ_line
+SIDEExplicitFormula.Schema.ZQ.EF.integrable_FlineQ
+SIDEExplicitFormula.Schema.ZQ.EF.zq_verticals_eq
+SIDEExplicitFormula.Schema.ZQ.EF.zq_full_line_identity
