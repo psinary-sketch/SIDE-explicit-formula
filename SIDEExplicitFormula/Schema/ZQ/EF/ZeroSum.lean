@@ -118,7 +118,6 @@ theorem zq_zero_sum_limit {k : ℝ → ℂ}
       exact ((hmemZ j ρ).mp hρ).1
     rw [h2] at h1'
     rw [← h1']
-    rfl
   -- monotone and exhausting
   have hRmono : ∀ i j : ℕ, i ≤ j → R i ≤ R j := by
     intro i j hij
