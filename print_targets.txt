@@ -127,3 +127,7 @@ SIDEExplicitFormula.Schema.ZQ.zq_conj
 SIDEExplicitFormula.Schema.ZQ.zqZeroConfig
 SIDEExplicitFormula.Schema.ZQ.zq_zeros
 SIDEExplicitFormula.Schema.ZQ.exists_zq_zeros
+SIDEExplicitFormula.Schema.ZQ.zq_sub_two_le
+SIDEExplicitFormula.Schema.ZQ.zq_norm_le
+SIDEExplicitFormula.Schema.ZQ.zq_norm_ge
+SIDEExplicitFormula.Schema.ZQ.zq_three_halves_eq
