@@ -182,7 +182,7 @@ theorem zq_explicitFormula : ZQExplicitFormula zqZeroConfig (fun n => cQ n) := b
   have hzero : zeroSideQ zqZeroConfig k
       = ∑' ρ : zqZeroConfig.carrier, (zqZeroConfig.mult ρ : ℂ) * Hfn k ρ := rfl
   rw [hzero, eS, earch]
-  unfold poleTerm
+  unfold B321.poleTerm
   rw [← hpole0, ← hpole1]
   linear_combination -hfull - 2 * ePr
 
@@ -197,7 +197,7 @@ theorem zq_count_instance : ∃ A₀ : ℝ, Wide.HCount zqZeroConfig A₀ :=
 /-- `zq_explicit_formula` at the instance, binding no premise. -/
 theorem zq_explicit_formula_instance (k : ℝ → ℂ) (hk : ContDiff ℝ 2 k) (hs : HasCompactSupport k)
     (he : ∀ x : ℝ, k (-x) = k x) :
-    zeroSideQ zqZeroConfig k = poleTerm k - primeTermQ (fun n => cQ n) k + archTermQ k :=
+    zeroSideQ zqZeroConfig k = B321.poleTerm k - primeTermQ (fun n => cQ n) k + archTermQ k :=
   zq_explicit_formula zq_premises k hk hs he
 
 /-- `zq_li_nonneg_imp_online` at the instance, binding no premise: the implication, its hypothesis the Li positivity of the
