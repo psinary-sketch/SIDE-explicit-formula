@@ -104,7 +104,8 @@ theorem zq_three_halves_eq : zqFn ((3 / 2 : ℝ) : ℂ) = (totQ : ℂ) := by
   · rw [LSeries.term_of_ne_zero hn]
     show ((rQ n : ℕ) : ℂ) / (n : ℂ) ^ (((3 / 2 : ℝ) : ℂ)) = ((wQ n : ℝ) : ℂ)
     unfold wQ
-    rw [Complex.ofReal_div, Complex.ofReal_natCast, Complex.ofReal_cpow (Nat.cast_nonneg n), Complex.ofReal_natCast]
+    rw [Complex.ofReal_div (rQ n : ℝ), Complex.ofReal_natCast, Complex.ofReal_cpow (Nat.cast_nonneg n),
+      Complex.ofReal_natCast]
 
 end ZQ
 end Schema
