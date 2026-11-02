@@ -143,3 +143,8 @@ SIDEExplicitFormula.Schema.ZQ.analyticOrderNatAt_gQ
 SIDEExplicitFormula.Schema.ZQ.aE_lower
 SIDEExplicitFormula.Schema.ZQ.halfQ_count
 SIDEExplicitFormula.Schema.ZQ.zq_count_holds
+SIDEExplicitFormula.Schema.ZQ.EF.logDeriv_lamQ
+SIDEExplicitFormula.Schema.ZQ.EF.logDeriv_lamQ_one_sub
+SIDEExplicitFormula.Schema.ZQ.EF.lamQ_eq_zero_iff
+SIDEExplicitFormula.Schema.ZQ.EF.analyticOrderNatAt_lamQ
+SIDEExplicitFormula.Schema.ZQ.EF.lamQ_ne_zero_on_horizontals
