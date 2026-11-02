@@ -131,3 +131,9 @@ SIDEExplicitFormula.Schema.ZQ.zq_sub_two_le
 SIDEExplicitFormula.Schema.ZQ.zq_norm_le
 SIDEExplicitFormula.Schema.ZQ.zq_norm_ge
 SIDEExplicitFormula.Schema.ZQ.zq_three_halves_eq
+SIDEExplicitFormula.Schema.ZQ.Lam0_bounded
+SIDEExplicitFormula.Schema.ZQ.inv_Gamma_strip
+SIDEExplicitFormula.Schema.ZQ.aE_strip_bound
+SIDEExplicitFormula.Schema.ZQ.aE_right
+SIDEExplicitFormula.Schema.ZQ.aE_left
+SIDEExplicitFormula.Schema.ZQ.aE_growth
