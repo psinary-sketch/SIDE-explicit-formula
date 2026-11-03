@@ -113,6 +113,9 @@ theorem zq_Λ₀_split (s : ℂ) : zqPair.Λ₀ s = lamM s + lamM (1 - s) := by
   unfold lamM
   rw [e1, e2]
 
+/-- `zq_Λ₀_split` under an ASCII name, the one the runner's print step admits (run 41741988143's axioms_refused.txt :1). -/
+theorem zq_lambda0_split (s : ℂ) : zqPair.Λ₀ s = lamM s + lamM (1 - s) := zq_Λ₀_split s
+
 end OffZero
 end ZQ
 end Schema

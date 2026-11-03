@@ -5,7 +5,7 @@ SIDEExplicitFormula.Schema.ZQ.OffZero.thetaU_half_le
 SIDEExplicitFormula.Schema.ZQ.OffZero.thetaU_half
 SIDEExplicitFormula.Schema.ZQ.OffZero.thetaU_anti
 SIDEExplicitFormula.Schema.ZQ.OffZero.tail_qR
-SIDEExplicitFormula.Schema.ZQ.OffZero.zq_Λ₀_split
+SIDEExplicitFormula.Schema.ZQ.OffZero.zq_lambda0_split
 SIDEExplicitFormula.Schema.ZQ.OffZero.lamM_eq
 SIDEExplicitFormula.Schema.ZQ.OffZero.thA_conv
 SIDEExplicitFormula.Schema.ZQ.OffZero.thB_conv
