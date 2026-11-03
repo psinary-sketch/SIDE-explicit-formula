@@ -80,7 +80,7 @@ theorem thB_eq : EqOn thB (fun t => (t : ℂ) ^ (-1 : ℂ) • thA t⁻¹) (Ioi 
     rw [mul_sub, ← mul_assoc, inv_mul_cancel₀ hc, one_mul, mul_one]
   · subst h1
     rw [thB, indicator_of_notMem (show (1 : ℝ) ∉ Ioo (0 : ℝ) 1 from fun h => lt_irrefl _ h.2), thA, inv_one,
-      indicator_of_notMem (show (1 : ℝ) ∉ Ioi (1 : ℝ) from fun h => lt_irrefl _ h), smul_zero]
+      indicator_of_notMem (show (1 : ℝ) ∉ Ioi (1 : ℝ) from fun h => lt_irrefl (1 : ℝ) (mem_Ioi.mp h)), smul_zero]
   · have hi : t⁻¹ < 1 := by nlinarith
     rw [thB, indicator_of_notMem (show t ∉ Ioo (0 : ℝ) 1 from fun h => lt_asymm h.2 h1), thA,
       indicator_of_notMem (show t⁻¹ ∉ Ioi (1 : ℝ) from fun h => lt_asymm h hi), smul_zero]
