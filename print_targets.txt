@@ -172,3 +172,6 @@ SIDEExplicitFormula.Schema.ZQ.EF.zq_premises
 SIDEExplicitFormula.Schema.ZQ.EF.zq_count_instance
 SIDEExplicitFormula.Schema.ZQ.EF.zq_explicit_formula_instance
 SIDEExplicitFormula.Schema.ZQ.EF.zq_li_nonneg_imp_online_instance
+SIDEExplicitFormula.Schema.ZQ.OffZero.boxA_isBounded
+SIDEExplicitFormula.Schema.ZQ.OffZero.closure_boxA
+SIDEExplicitFormula.Schema.ZQ.OffZero.mem_closure_boxA
