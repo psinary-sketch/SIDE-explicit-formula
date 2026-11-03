@@ -52,7 +52,8 @@ theorem thA_top (r : ℝ) : thA =O[atTop] (· ^ r) := by
   rw [thA, indicator_of_mem (show t ∈ Ioi (1 : ℝ) from ht)]
 
 theorem thA_bot (b : ℝ) : thA =O[𝓝[>] 0] (· ^ b) := by
-  refine ((isBigO_zero : (fun _x : ℝ => (0 : ℂ)) =O[𝓝[>] (0 : ℝ)] fun x : ℝ => x ^ b)).congr' ?_ EventuallyEq.rfl
+  refine ((isBigO_zero (fun x : ℝ => x ^ b) (𝓝[>] (0 : ℝ)) : (fun _x : ℝ => (0 : ℂ)) =O[𝓝[>] (0 : ℝ)] fun x : ℝ => x ^ b)).congr' ?_
+    EventuallyEq.rfl
   filter_upwards [Ioo_mem_nhdsGT (show (0 : ℝ) < 1 by norm_num)] with t ht
   rw [thA, indicator_of_notMem (show t ∉ Ioi (1 : ℝ) from fun h => lt_irrefl _ (ht.2.trans h))]
 
@@ -79,7 +80,7 @@ theorem thB_eq : EqOn thB (fun t => (t : ℂ) ^ (-1 : ℂ) • thA t⁻¹) (Ioi 
     rw [mul_sub, ← mul_assoc, inv_mul_cancel₀ hc, one_mul, mul_one]
   · subst h1
     rw [thB, indicator_of_notMem (show (1 : ℝ) ∉ Ioo (0 : ℝ) 1 from fun h => lt_irrefl _ h.2), thA, inv_one,
-      indicator_of_notMem (show (1 : ℝ) ∉ Ioi (1 : ℝ) from lt_irrefl _), smul_zero]
+      indicator_of_notMem (show (1 : ℝ) ∉ Ioi (1 : ℝ) from fun h => lt_irrefl _ h), smul_zero]
   · have hi : t⁻¹ < 1 := by nlinarith
     rw [thB, indicator_of_notMem (show t ∉ Ioo (0 : ℝ) 1 from fun h => lt_asymm h.2 h1), thA,
       indicator_of_notMem (show t⁻¹ ∉ Ioi (1 : ℝ) from fun h => lt_asymm h hi), smul_zero]
