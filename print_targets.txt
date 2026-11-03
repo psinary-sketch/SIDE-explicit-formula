@@ -1,3 +1,9 @@
+SIDEExplicitFormula.Schema.ZQ.OffZero.zq_Λ₀_split
+SIDEExplicitFormula.Schema.ZQ.OffZero.lamM_eq
+SIDEExplicitFormula.Schema.ZQ.OffZero.thA_conv
+SIDEExplicitFormula.Schema.ZQ.OffZero.thB_conv
+SIDEExplicitFormula.Schema.ZQ.OffZero.thB_eq
+SIDEExplicitFormula.Schema.ZQ.OffZero.f_modif_eq
 SIDEExplicitFormula.Schema.ZQ.OffZero.zq_offline_of_box
 SIDEExplicitFormula.Schema.ZQ.OffZero.zq_li_not_nonneg_of_box
 SIDEExplicitFormula.Schema.ZQ.OffZero.carrier_of_box
