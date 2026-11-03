@@ -1,3 +1,12 @@
+SIDEExplicitFormula.Schema.ZQ.OffZero.zq_offline_of_box
+SIDEExplicitFormula.Schema.ZQ.OffZero.zq_li_not_nonneg_of_box
+SIDEExplicitFormula.Schema.ZQ.OffZero.carrier_of_box
+SIDEExplicitFormula.Schema.ZQ.OffZero.min_modulus_zero
+SIDEExplicitFormula.Schema.ZQ.OffZero.zqFn_diffContOnCl_boxA
+SIDEExplicitFormula.Schema.ZQ.OffZero.ne_one_of_mem_closure_boxA
+SIDEExplicitFormula.Schema.ZQ.OffZero.boxA_isBounded
+SIDEExplicitFormula.Schema.ZQ.OffZero.closure_boxA
+SIDEExplicitFormula.Schema.ZQ.OffZero.mem_closure_boxA
 SIDEExplicitFormula.Schema.liCoeffCfg
 SIDEExplicitFormula.Schema.liCoeff_eq_liCoeffCfg
 SIDEExplicitFormula.Schema.liCoeffCfg_summable
@@ -172,6 +181,3 @@ SIDEExplicitFormula.Schema.ZQ.EF.zq_premises
 SIDEExplicitFormula.Schema.ZQ.EF.zq_count_instance
 SIDEExplicitFormula.Schema.ZQ.EF.zq_explicit_formula_instance
 SIDEExplicitFormula.Schema.ZQ.EF.zq_li_nonneg_imp_online_instance
-SIDEExplicitFormula.Schema.ZQ.OffZero.boxA_isBounded
-SIDEExplicitFormula.Schema.ZQ.OffZero.closure_boxA
-SIDEExplicitFormula.Schema.ZQ.OffZero.mem_closure_boxA
