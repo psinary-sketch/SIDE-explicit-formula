@@ -34,7 +34,7 @@ theorem boxA_isBounded : Bornology.IsBounded boxA :=
   (Metric.isBounded_Ioo x0 x1).reProdIm (Metric.isBounded_Ioo y0 y1)
 
 theorem closure_boxA : closure boxA = Icc x0 x1 ×ℂ Icc y0 y1 := by
-  rw [boxA, closure_reProdIm, closure_Ioo x0_lt_x1.ne, closure_Ioo y0_lt_y1.ne]
+  rw [boxA, Complex.closure_reProdIm,closure_Ioo x0_lt_x1.ne, closure_Ioo y0_lt_y1.ne]
 
 theorem mem_closure_boxA {z : ℂ} (hz : z ∈ closure boxA) :
     x0 ≤ z.re ∧ z.re ≤ x1 ∧ y0 ≤ z.im ∧ z.im ≤ y1 := by
