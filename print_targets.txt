@@ -1,3 +1,13 @@
+SIDEExplicitFormula.Schema.ZQ.OffZero.exp_mem_Icc
+SIDEExplicitFormula.Schema.ZQ.OffZero.cos_sub_sum_le
+SIDEExplicitFormula.Schema.ZQ.OffZero.sin_sub_sum_le
+SIDEExplicitFormula.Schema.ZQ.OffZero.log_mem_Icc
+SIDEExplicitFormula.Schema.ZQ.OffZero.ofReal_cpow_eq
+SIDEExplicitFormula.Schema.ZQ.OffZero.norm_inv_Gamma_le
+SIDEExplicitFormula.Schema.ZQ.OffZero.norm_inv_Gamma_centre_le
+SIDEExplicitFormula.Schema.ZQ.OffZero.norm_qBase_cpow_centre_le
+SIDEExplicitFormula.Schema.ZQ.OffZero.zqFn_eq_centre
+SIDEExplicitFormula.Schema.ZQ.OffZero.zqFn_centre_le
 SIDEExplicitFormula.Schema.ZQ.OffZero.incGamma1_integrableOn
 SIDEExplicitFormula.Schema.ZQ.OffZero.norm_incGamma1_le
 SIDEExplicitFormula.Schema.ZQ.OffZero.thetaTr_sub_one

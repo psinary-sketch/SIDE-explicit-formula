@@ -152,7 +152,7 @@ theorem tail_integrableOn {w : ℂ} (hw : w.re ≤ 1) :
     fun_prop
   have hc : ContinuousOn (fun t : ℝ => (t : ℂ) ^ (w - 1) * ((thetaU (cc * t) - thetaTr (cc * t) : ℝ) : ℂ)) (Ioi 0) := by
     refine (h1.mul (thetaC_continuousOn.sub h2.continuousOn)).congr (fun t _ => ?_)
-    simp only [thetaC, Complex.ofReal_sub]
+    simp only [Pi.mul_apply, Pi.sub_apply, thetaC, Complex.ofReal_sub]
   refine Integrable.mono' tail_bound_integrableOn ((hc.mono (Ioi_subset_Ioi zero_le_one)).aestronglyMeasurable
     measurableSet_Ioi) ?_
   exact ae_restrict_of_forall_mem measurableSet_Ioi (fun t ht => norm_tail_le hw ht)
