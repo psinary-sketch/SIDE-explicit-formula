@@ -129,7 +129,6 @@ theorem step_le {s : ℂ} (hs : 0 ≤ s.re) {x : ℝ} (hx : 0 < x) :
       congr 1
       push_cast
       field_simp
-      ring
     rw [e1, e2]
     have h1 := Real.add_one_le_exp (2 * s.re / (x + 1) + ‖s‖ ^ 2 / (x + 1) ^ 2)
     have h2 : Real.exp (2 * s.re / (x + 1) + ‖s‖ ^ 2 / (x + 1) ^ 2) * Real.exp (-(2 * s.re / (x + 1)))
@@ -162,7 +161,6 @@ theorem invSeqN_succ_le {s : ℂ} (hs : 0 ≤ s.re) {n : ℕ} (hn : 0 < n) :
       Real.div_rpow hn0.le (by linarith : (0 : ℝ) ≤ (n : ℝ) + 1) s.re]
     push_cast
     field_simp [hp.ne', hp1.ne', hf.ne']
-    ring
   rw [heq]
   exact mul_le_mul_of_nonneg_left (step_le hs hn0) (invSeqN_nonneg s n)
 
