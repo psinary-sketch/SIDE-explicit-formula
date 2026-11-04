@@ -1,3 +1,10 @@
+SIDEExplicitFormula.Schema.ZQ.OffZero.incGamma1_integrableOn
+SIDEExplicitFormula.Schema.ZQ.OffZero.norm_incGamma1_le
+SIDEExplicitFormula.Schema.ZQ.OffZero.thetaTr_sub_one
+SIDEExplicitFormula.Schema.ZQ.OffZero.sum_incGamma1_eq
+SIDEExplicitFormula.Schema.ZQ.OffZero.tail_numeric
+SIDEExplicitFormula.Schema.ZQ.OffZero.lamM_sub_trunc
+SIDEExplicitFormula.Schema.ZQ.OffZero.norm_shell_le
 SIDEExplicitFormula.Schema.ZQ.OffZero.zq_thetaC_tail
 SIDEExplicitFormula.Schema.ZQ.OffZero.zq_theta_tail
 SIDEExplicitFormula.Schema.ZQ.OffZero.tail_le
