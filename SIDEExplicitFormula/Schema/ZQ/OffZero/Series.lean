@@ -97,8 +97,8 @@ theorem lowInt_sub_sum_le {w : ℂ} (hw : 0 < w.re) {a : ℝ} (ha : 0 ≤ a) {n 
       ≤ 2 * a ^ n / (n.factorial * (w.re + n)) := by
   have hn0 : (0 : ℝ) ≤ n := Nat.cast_nonneg n
   have hP : IntegrableOn (fun t : ℝ => (t : ℂ) ^ (w - 1) * expPoly a n t) (Ioc 0 1) := by
-    refine IntegrableOn.congr_fun (integrable_finsetSum _ (fun k _ => Integrable.const_mul (poly_integrableOn hw k)
-      (((-a) ^ k / k.factorial : ℝ) : ℂ))) ?_ measurableSet_Ioc
+    refine IntegrableOn.congr_fun (integrable_finsetSum (Finset.range n) (fun k _ => Integrable.const_mul
+      (poly_integrableOn hw k) (((-a) ^ k / k.factorial : ℝ) : ℂ))) ?_ measurableSet_Ioc
     intro t ht
     exact (kernel_poly_eq ht.1 n).symm
   rw [← integral_kernel_poly hw a n, lowInt, ← integral_sub (lowInt_integrableOn hw a) hP]
@@ -132,7 +132,8 @@ theorem lowInt_sub_sum_le {w : ℂ} (hw : 0 < w.re) {a : ℝ} (ha : 0 ≤ a) {n 
     rw [MeasureTheory.integral_const_mul, ← intervalIntegral.integral_of_le zero_le_one, integral_rpow (Or.inl hr)]
     have e : w.re - 1 + n + 1 = w.re + n := by ring
     rw [e, Real.one_rpow, Real.zero_rpow hne, sub_zero]
-    ring
+    have hf : (n.factorial : ℝ) ≠ 0 := by positivity
+    field_simp <;> ring
 
 /-- `|e^(−u) − e^(−v)| ≤ |u − v| e^(−M)` for `u, v ≥ M`. -/
 theorem abs_exp_neg_sub_le {u v M : ℝ} (hu : M ≤ u) (hv : M ≤ v) :

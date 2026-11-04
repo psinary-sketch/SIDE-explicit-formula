@@ -150,8 +150,10 @@ theorem sum_eq_qc (X wr wi : ℚ) (hw : 0 < wr) (n : ℕ) :
     rw [Finset.sum_range_succ, ih]
     have hw' : (0 : ℝ) < wr := by exact_mod_cast hw
     have hk : (0 : ℝ) < (wr : ℝ) + n := by positivity
-    have hD : ((wr : ℝ) + n) * ((wr : ℝ) + n) + (wi : ℝ) * wi ≠ 0 := by positivity
-    have hD2 : ((wr : ℝ) + n) ^ 2 + (wi : ℝ) ^ 2 ≠ 0 := by positivity
+    have hD : ((wr : ℝ) + n) * ((wr : ℝ) + n) + (wi : ℝ) * wi ≠ 0 :=
+      (show (0 : ℝ) < _ by nlinarith [mul_pos hk hk, mul_self_nonneg (wi : ℝ)]).ne'
+    have hD2 : ((wr : ℝ) + n) ^ 2 + (wi : ℝ) ^ 2 ≠ 0 :=
+      (show (0 : ℝ) < _ by nlinarith [pow_pos hk 2, sq_nonneg (wi : ℝ)]).ne'
     have hf : (n.factorial : ℝ) ≠ 0 := by positivity
     apply Complex.ext
     · simp only [Complex.add_re, Complex.div_re, Complex.normSq_apply, Complex.ofReal_re, Complex.ofReal_im,
