@@ -1,4 +1,11 @@
 SIDEExplicitFormula.Schema.ZQ.OffZero.time_sRe_18
+SIDEExplicitFormula.Schema.ZQ.OffZero.Gamma_split
+SIDEExplicitFormula.Schema.ZQ.OffZero.lowInt_sub_sum_le
+SIDEExplicitFormula.Schema.ZQ.OffZero.incGamma1_sub_le
+SIDEExplicitFormula.Schema.ZQ.OffZero.one_div_cpow_two_pow
+SIDEExplicitFormula.Schema.ZQ.OffZero.inD_mul
+SIDEExplicitFormula.Schema.ZQ.OffZero.sum_eq_qc
+SIDEExplicitFormula.Schema.ZQ.OffZero.qc_expS
 SIDEExplicitFormula.Schema.ZQ.OffZero.exp_mem_Icc
 SIDEExplicitFormula.Schema.ZQ.OffZero.cos_sub_sum_le
 SIDEExplicitFormula.Schema.ZQ.OffZero.sin_sub_sum_le
