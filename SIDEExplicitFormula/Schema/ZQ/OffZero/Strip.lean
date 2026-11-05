@@ -68,9 +68,8 @@ theorem gamma4_integrableOn : IntegrableOn (fun t : ℝ => t ^ ((4 : ℝ) - 1) *
 theorem gamma4_integral : ∫ t in Ioi (0 : ℝ), t ^ ((4 : ℝ) - 1) * Real.exp (-(lam * t)) = 6 / lam ^ 4 := by
   rw [Real.integral_rpow_mul_exp_neg_mul_Ioi (by norm_num) lam_pos]
   have hG : Real.Gamma 4 = 6 := by
-    have h := Real.Gamma_nat_eq_factorial 3
-    norm_num [Nat.factorial] at h
-    exact h
+    rw [show (4 : ℝ) = ((3 : ℕ) : ℝ) + 1 by norm_num, Real.Gamma_nat_eq_factorial]
+    norm_num [Nat.factorial]
   rw [hG, show (4 : ℝ) = ((4 : ℕ) : ℝ) by norm_num, Real.rpow_natCast, div_pow, one_pow]
   ring
 

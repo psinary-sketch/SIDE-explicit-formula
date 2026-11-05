@@ -25,6 +25,11 @@ SIDEExplicitFormula.Schema.ZQ.OffZero.norm_dcVec_sub_le
 SIDEExplicitFormula.Schema.ZQ.OffZero.norm_pow_sub_pow_le
 SIDEExplicitFormula.Schema.ZQ.OffZero.norm_poly_sub_le
 SIDEExplicitFormula.Schema.ZQ.OffZero.DiffContOnCl.norm_sub_le_of_sphere
+SIDEExplicitFormula.Schema.ZQ.OffZero.boxM_qN
+SIDEExplicitFormula.Schema.ZQ.OffZero.mid_sum_le
+SIDEExplicitFormula.Schema.ZQ.OffZero.lamM_sub_shellSum_fine
+SIDEExplicitFormula.Schema.ZQ.OffZero.inD_conj
+SIDEExplicitFormula.Schema.ZQ.OffZero.gamma4_integral
 SIDEExplicitFormula.Schema.ZQ.OffZero.time_sRe_18
 SIDEExplicitFormula.Schema.ZQ.OffZero.Gamma_split
 SIDEExplicitFormula.Schema.ZQ.OffZero.lowInt_sub_sum_le

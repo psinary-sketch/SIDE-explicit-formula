@@ -41,10 +41,10 @@ theorem norm_dcVec_sub_le {E : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E]
   simp_rw [← smul_sub]
   rw [norm_smul, norm_smul]
   have hj : ‖∑ j ∈ range M, ((ω ^ j)⁻¹) ^ k • (v j - v' j)‖ ≤ M * δ := by
-    refine (norm_sum_le _ _).trans ((Finset.sum_le_sum fun j hj => ?_).trans (le_of_eq ?_))
+    refine (norm_sum_le _ _).trans ((Finset.sum_le_sum (g := fun _ => δ) fun j hj => ?_).trans (le_of_eq ?_))
     · rw [norm_smul, norm_pow, norm_inv, norm_pow, hω.norm'_eq_one hM.ne', one_pow, inv_one, one_pow, one_mul]
       exact hv j (Finset.mem_range.1 hj)
-    · rw [Finset.sum_const, Finset.card_range, nsmul_eq_mul]
+    · simp
   have hk : ‖(u / (ρ : ℂ)) ^ k‖ ≤ (r / ρ) ^ k := by
     rw [norm_pow, norm_div, Complex.norm_real, Real.norm_of_nonneg hρ.le]
     exact pow_le_pow_left₀ (div_nonneg (norm_nonneg _) hρ.le) (div_le_div_of_nonneg_right hu hρ.le) k
@@ -53,7 +53,7 @@ theorem norm_dcVec_sub_le {E : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E]
   calc ‖(u / (ρ : ℂ)) ^ k‖ * ((M : ℝ)⁻¹ * ‖∑ j ∈ range M, ((ω ^ j)⁻¹) ^ k • (v j - v' j)‖)
       ≤ (r / ρ) ^ k * ((M : ℝ)⁻¹ * (M * δ)) :=
         mul_le_mul hk (mul_le_mul_of_nonneg_left hj (by positivity)) (by positivity) (pow_nonneg (div_nonneg hr hρ.le) k)
-    _ = δ * (r / ρ) ^ k := by rw [← mul_assoc, inv_mul_cancel₀ hMr, one_mul, mul_comm]
+    _ = δ * (r / ρ) ^ k := by rw [inv_mul_cancel_left₀ hMr, mul_comm]
 
 theorem norm_pow_sub_pow_le {u u' : ℂ} {r : ℝ} (hu : ‖u‖ ≤ r) (hu' : ‖u'‖ ≤ r) (k : ℕ) :
     ‖u ^ k - u' ^ k‖ ≤ k * r ^ (k - 1) * ‖u - u'‖ := by
@@ -125,7 +125,7 @@ theorem DiffContOnCl.norm_sub_le_of_sphere {E : Type*} [NormedAddCommGroup E] [N
     calc ‖a - b‖ * (‖z - a‖⁻¹ * ‖z - b‖⁻¹) * ‖f z‖ ≤ ‖a - b‖ * ((R - s)⁻¹ * (R - s)⁻¹) * B :=
           mul_le_mul (mul_le_mul_of_nonneg_left (mul_le_mul hia' hib' (by positivity) (by positivity)) (norm_nonneg _)) hB'
             (norm_nonneg _) (by positivity)
-      _ = ‖a - b‖ / (R - s) ^ 2 * B := by ring
+      _ = ‖a - b‖ / (R - s) ^ 2 * B := by rw [div_eq_mul_inv, ← inv_pow]; ring
   refine (circleIntegral.norm_two_pi_i_inv_smul_integral_le_of_norm_le_const hR.le hbound).trans (le_of_eq ?_)
   ring
 
