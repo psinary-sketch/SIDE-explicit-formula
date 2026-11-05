@@ -1,3 +1,12 @@
+SIDEExplicitFormula.Schema.ZQ.OffZero.discreteCauchy
+SIDEExplicitFormula.Schema.ZQ.OffZero.rootSum_inv_pow_mul_pow
+SIDEExplicitFormula.Schema.ZQ.OffZero.nodeKernel_eq
+SIDEExplicitFormula.Schema.ZQ.OffZero.kernel_eq
+SIDEExplicitFormula.Schema.ZQ.OffZero.circleIntegral_finsetSum
+SIDEExplicitFormula.Schema.ZQ.OffZero.node_mem_ball
+SIDEExplicitFormula.Schema.ZQ.OffZero.continuousOn_sub_inv_smul
+SIDEExplicitFormula.Schema.ZQ.OffZero.sub_discreteCauchy_eq
+SIDEExplicitFormula.Schema.ZQ.OffZero.DiffContOnCl.norm_sub_discreteCauchy_le
 SIDEExplicitFormula.Schema.ZQ.OffZero.time_sRe_18
 SIDEExplicitFormula.Schema.ZQ.OffZero.Gamma_split
 SIDEExplicitFormula.Schema.ZQ.OffZero.lowInt_sub_sum_le
