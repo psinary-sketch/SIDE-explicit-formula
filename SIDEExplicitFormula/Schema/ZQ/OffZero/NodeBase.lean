@@ -78,6 +78,11 @@ theorem lamM_sub_shellSum_fine {w : ℂ} (hw : w.re ≤ 1) :
     _ ≤ ‖lamM w - (shellSum w + (M + B))‖ + (‖M‖ + ‖B‖) := add_le_add le_rfl (norm_add_le _ _)
     _ ≤ 1 / 10 ^ 30 + (12 / 10 ^ 15 + 1 / 10 ^ 16) := add_le_add hT (add_le_add hM hB)
 
+/-- A rational point is in its own disc of radius `0`. -/
+theorem inD_self (t : ℚ × ℚ) : inD (qc t) t 0 := by
+  unfold inD
+  simp
+
 /-- The conjugate of a disc. -/
 theorem inD_conj {z : ℂ} {c : ℚ × ℚ} {r : ℚ} (h : inD z c r) : inD (conj z) (c.1, -c.2) r := by
   unfold inD at *
