@@ -381,16 +381,16 @@ def MLO : ℚ := (17 / 1000000000000 : ℚ)
 
 def cIq : ℚ × ℚ := ((1 : ℚ) / 2, (16290216 : ℚ) / 1000000)
 
-theorem check_bottom : ∀ i < 20, MLO ^ 2 ≤ normSqQ (polyQ ctab (qsub ((85326 : ℚ) / 100000 + 1 / 200 + (i : ℚ) * (1 / 100), (16190216 : ℚ) / 1000000) cIq)) := by
+theorem check_bottom : ∀ i : ℕ, i < 20 → MLO ^ 2 ≤ normSqQ (polyQ ctab (qsub ((85326 : ℚ) / 100000 + 1 / 200 + ((i : ℕ) : ℚ) * (1 / 100), (16190216 : ℚ) / 1000000) cIq)) := by
   decide +kernel
 
-theorem check_top : ∀ i < 20, MLO ^ 2 ≤ normSqQ (polyQ ctab (qsub ((85326 : ℚ) / 100000 + 1 / 200 + (i : ℚ) * (1 / 100), (16390216 : ℚ) / 1000000) cIq)) := by
+theorem check_top : ∀ i : ℕ, i < 20 → MLO ^ 2 ≤ normSqQ (polyQ ctab (qsub ((85326 : ℚ) / 100000 + 1 / 200 + ((i : ℕ) : ℚ) * (1 / 100), (16390216 : ℚ) / 1000000) cIq)) := by
   decide +kernel
 
-theorem check_left : ∀ i < 20, MLO ^ 2 ≤ normSqQ (polyQ ctab (qsub ((85326 : ℚ) / 100000, (16190216 : ℚ) / 1000000 + 1 / 200 + (i : ℚ) * (1 / 100)) cIq)) := by
+theorem check_left : ∀ i : ℕ, i < 20 → MLO ^ 2 ≤ normSqQ (polyQ ctab (qsub ((85326 : ℚ) / 100000, (16190216 : ℚ) / 1000000 + 1 / 200 + ((i : ℕ) : ℚ) * (1 / 100)) cIq)) := by
   decide +kernel
 
-theorem check_right : ∀ i < 20, MLO ^ 2 ≤ normSqQ (polyQ ctab (qsub ((105326 : ℚ) / 100000, (16190216 : ℚ) / 1000000 + 1 / 200 + (i : ℚ) * (1 / 100)) cIq)) := by
+theorem check_right : ∀ i : ℕ, i < 20 → MLO ^ 2 ≤ normSqQ (polyQ ctab (qsub ((105326 : ℚ) / 100000, (16190216 : ℚ) / 1000000 + 1 / 200 + ((i : ℕ) : ℚ) * (1 / 100)) cIq)) := by
   decide +kernel
 
 /-- **G5, the margin**: `MLO − LPq/200 − REM − DELq·A − ECq ≥ 1/10^12`, REM the aliasing lemma's bound at `B 120, R 3, M 20, ρ 49/100,

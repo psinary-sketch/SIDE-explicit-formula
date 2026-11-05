@@ -95,7 +95,7 @@ theorem edge_bottom {z : ℂ} (hzc : z ∈ closure boxA) (hre : z.re ∈ Icc x0 
   have him' : z.im = 16190216 / 1000000 := him
   refine edge_close (1 / 200) 0 (by norm_num) hzc ?_ ?_ ?_ ?_ ?_ ?_ ?_ ?_ (check_bottom i hi)
   all_goals (try dsimp only)
-  all_goals (push_cast [x0, x1, y0, y1]; linarith)
+  all_goals (push_cast [x0, x1, y0, y1]; try linarith)
 
 theorem edge_top {z : ℂ} (hzc : z ∈ closure boxA) (hre : z.re ∈ Icc x0 x1) (him : z.im = y1) :
     (1 : ℝ) / 10 ^ 12 ≤ ‖lamF z‖ := by
@@ -108,7 +108,7 @@ theorem edge_top {z : ℂ} (hzc : z ∈ closure boxA) (hre : z.re ∈ Icc x0 x1)
   have him' : z.im = 16390216 / 1000000 := him
   refine edge_close (1 / 200) 0 (by norm_num) hzc ?_ ?_ ?_ ?_ ?_ ?_ ?_ ?_ (check_top i hi)
   all_goals (try dsimp only)
-  all_goals (push_cast [x0, x1, y0, y1]; linarith)
+  all_goals (push_cast [x0, x1, y0, y1]; try linarith)
 
 theorem edge_left {z : ℂ} (hzc : z ∈ closure boxA) (hre : z.re = x0) (him : z.im ∈ Icc y0 y1) :
     (1 : ℝ) / 10 ^ 12 ≤ ‖lamF z‖ := by
@@ -121,7 +121,7 @@ theorem edge_left {z : ℂ} (hzc : z ∈ closure boxA) (hre : z.re = x0) (him : 
   have hre' : z.re = 85326 / 100000 := hre
   refine edge_close 0 (1 / 200) (by norm_num) hzc ?_ ?_ ?_ ?_ ?_ ?_ ?_ ?_ (check_left i hi)
   all_goals (try dsimp only)
-  all_goals (push_cast [x0, x1, y0, y1]; linarith)
+  all_goals (push_cast [x0, x1, y0, y1]; try linarith)
 
 theorem edge_right {z : ℂ} (hzc : z ∈ closure boxA) (hre : z.re = x1) (him : z.im ∈ Icc y0 y1) :
     (1 : ℝ) / 10 ^ 12 ≤ ‖lamF z‖ := by
@@ -134,7 +134,7 @@ theorem edge_right {z : ℂ} (hzc : z ∈ closure boxA) (hre : z.re = x1) (him :
   have hre' : z.re = 105326 / 100000 := hre
   refine edge_close 0 (1 / 200) (by norm_num) hzc ?_ ?_ ?_ ?_ ?_ ?_ ?_ ?_ (check_right i hi)
   all_goals (try dsimp only)
-  all_goals (push_cast [x0, x1, y0, y1]; linarith)
+  all_goals (push_cast [x0, x1, y0, y1]; try linarith)
 
 /-- **G5, the frontier**: `1/10^12 ≤ ‖lamF z‖` on the whole frontier of box A. -/
 theorem lamF_frontier_ge : ∀ z ∈ frontier boxA, (1 : ℝ) / 10 ^ 12 ≤ ‖lamF z‖ := by
