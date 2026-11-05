@@ -10,6 +10,15 @@ SIDEExplicitFormula.Schema.ZQ.OffZero.boxS_qN
 SIDEExplicitFormula.Schema.ZQ.OffZero.boxM_card
 SIDEExplicitFormula.Schema.ZQ.OffZero.boxB_card
 SIDEExplicitFormula.Schema.ZQ.OffZero.lamM_sub_shellSum
+SIDEExplicitFormula.Schema.ZQ.OffZero.lam_lo
+SIDEExplicitFormula.Schema.ZQ.OffZero.lam_hi
+SIDEExplicitFormula.Schema.ZQ.OffZero.incGamma1_split
+SIDEExplicitFormula.Schema.ZQ.OffZero.GX_encl
+SIDEExplicitFormula.Schema.ZQ.OffZero.two_cpow_encl
+SIDEExplicitFormula.Schema.ZQ.OffZero.inD_transfer
+SIDEExplicitFormula.Schema.ZQ.OffZero.lamM_centre_encl
+SIDEExplicitFormula.Schema.ZQ.OffZero.zqFn_centre_eps
+SIDEExplicitFormula.Schema.ZQ.OffZero.zqFn_centre_small
 SIDEExplicitFormula.Schema.ZQ.OffZero.exp_mem_Icc
 SIDEExplicitFormula.Schema.ZQ.OffZero.cos_sub_sum_le
 SIDEExplicitFormula.Schema.ZQ.OffZero.sin_sub_sum_le
