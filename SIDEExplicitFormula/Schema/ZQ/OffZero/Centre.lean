@@ -129,7 +129,7 @@ theorem S_wA : inD (shellSum (qc wA)) ((46705440609457440764011 / 50000000000000
   exact inD_recentre (inD_add' (inD_add' (inD_add' (inD_add' (inD_add' (inD_add' (inD_add' (inD_nat_mul' 2 T1_wA) (inD_nat_mul' 2 T4_wA)) (inD_nat_mul' 4 T6_wA)) (inD_nat_mul' 4 T8_wA)) (inD_nat_mul' 2 T9_wA)) (inD_nat_mul' 4 T12_wA)) (inD_nat_mul' 2 T16_wA)) (inD_nat_mul' 4 T18_wA)) (by decide +kernel)
 
 theorem L_wA : inD (lamM (qc wA)) ((46705440609457440764011 / 50000000000000000000000000 : ℚ), (106176241562476207597953 / 3125000000000000000000000 : ℚ)) ((1592969753 / 50000000000000000000000000 : ℚ) + (1 / 10 ^ 30 + (5 / 10 ^ 14 + 1 / 10 ^ 16))) :=
-  inD_near S_%s (by
+  inD_near S_wA (by
     rw [show ((1 / 10 ^ 30 + (5 / 10 ^ 14 + 1 / 10 ^ 16) : ℚ) : ℝ) = 1 / 10 ^ 30 + (5 / 10 ^ 14 + 1 / 10 ^ 16) by norm_num]
     exact lamM_sub_shellSum wA_re_le)
 
@@ -225,7 +225,7 @@ theorem S_wB : inD (shellSum (qc wB)) ((70548460622963018287413 / 25000000000000
   exact inD_recentre (inD_add' (inD_add' (inD_add' (inD_add' (inD_add' (inD_add' (inD_add' (inD_nat_mul' 2 T1_wB) (inD_nat_mul' 2 T4_wB)) (inD_nat_mul' 4 T6_wB)) (inD_nat_mul' 4 T8_wB)) (inD_nat_mul' 2 T9_wB)) (inD_nat_mul' 4 T12_wB)) (inD_nat_mul' 2 T16_wB)) (inD_nat_mul' 4 T18_wB)) (by decide +kernel)
 
 theorem L_wB : inD (lamM (qc wB)) ((70548460622963018287413 / 25000000000000000000000000 : ℚ), (-1688370769803601506912073 / 50000000000000000000000000 : ℚ)) ((56192119 / 6250000000000000000000000 : ℚ) + (1 / 10 ^ 30 + (5 / 10 ^ 14 + 1 / 10 ^ 16))) :=
-  inD_near S_%s (by
+  inD_near S_wB (by
     rw [show ((1 / 10 ^ 30 + (5 / 10 ^ 14 + 1 / 10 ^ 16) : ℚ) : ℝ) = 1 / 10 ^ 30 + (5 / 10 ^ 14 + 1 / 10 ^ 16) by norm_num]
     exact lamM_sub_shellSum wB_re_le)
 
