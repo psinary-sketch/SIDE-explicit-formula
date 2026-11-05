@@ -129,7 +129,9 @@ theorem S_wA : inD (shellSum (qc wA)) ((46705440609457440764011 / 50000000000000
   exact inD_recentre (inD_add' (inD_add' (inD_add' (inD_add' (inD_add' (inD_add' (inD_add' (inD_nat_mul' 2 T1_wA) (inD_nat_mul' 2 T4_wA)) (inD_nat_mul' 4 T6_wA)) (inD_nat_mul' 4 T8_wA)) (inD_nat_mul' 2 T9_wA)) (inD_nat_mul' 4 T12_wA)) (inD_nat_mul' 2 T16_wA)) (inD_nat_mul' 4 T18_wA)) (by decide +kernel)
 
 theorem L_wA : inD (lamM (qc wA)) ((46705440609457440764011 / 50000000000000000000000000 : ℚ), (106176241562476207597953 / 3125000000000000000000000 : ℚ)) ((1592969753 / 50000000000000000000000000 : ℚ) + (1 / 10 ^ 30 + (5 / 10 ^ 14 + 1 / 10 ^ 16))) :=
-  inD_near S_wA (by exact_mod_cast lamM_sub_shellSum wA_re_le)
+  inD_near S_%s (by
+    rw [show ((1 / 10 ^ 30 + (5 / 10 ^ 14 + 1 / 10 ^ 16) : ℚ) : ℝ) = 1 / 10 ^ 30 + (5 / 10 ^ 14 + 1 / 10 ^ 16) by norm_num]
+    exact lamM_sub_shellSum wA_re_le)
 
 theorem two_wB : inD ((2 : ℂ) ^ qc wB) ((1506226197922062218983747 / 5000000000000000000000000 : ℚ), (98802429623176737581490867 / 100000000000000000000000000 : ℚ)) (105313698393846799 / 25000000000000000000000000 : ℚ) :=
   two_cpow_encl wB 24 (by norm_num) (by decide +kernel) (by decide +kernel) (by decide +kernel)
@@ -223,7 +225,9 @@ theorem S_wB : inD (shellSum (qc wB)) ((70548460622963018287413 / 25000000000000
   exact inD_recentre (inD_add' (inD_add' (inD_add' (inD_add' (inD_add' (inD_add' (inD_add' (inD_nat_mul' 2 T1_wB) (inD_nat_mul' 2 T4_wB)) (inD_nat_mul' 4 T6_wB)) (inD_nat_mul' 4 T8_wB)) (inD_nat_mul' 2 T9_wB)) (inD_nat_mul' 4 T12_wB)) (inD_nat_mul' 2 T16_wB)) (inD_nat_mul' 4 T18_wB)) (by decide +kernel)
 
 theorem L_wB : inD (lamM (qc wB)) ((70548460622963018287413 / 25000000000000000000000000 : ℚ), (-1688370769803601506912073 / 50000000000000000000000000 : ℚ)) ((56192119 / 6250000000000000000000000 : ℚ) + (1 / 10 ^ 30 + (5 / 10 ^ 14 + 1 / 10 ^ 16))) :=
-  inD_near S_wB (by exact_mod_cast lamM_sub_shellSum wB_re_le)
+  inD_near S_%s (by
+    rw [show ((1 / 10 ^ 30 + (5 / 10 ^ 14 + 1 / 10 ^ 16) : ℚ) : ℝ) = 1 / 10 ^ 30 + (5 / 10 ^ 14 + 1 / 10 ^ 16) by norm_num]
+    exact lamM_sub_shellSum wB_re_le)
 
 def tInv : ℚ × ℚ := ((345593349868562500000000 / 92009851860488517796974627 : ℚ), (6409464673750000000000 / 30669950620162839265658209 : ℚ))
 
@@ -244,7 +248,8 @@ theorem lamM_centre_encl : ‖lamM cA + lamM (1 - cA) - 1 / (cA * (1 - cA))‖ �
   rw [inv_centre_eq, one_sub_cA_eq, cA_eq]
   have h := inD_recentre (inD_add' L_wA L_wB) (c := tInv) (r := 6 / 10 ^ 13) (by decide +kernel)
   unfold inD at h
-  exact_mod_cast h
+  rw [show ((6 / 10 ^ 13 : ℚ) : ℝ) = 6 / 10 ^ 13 by norm_num] at h
+  exact h
 
 /-- **SP3, (d8) at (c7)'s δ** `‖zqFn cA‖ ≤ 13103/10000 · 16012218800 · 6/10^13 = 1573560772023/125000000000000`. -/
 theorem zqFn_centre_eps : ‖zqFn cA‖ ≤ (1573560772023 / 125000000000000) :=

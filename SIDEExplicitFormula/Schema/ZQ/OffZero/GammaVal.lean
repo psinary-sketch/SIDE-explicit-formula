@@ -143,7 +143,8 @@ theorem GX_encl (w : ℚ × ℚ) (hw : 0 < w.1) (hw1 : w.1 ≤ 1) {X : ℚ} (hX 
   have hl := inD_recentre (lowInt_encl w hw (by linarith) n hn) (c := c) le_rfl
   have hI : ‖incGamma1 (qc w) X‖ ≤ ((1 / 10 ^ 19 : ℚ) : ℝ) := by
     have h := norm_incGamma1_X (w := qc w) (by rw [qc_re]; exact_mod_cast hw1) hX'
-    exact_mod_cast h
+    rw [show ((1 / 10 ^ 19 : ℚ) : ℝ) = 1 / 10 ^ 19 by norm_num]
+    exact h
   unfold Gfac
   have hX0 : (0 : ℝ) < X := by linarith
   rw [Gamma_split (w := qc w) (a := (X : ℝ)) (by rw [qc_re]; exact_mod_cast hw) hX0]
@@ -204,7 +205,8 @@ theorem corr_encl (w : ℚ × ℚ) (hd : qn w ≤ 10 ^ 10) :
   have hL : |Real.log 2 - (L2 : ℝ)| ≤ 1 / 10 ^ 10 := by
     have h := Real.log_two_near_10
     unfold L2
-    exact_mod_cast h
+    rw [show ((287209 / 414355 : ℚ) : ℝ) = 287209 / 414355 by norm_num]
+    exact h
   have hq := norm_qc_le w
   have hd' : (qn w : ℝ) ≤ 10 ^ 10 := by exact_mod_cast hd
   have hx : ‖(((Real.log 2 - (L2 : ℝ) : ℝ) : ℂ) * qc w)‖ ≤ 1 / 10 ^ 10 * qn w := by
@@ -253,8 +255,14 @@ theorem inD_transfer {w : ℂ} (hw : w.re ≤ 1) {q : ℝ} {Q ρ d : ℚ} (hq : 
   have hQ' : (1 : ℝ) ≤ Q := by exact_mod_cast hQ
   have hlo' : (ρ : ℝ) - d ≤ Q * lamLo := by exact_mod_cast hlo
   have hhi' : (Q : ℝ) * lamHi ≤ ρ + d := by exact_mod_cast hhi
-  have h13' : (13 / 10 : ℝ) ≤ ρ := by exact_mod_cast h13
-  have hr' : (r : ℝ) + d * (10 / 3) ≤ r' := by exact_mod_cast hr
+  have h13' : (13 / 10 : ℝ) ≤ ρ := by
+    have h := (Rat.cast_le (K := ℝ)).mpr h13
+    push_cast at h
+    linarith
+  have hr' : (r : ℝ) + d * (10 / 3) ≤ r' := by
+    have h := (Rat.cast_le (K := ℝ)).mpr hr
+    push_cast at h
+    linarith
   have hab : |lam * Q - ρ| ≤ d := by
     rw [abs_le]
     constructor <;> nlinarith [mul_le_mul_of_nonneg_left hl1 (by linarith : (0 : ℝ) ≤ Q),
