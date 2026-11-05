@@ -83,8 +83,16 @@ theorem omg_inD {lo hi clo chi : ℚ} {c : ℚ × ℚ} {r : ℚ} (hlo0 : 0 ≤ l
   have e2 : |Real.sin (π / 10) - (c.2 : ℝ)| ≤ max (((hi : ℝ) - 1) / 4 - (c.2 : ℝ)) ((c.2 : ℝ) - ((lo : ℝ) - 1) / 4) :=
     abs_sub_le_iff.2 ⟨(by rw [hsin]; linarith : Real.sin (π / 10) - (c.2 : ℝ) ≤ ((hi : ℝ) - 1) / 4 - c.2).trans (le_max_left _ _),
       (by rw [hsin]; linarith : (c.2 : ℝ) - Real.sin (π / 10) ≤ c.2 - ((lo : ℝ) - 1) / 4).trans (le_max_right _ _)⟩
-  have hre : (omg - qc c).re = Real.cos (π / 10) - (c.1 : ℝ) := by rw [omg_eq]; simp [qc_re]
-  have him : (omg - qc c).im = Real.sin (π / 10) - (c.2 : ℝ) := by rw [omg_eq]; simp [qc_im]
+  have hre : (omg - qc c).re = Real.cos (π / 10) - (c.1 : ℝ) := by
+    rw [omg_eq]
+    simp only [Complex.sub_re, Complex.add_re, Complex.mul_re, Complex.ofReal_re, Complex.ofReal_im, Complex.I_re,
+      Complex.I_im, qc_re]
+    ring
+  have him : (omg - qc c).im = Real.sin (π / 10) - (c.2 : ℝ) := by
+    rw [omg_eq]
+    simp only [Complex.sub_im, Complex.add_im, Complex.mul_im, Complex.ofReal_re, Complex.ofReal_im, Complex.I_re,
+      Complex.I_im, qc_im]
+    ring
   unfold inD
   refine (Complex.norm_le_abs_re_add_abs_im _).trans (le_trans ?_ hr')
   rw [hre, him]
@@ -192,7 +200,9 @@ theorem node_value_le {n v w : ℚ × ℚ} {rv rw D : ℚ} {j : ℕ}
     norm_num
   have hqn : ‖qc n - cI‖ ≤ 7 / 10 := by
     rw [cI_eq, ← qc_sub]
-    exact (norm_qc_le _).trans (by exact_mod_cast hn)
+    have hn' := (Rat.cast_le (K := ℝ)).mpr hn
+    rw [show ((7 / 10 : ℚ) : ℝ) = 7 / 10 by norm_num] at hn'
+    exact (norm_qc_le _).trans hn'
   have hnear : ‖cI + ((49 / 100 : ℝ) : ℂ) * omg ^ j - qc n‖ ≤ 49 / 100 * (rw : ℝ) + (qn d : ℝ) := by
     have e : cI + ((49 / 100 : ℝ) : ℂ) * omg ^ j - qc n = ((49 / 100 : ℝ) : ℂ) * (omg ^ j - qc w) + qc d := by
       rw [hd, qc_sub, qc_add, qc_scale, cI_eq]
@@ -204,8 +214,8 @@ theorem node_value_le {n v w : ℚ × ℚ} {rv rw D : ℚ} {j : ℕ}
     exact mul_le_mul_of_nonneg_left hW (by norm_num)
   have hdiff := DiffContOnCl.norm_sub_le_of_sphere (s := 7 / 10) (by norm_num) (by norm_num) lamF_diffContOnCl_ball
     lamF_sphere_le hζ hqn
-  have hD' : (rv : ℝ) + 120 * 3 * ((49 / 100) * (rw : ℝ) + (qn d : ℝ)) / (3 - 7 / 10) ^ 2 ≤ (D : ℝ) := by
-    exact_mod_cast hD
+  have hD' := (Rat.cast_le (K := ℝ)).mpr hD
+  push_cast at hD'
   have hF' : ‖lamF (qc n) - qc v‖ ≤ (rv : ℝ) := hF
   have h3 : 120 * 3 * ‖cI + ((49 / 100 : ℝ) : ℂ) * omg ^ j - qc n‖ / (3 - 7 / 10) ^ 2 ≤
       120 * 3 * ((49 / 100) * (rw : ℝ) + (qn d : ℝ)) / (3 - 7 / 10) ^ 2 :=

@@ -281,6 +281,8 @@ theorem F_n19 : inD (lamF (qc n19)) ((822118086913663 / 500000000000000000000000
   rw [lamF_eq_split, e2, e1, lamM_conj]
   exact inD_recentre (inD_sub' (inD_add' L_n19 (inD_conj L_n11)) (inD_self t19)) (by decide +kernel)
 
+end
+
 end OffZero
 end ZQ
 end Schema

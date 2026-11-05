@@ -363,7 +363,9 @@ def ECq : ℚ := (1 / 500000000000000000000000 : ℚ)
 
 theorem ecoef_le : ∑ k ∈ Finset.range 20, ((etab.getD k 0 : ℚ) : ℝ) * (5623 / 10000 : ℝ) ^ k ≤ (ECq : ℝ) := by
   have h : (∑ k ∈ Finset.range 20, etab.getD k 0 * (5623 / 10000 : ℚ) ^ k) ≤ ECq := by decide +kernel
-  exact_mod_cast h
+  have h' := (Rat.cast_le (K := ℝ)).mpr h
+  push_cast at h'
+  exact h'
 
 def LPq : ℚ := (3049 / 5000000000000 : ℚ)
 
@@ -371,7 +373,9 @@ def LPq : ℚ := (3049 / 5000000000000 : ℚ)
 theorem lp_le : ∑ k ∈ Finset.range 20, ‖qc (ctab.getD k 0)‖ * ((k : ℝ) * (5623 / 10000 : ℝ) ^ (k - 1)) ≤ (LPq : ℝ) := by
   refine (Finset.sum_le_sum fun k _ => mul_le_mul_of_nonneg_right (norm_qc_le _) (by positivity)).trans ?_
   have h : (∑ k ∈ Finset.range 20, qn (ctab.getD k 0) * ((k : ℚ) * (5623 / 10000 : ℚ) ^ (k - 1))) ≤ LPq := by decide +kernel
-  exact_mod_cast h
+  have h' := (Rat.cast_le (K := ℝ)).mpr h
+  push_cast at h'
+  exact h'
 
 def MLO : ℚ := (17 / 1000000000000 : ℚ)
 
@@ -395,6 +399,8 @@ theorem margin : (1 : ℝ) / 10 ^ 12 ≤ (MLO : ℝ) - (LPq : ℝ) * (1 / 200)
     - 120 * 3 * ((5623 / 10000 : ℝ) ^ 20 + (49 / 100 : ℝ) ^ 20) / ((3 - 5623 / 10000) * (3 ^ 20 - (49 / 100 : ℝ) ^ 20))
     - (DELq : ℝ) * ∑ k ∈ Finset.range 20, ((5623 / 10000 : ℝ) / (49 / 100)) ^ k - (ECq : ℝ) := by
   norm_num [MLO, LPq, DELq, ECq, Finset.sum_range_succ]
+
+end
 
 end OffZero
 end ZQ
