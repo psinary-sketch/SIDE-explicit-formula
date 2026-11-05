@@ -159,6 +159,9 @@ theorem sub_discreteCauchy_eq {E : Type*} [NormedAddCommGroup E] [NormedSpace �
     rw [Finset.smul_sum, Finset.smul_sum]
     refine Finset.sum_congr rfl fun j _ => ?_
     rw [smul_smul, smul_smul]
+    congr 1
+    simp only [ha]
+    ring
   -- the double sum of integrals as one integral
   have hI : (∮ z in C(c, R), ∑ k ∈ range M, ∑ j ∈ range M, (a k j * (z - (c + (ρ : ℂ) * ω ^ j))⁻¹) • f z) =
       ∑ k ∈ range M, ∑ j ∈ range M, a k j • ∮ z in C(c, R), (z - (c + (ρ : ℂ) * ω ^ j))⁻¹ • f z := by
@@ -209,6 +212,7 @@ theorem sub_discreteCauchy_eq {E : Type*} [NormedAddCommGroup E] [NormedSpace �
   rw [hsplit, hK, show z - (c + u) = z - c - u by ring]
   have hD : (z - c) ^ M - (ρ : ℂ) ^ M ≠ 0 := sub_ne_zero.2 hvM
   have h2 : ((z - c) ^ M - (ρ : ℂ) ^ M) * ((z - c) ^ M - (ρ : ℂ) ^ M)⁻¹ = 1 := mul_inv_cancel₀ hD
+  simp only [div_eq_mul_inv, mul_inv]
   linear_combination (-(z - c - u)⁻¹) * h2
 
 /-- **G1, the aliasing lemma.** For `f` differentiable on `ball c R` and continuous on its closure, `‖f‖ ≤ B` on the sphere, `ω` a primitive
