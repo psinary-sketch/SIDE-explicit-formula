@@ -147,3 +147,7 @@ programme wrote at b573:
 Prints: `AxiomCheckSchemaAct8.lean`, banked at relay `data/b573_schema_prints.txt` -- every declaration within
 `[propext, Classical.choice, Quot.sound]`. Equivalences between open statements: nothing here proves RH or GRH or locates
 any zero.
+
+## Appended at act b743 (ruling (R353)(4)(A)) -- the Epstein instance on the branch zq-b730
+
+The branch `zq-b730` (at `14ca5725`), not this README's main, carries the Epstein zeta of x² + xy + 6y² as a Lean object, 46 modules under `SIDEExplicitFormula/Schema/ZQ/`. On it: one zero of Z_Q0 located off the line in Lean, in box A at γ ≈ 16.29, with the standard three; Li-nonnegativity for zqZeroConfig refuted as a theorem; 68 zeros numerically located stand numerical; nothing here bears on ζ (`zq_offline_zero` and `zq_li_nonneg_fails`, `SIDEExplicitFormula/Schema/ZQ/OffZero/SP4.lean` :32 and :36, run 42068096322). The branch stays a branch; nothing on main changes by this section.
