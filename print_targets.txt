@@ -1,3 +1,13 @@
+SIDEExplicitFormula.Schema.ZetaBox.zeta_box
+SIDEExplicitFormula.Schema.ZetaBox.zw12
+SIDEExplicitFormula.Schema.ZetaBox.zw12_re_pos
+SIDEExplicitFormula.Schema.ZetaBox.zw12_re_le
+SIDEExplicitFormula.Schema.ZetaBox.two_zw12
+SIDEExplicitFormula.Schema.ZetaBox.G_zw12
+SIDEExplicitFormula.Schema.ZetaBox.I_zw12
+SIDEExplicitFormula.Schema.ZetaBox.P_zw12
+SIDEExplicitFormula.Schema.ZetaBox.zLam_12_neg
+SIDEExplicitFormula.Schema.ZetaBox.zeta_sign_12
 SIDEExplicitFormula.Schema.ZetaBox.zw16
 SIDEExplicitFormula.Schema.ZetaBox.zw16_re_pos
 SIDEExplicitFormula.Schema.ZetaBox.zw16_re_le
