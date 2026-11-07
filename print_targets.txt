@@ -294,3 +294,16 @@ SIDEExplicitFormula.Schema.ZQ.EF.zq_premises
 SIDEExplicitFormula.Schema.ZQ.EF.zq_count_instance
 SIDEExplicitFormula.Schema.ZQ.EF.zq_explicit_formula_instance
 SIDEExplicitFormula.Schema.ZQ.EF.zq_li_nonneg_imp_online_instance
+SIDEExplicitFormula.Schema.Wide.pcCarrier
+SIDEExplicitFormula.Schema.Wide.pc_re
+SIDEExplicitFormula.Schema.Wide.pc_reflect
+SIDEExplicitFormula.Schema.Wide.pcCarrier_finite
+SIDEExplicitFormula.Schema.Wide.pcConfig
+SIDEExplicitFormula.Schema.Wide.pcCarrier_ncard_le
+SIDEExplicitFormula.Schema.Wide.pc_N_le
+SIDEExplicitFormula.Schema.Wide.pc_one_le_log
+SIDEExplicitFormula.Schema.Wide.pc_count
+SIDEExplicitFormula.Schema.Wide.pc_ne_zero
+SIDEExplicitFormula.Schema.Wide.online_imp_liCoeff_nonneg
+SIDEExplicitFormula.Schema.Wide.pc_li_nonneg
+SIDEExplicitFormula.Schema.Wide.pc_online
