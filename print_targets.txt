@@ -1,3 +1,8 @@
+SIDEExplicitFormula.Schema.ZetaBox.inD_transfer_pi
+SIDEExplicitFormula.Schema.ZetaBox.lp_half
+SIDEExplicitFormula.Schema.ZetaBox.zM_re_bounds
+SIDEExplicitFormula.Schema.ZetaBox.zLam_neg_of
+SIDEExplicitFormula.Schema.ZetaBox.zLam_pos_of
 SIDEExplicitFormula.Schema.ZetaBox.zA
 SIDEExplicitFormula.Schema.ZetaBox.zB
 SIDEExplicitFormula.Schema.ZetaBox.zM

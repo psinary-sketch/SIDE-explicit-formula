@@ -43,9 +43,11 @@ theorem one_sub_lp_ne_zero (t : ℝ) : 1 - lp t ≠ 0 := fun h => lp_ne_one t (s
 
 /-- On the line, `1/2 − s/2 = conj (s/2)`. -/
 theorem lp_conj (t : ℝ) : 1 / 2 - lp t / 2 = starRingEnd ℂ (lp t / 2) := by
-  first
-  | (apply Complex.ext <;> norm_num [lp]); done
-  | (apply Complex.ext <;> simp [lp] <;> ring)
+  apply Complex.ext
+  · rw [Complex.conj_re]
+    norm_num [lp]
+  · rw [Complex.conj_im]
+    norm_num [lp]
 
 /-- The kernel is real: `M (conj w) = conj (M w)`. -/
 theorem zM_conj (w : ℂ) : zM (starRingEnd ℂ w) = starRingEnd ℂ (zM w) := by
