@@ -95,12 +95,19 @@ theorem boxF_twelve : boxF 12 = {(2, 1), (-3, 1), (3, -1), (-2, -1)} := by
       exact Finset.mem_filter.mpr ⟨Finset.mem_product.mpr ⟨Finset.mem_Icc.mpr ⟨by norm_num, by norm_num⟩,
         Finset.mem_Icc.mpr ⟨by norm_num, by norm_num⟩⟩, by norm_num [Q0form]⟩
 
+/- The boxes for 16, 24 and 48 (65 x 33 points and up) are read through `simp only [boxF, Finset.mem_filter, ...]`, the form of
+Lattice.lean's `preimage_boxF`, and not by unifying a membership against the box's filter, which reached Lean's recursion limit at
+these three sizes in run 43836818700 (b757); the statements are as before. -/
+
+set_option maxRecDepth 4096 in
 /-- The two vectors of norm 16. -/
 theorem boxF_sixteen : boxF 16 = {(4, 0), (-4, 0)} := by
   ext ⟨m, n⟩
+  simp only [boxF, Finset.mem_filter, Finset.mem_product, Finset.mem_Icc, Finset.mem_insert, Finset.mem_singleton,
+    Prod.mk.injEq]
   constructor
-  · intro h
-    have hq : Q0form m n = 16 := by simpa using (Finset.mem_filter.mp h).2
+  · rintro ⟨-, hq0⟩
+    have hq : Q0form m n = 16 := by simpa using hq0
     have h4 := four_mul_Q0form m n
     rw [hq] at h4
     have hb1 : n < 2 := by nlinarith [sq_nonneg (2 * m + n)]
@@ -109,22 +116,20 @@ theorem boxF_sixteen : boxF 16 = {(4, 0), (-4, 0)} := by
     have ha2 : -9 < 2 * m + n := by nlinarith [sq_nonneg n]
     have hc1 : m < 5 := by omega
     have hc2 : -5 < m := by omega
-    clear h h4 ha1 ha2
+    clear hq0 h4 ha1 ha2
     revert hq
     interval_cases n <;> interval_cases m <;> norm_num [Q0form]
-  · intro h
-    unfold boxF
-    simp only [Finset.mem_insert, Finset.mem_singleton, Prod.mk.injEq] at h
-    rcases h with ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ <;>
-      exact Finset.mem_filter.mpr ⟨Finset.mem_product.mpr ⟨Finset.mem_Icc.mpr ⟨by norm_num, by norm_num⟩,
-        Finset.mem_Icc.mpr ⟨by norm_num, by norm_num⟩⟩, by norm_num [Q0form]⟩
+  · rintro (⟨rfl, rfl⟩ | ⟨rfl, rfl⟩) <;> norm_num [Q0form]
 
+set_option maxRecDepth 4096 in
 /-- The four vectors of norm 24. -/
 theorem boxF_twenty_four : boxF 24 = {(0, 2), (-2, 2), (2, -2), (0, -2)} := by
   ext ⟨m, n⟩
+  simp only [boxF, Finset.mem_filter, Finset.mem_product, Finset.mem_Icc, Finset.mem_insert, Finset.mem_singleton,
+    Prod.mk.injEq]
   constructor
-  · intro h
-    have hq : Q0form m n = 24 := by simpa using (Finset.mem_filter.mp h).2
+  · rintro ⟨-, hq0⟩
+    have hq : Q0form m n = 24 := by simpa using hq0
     have h4 := four_mul_Q0form m n
     rw [hq] at h4
     have hb1 : n < 3 := by nlinarith [sq_nonneg (2 * m + n)]
@@ -133,23 +138,21 @@ theorem boxF_twenty_four : boxF 24 = {(0, 2), (-2, 2), (2, -2), (0, -2)} := by
     have ha2 : -10 < 2 * m + n := by nlinarith [sq_nonneg n]
     have hc1 : m < 6 := by omega
     have hc2 : -6 < m := by omega
-    clear h h4 ha1 ha2
+    clear hq0 h4 ha1 ha2
     revert hq
     interval_cases n <;> interval_cases m <;> norm_num [Q0form]
-  · intro h
-    unfold boxF
-    simp only [Finset.mem_insert, Finset.mem_singleton, Prod.mk.injEq] at h
-    rcases h with ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ <;>
-      exact Finset.mem_filter.mpr ⟨Finset.mem_product.mpr ⟨Finset.mem_Icc.mpr ⟨by norm_num, by norm_num⟩,
-        Finset.mem_Icc.mpr ⟨by norm_num, by norm_num⟩⟩, by norm_num [Q0form]⟩
+  · rintro (⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩) <;> norm_num [Q0form]
 
+set_option maxRecDepth 4096 in
 /-- The eight vectors of norm 48. -/
 theorem boxF_forty_eight :
     boxF 48 = {(6, 1), (-7, 1), (7, -1), (-6, -1), (4, 2), (-6, 2), (6, -2), (-4, -2)} := by
   ext ⟨m, n⟩
+  simp only [boxF, Finset.mem_filter, Finset.mem_product, Finset.mem_Icc, Finset.mem_insert, Finset.mem_singleton,
+    Prod.mk.injEq]
   constructor
-  · intro h
-    have hq : Q0form m n = 48 := by simpa using (Finset.mem_filter.mp h).2
+  · rintro ⟨-, hq0⟩
+    have hq : Q0form m n = 48 := by simpa using hq0
     have h4 := four_mul_Q0form m n
     rw [hq] at h4
     have hb1 : n < 3 := by nlinarith [sq_nonneg (2 * m + n)]
@@ -158,15 +161,11 @@ theorem boxF_forty_eight :
     have ha2 : -14 < 2 * m + n := by nlinarith [sq_nonneg n]
     have hc1 : m < 8 := by omega
     have hc2 : -8 < m := by omega
-    clear h h4 ha1 ha2
+    clear hq0 h4 ha1 ha2
     revert hq
     interval_cases n <;> interval_cases m <;> norm_num [Q0form]
-  · intro h
-    unfold boxF
-    simp only [Finset.mem_insert, Finset.mem_singleton, Prod.mk.injEq] at h
-    rcases h with ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ <;>
-      exact Finset.mem_filter.mpr ⟨Finset.mem_product.mpr ⟨Finset.mem_Icc.mpr ⟨by norm_num, by norm_num⟩,
-        Finset.mem_Icc.mpr ⟨by norm_num, by norm_num⟩⟩, by norm_num [Q0form]⟩
+  · rintro (⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩) <;>
+      norm_num [Q0form]
 
 theorem rQ_four : rQ 4 = 2 := by
   rw [rQ_eq_card (show (4 : ℕ) ≠ 0 by norm_num), boxF_four]
