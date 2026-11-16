@@ -123,7 +123,7 @@ def archTermQ (k : ℝ → ℂ) : ℂ :=
 
 /-- **THE EXPLICIT FORMULA FOR Z_Q** -- stated, not proved; open in this kernel. T1-lit (Weil 1952; Bombieri-Lagarias 1999, as
 Schema/Epstein.lean :10-:12 cites them) instantiated: for every even `C²` compactly supported `k`, the zero sum over Λ_Q's zeros equals
-the pole term less the prime-power side plus the archimedean term. Its proof would re-run Zeta23/WeilEF's contour chain for Λ_Q, absent. -/
+the pole term less the prime-power side plus the archimedean term. Its proof would re-run Zeta23/WeilEF's contour chain for Λ_Q, absent. At the instance, the configuration `zqZeroConfig` with the coefficients `cQ`, the structure is proved by `zq_explicitFormula` (Schema/ZQ/EF/Main.lean). -/
 structure ZQExplicitFormula (Z : WideConfig) (c : ℕ → ℝ) : Prop where
   ef : ∀ k : ℝ → ℂ, ContDiff ℝ 2 k → HasCompactSupport k → (∀ x : ℝ, k (-x) = k x) →
     zeroSideQ Z k = poleTerm k - primeTermQ c k + archTermQ k
@@ -133,7 +133,7 @@ structure ZQExplicitFormula (Z : WideConfig) (c : ℕ → ℝ) : Prop where
 /-- **THE Z_Q PREMISES**: (Z1) the continuation and functional equation; (Z2) the zeros of Λ_Q as the configuration `Z`; the
 logarithmic derivative's series on Re s ≥ 3/2 with coefficients `c` (their recursion from `a = r_Q` not written: the series determines
 them); the explicit formula; and the local count `∃ A₀, Wide.HCount Z A₀` (the form `WeilConfig.count` asks, Schema/Config.lean :31; the
-named `A0Q = 10` stands at Schema/EpsteinQ0.lean :104) on the same configuration. Each stated, not proved; open. -/
+named `A0Q = 10` stands at Schema/EpsteinQ0.lean :104) on the same configuration. Each stated, not proved; open. At `zqFn`, `zqZeroConfig` and `cQ` the five fields are proved together by `zq_premises` (Schema/ZQ/EF/Main.lean), each by its compiled theorem. -/
 structure ZQPremises (zq : ℂ → ℂ) (Z : WideConfig) (c : ℕ → ℝ) : Prop where
   continuation : ZQContinuation zq
   zeros : ZQZeros zq Z
