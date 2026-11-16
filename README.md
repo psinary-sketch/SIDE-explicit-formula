@@ -1,10 +1,10 @@
 # SIDE-explicit-formula
 
-**A VENDORED KERNEL. NOTHING IN THIS REPOSITORY IS THIS PROGRAMME'S MATHEMATICS.**
+**The criterion kernel of the PLACE TO STAND programme.** Over Mathlib and the vendored explicit formula for ζ it compiles the positivity criterion read from that formula: Weil positivity on the test class `classK` (`h2_sign`, `SIDEExplicitFormula/H2Sign.lean` :29) is equivalent to Mathlib's `RiemannHypothesis`, both directions (`h2_sign_iff_rh`, `SIDEExplicitFormula/Seam.lean` :101). Li's criterion is compiled as an equivalence with the same hypothesis, and so is the nonnegativity of the Bombieri–Lagarias arithmetic limits (`li_nonneg_iff_rh`, `arith_limit_nonneg_iff_rh`, `SIDEExplicitFormula/LiCriterionBridge.lean` :179, :191). For a primitive Dirichlet character χ ≠ 1 the explicit formula is proved (`EF_lit_chi_holds`, `SIDEExplicitFormula/Chi/Main.lean` :269) and the same criterion compiled for L(s, χ) (`h2_sign_chi_iff_grh_chi`, `SIDEExplicitFormula/Chi/CriterionConverse.lean` :270); one schema carries ζ and χ as its instances (`h2_sign_cfg_iff_target`, `SIDEExplicitFormula/Schema/Converse.lean` :265). The branch `zq-b730` carries the Epstein zeta function of x² + xy + 6y² as a further instance, with one zero located off the critical line in Lean (`zq_offline_zero`, tag `v0.38`).
 
-Every `.lean` body here is a byte-identical copy of a file in `anthropics/formal-math`
-(the `zeta23` formalization) at the pin recorded below. Each carries a prepended
-attribution header and nothing else was changed.
+The modules under `Zeta23/` are byte-identical copies of files in `anthropics/formal-math` (the `zeta23` formalization) at the
+pin recorded below, and those under `Vendored/Bulka/` of the second source tabled in the section amended at b566; each carries
+a prepended attribution header and nothing else was changed. The modules under `SIDEExplicitFormula/` are this programme's.
 
 | | |
 |:--|:--|
@@ -20,10 +20,10 @@ attribution header and nothing else was changed.
 the two are byte-identical (sha256 `0255fa699a72c941d7dcb70e0232a0184fb9e0c48c66659a6a237c4022000fe6`), so the order's rule
 selects the tag. The comparison is banked at `relay/data/b495_pin.txt`.
 
-**WHAT IS NOT CLAIMED.** This repository has **no profile**. Nothing here has been built or
-`#print axioms`'d by this programme at the time of its creation, and **no document of the
-corpus cites any terminal in it** until a profile is banked. A vendored copy is not a result,
-a push is not a verification, and a launched build is not a built build.
+**THE PROFILE.** `h2_sign_iff_rh` depends on the axioms
+`[propext, Classical.choice, Quot.sound]` and on no other (relay
+`data/b536_components.txt` :12); each section below names the
+relay bank that holds the prints of the declarations it lists.
 
 **TOOLCHAIN DIVERGENCE IS EXPECTED.** SPIRAL_MAP section 7 rule 4 pins the federation to one
 toolchain "unless stated otherwise"; this kernel states otherwise, and pins what its source
