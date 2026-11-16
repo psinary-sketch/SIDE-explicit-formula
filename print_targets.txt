@@ -376,3 +376,13 @@ SIDEExplicitFormula.Schema.ZQ.EF.zq_premises
 SIDEExplicitFormula.Schema.ZQ.EF.zq_count_instance
 SIDEExplicitFormula.Schema.ZQ.EF.zq_explicit_formula_instance
 SIDEExplicitFormula.Schema.ZQ.EF.zq_li_nonneg_imp_online_instance
+SIDEExplicitFormula.Schema.ZQ.boxF_two
+SIDEExplicitFormula.Schema.ZQ.boxF_three
+SIDEExplicitFormula.Schema.ZQ.boxF_six
+SIDEExplicitFormula.Schema.ZQ.rQ_two
+SIDEExplicitFormula.Schema.ZQ.rQ_three
+SIDEExplicitFormula.Schema.ZQ.rQ_six
+SIDEExplicitFormula.Schema.ZQ.rQ_six_ne
+SIDEExplicitFormula.Schema.ZQ.zq_coeff_not_multiplicative
+SIDEExplicitFormula.Schema.ZQ.rQ_half_one
+SIDEExplicitFormula.Schema.ZQ.zeta_isMultiplicative_control
