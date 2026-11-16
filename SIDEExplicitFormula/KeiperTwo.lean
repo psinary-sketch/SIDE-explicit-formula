@@ -80,10 +80,6 @@ theorem liCoeff_two_keiper (h4 : GammaRZetaOne) :
     ring
   first
   | (rw [h, hc, Complex.sub_re, Complex.ofReal_re, Complex.mul_re]; norm_num; ring_nf; done; trace "ALT liCoeff_two_keiper A")
-  | (rw [h, hc, Complex.sub_re, Complex.ofReal_re, Complex.mul_re]; norm_num; done; trace "ALT liCoeff_two_keiper B")
-  | (rw [h, hc]; simp [← Complex.ofReal_pow]; ring_nf; done; trace "ALT liCoeff_two_keiper C")
-  | (rw [h, hc, Complex.sub_re, Complex.ofReal_re, Complex.mul_re]; simp; linarith; trace "ALT liCoeff_two_keiper D")
-  | (trace "ALT liCoeff_two_keiper SORRY"; sorry)
 
 /-- **THE SIGN OF λ_2, ON TWO NAMED PREMISES**: (O4) at its first index and `Re γ_1 < −1/20`. A single rung; not Li's
 criterion. -/
