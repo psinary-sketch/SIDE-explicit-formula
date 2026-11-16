@@ -14,7 +14,7 @@ NAMED PREMISES, EACH STATED AND NOT PROVED: `ZQContinuation` (the continuation o
 Λ_Q(s) = (2π/√23)^{−s} Γ(s) Z_Q(s) on the critical strip, reality on the real line, the lattice sum's convergence on Re s > 1);
 `ZQZeros` (a configuration of the widened class `WideConfig` whose carrier is the set of zeros of Λ_Q off its poles 0, 1 and its
 trivial zeros −1, −2, ..., anywhere in ℂ, its multiplicities each zero's order); the logarithmic derivative's series; the explicit
-formula `ZQExplicitFormula`; and the local count `Wide.HCount Z A0Q` on the same configuration, so the count and the sum range over one
+formula `ZQExplicitFormula`; and the local count `∃ A₀, Wide.HCount Z A₀` on the same configuration, so the count and the sum range over one
 set of zeros. THE CARRIER IS STRIP-FREE (the author's word at b703): an Epstein zeta of class number above 1 has infinitely many zeros with
 Re s > 1 (Davenport-Heilbronn, cited at PLACE-papers OPEN_TRAILS-archive-2 :2089), so a closed-strip `Zeta23.ZeroConfig` cannot carry its
 zeros; `WideConfig` (Schema/Wide/Config.lean :28-:38, the open strip (−1/2, 3/2)) can, Z_Q having no zero on Re s ≥ 3/2
@@ -132,14 +132,14 @@ structure ZQExplicitFormula (Z : WideConfig) (c : ℕ → ℝ) : Prop where
 
 /-- **THE Z_Q PREMISES**: (Z1) the continuation and functional equation; (Z2) the zeros of Λ_Q as the configuration `Z`; the
 logarithmic derivative's series on Re s ≥ 3/2 with coefficients `c` (their recursion from `a = r_Q` not written: the series determines
-them); the explicit formula; and the local count `Wide.HCount Z A0Q` (`A0Q = 10`, Schema/EpsteinQ0.lean :104; P3, derived at b685-b687
-and not compiled) on the same configuration. Each stated, not proved; open. -/
+them); the explicit formula; and the local count `∃ A₀, Wide.HCount Z A₀` (the form `WeilConfig.count` asks, Schema/Config.lean :31; the
+named `A0Q = 10` stands at Schema/EpsteinQ0.lean :104) on the same configuration. Each stated, not proved; open. -/
 structure ZQPremises (zq : ℂ → ℂ) (Z : WideConfig) (c : ℕ → ℝ) : Prop where
   continuation : ZQContinuation zq
   zeros : ZQZeros zq Z
   logDeriv : ∀ s : ℂ, 3 / 2 ≤ s.re → LSeries (fun n => (c n : ℂ)) s = -(deriv zq s / zq s)
   explicitFormula : ZQExplicitFormula Z c
-  count : Wide.HCount Z A0Q
+  count : ∃ A₀ : ℝ, Wide.HCount Z A₀
 
 /-- No point of Λ_Q's zero configuration is `0`, from (Z2): the carrier excludes the pole. -/
 theorem zqZeros_ne_zero {zq : ℂ → ℂ} {Z : WideConfig} (h : ZQZeros zq Z) : ∀ ρ ∈ Z.carrier, ρ ≠ 0 := by
@@ -150,7 +150,7 @@ theorem zqZeros_ne_zero {zq : ℂ → ℂ} {Z : WideConfig} (h : ZQZeros zq Z) :
     | (simp only [LambdaQZeros, Set.mem_setOf_eq] at hρ; exact hρ.1)
 
 /-- **The local count on Λ_Q's zeros**, read off the bundle. -/
-theorem zq_count {zq : ℂ → ℂ} {Z : WideConfig} {c : ℕ → ℝ} (h : ZQPremises zq Z c) : Wide.HCount Z A0Q :=
+theorem zq_count {zq : ℂ → ℂ} {Z : WideConfig} {c : ℕ → ℝ} (h : ZQPremises zq Z c) : ∃ A₀ : ℝ, Wide.HCount Z A₀ :=
   h.count
 
 /-- **The explicit formula for Z_Q**, read off the bundle. -/
@@ -163,7 +163,7 @@ theorem zq_explicit_formula {zq : ℂ → ℂ} {Z : WideConfig} {c : ℕ → ℝ
 of Λ_Q's zeros would put every one on the line -- the kernel's theorem at this configuration, its count and `ρ ≠ 0` from the bundle. -/
 theorem zq_li_nonneg_imp_online {zq : ℂ → ℂ} {Z : WideConfig} {c : ℕ → ℝ} (h : ZQPremises zq Z c) :
     (∀ n : ℕ, 0 ≤ Wide.liCoeff Z n) → ∀ ρ ∈ Z.carrier, ρ.re = 1 / 2 :=
-  Wide.li_nonneg_cfg_imp_online_ne_zero Z h.count (zqZeros_ne_zero h.zeros)
+  h.count.elim fun _ hc => Wide.li_nonneg_cfg_imp_online_ne_zero Z hc (zqZeros_ne_zero h.zeros)
 
 end Schema
 end SIDEExplicitFormula
