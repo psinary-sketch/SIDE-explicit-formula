@@ -486,3 +486,4 @@ SIDEExplicitFormula.Schema.ZQ.rQ_one
 SIDEExplicitFormula.Schema.ZQ.cQ_eq
 SIDEExplicitFormula.Schema.detector
 SIDEExplicitFormula.B321.h2_sign_iff_rh
+SIDEExplicitFormula.Schema.ZQ.zq_weil_positivity_fails

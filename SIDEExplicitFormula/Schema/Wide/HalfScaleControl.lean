@@ -34,6 +34,22 @@ theorem zq_arith_side_re_neg :
   rw [← EF.zq_explicit_formula_instance k hcd hs he]
   exact hneg
 
+open scoped ComplexOrder in
+/-- **WEIL POSITIVITY ON classK FAILS AT THE CONTROL, ON THE ARITHMETIC SIDE OF ITS EXPLICIT FORMULA**: it is not the case that
+`0 ≤ poleTerm k - primeTermQ cQ k + archTermQ k` for every test function `k` in classK. This is the failure, at the control, of the
+inequality that for zeta is Weil positivity on classK (`B321.h2_sign`, H2Sign.lean): the same expression, with `primeTermQ cQ` and
+`archTermQ` where `primeSum` and `archTerm` stand, in the order of `ℂ` in which `h2_sign` is written (`ComplexOrder`, opened for this
+theorem alone). It is `zq_arith_side_re_neg` read in that order through `Complex.le_def`, and binds no hypothesis. It is a statement
+about the explicit formula of the Epstein zeta function of `x² + xy + 6y²` and about no other function; it says nothing about zeta. -/
+theorem zq_weil_positivity_fails :
+    ¬ ∀ k : ℝ → ℂ, B321.classK k →
+      0 ≤ B321.poleTerm k - primeTermQ (fun n => cQ n) k + archTermQ k := by
+  intro h
+  obtain ⟨k, hk, hneg⟩ := zq_arith_side_re_neg
+  have h0 := (Complex.le_def.mp (h k hk)).1
+  rw [Complex.zero_re] at h0
+  exact absurd h0 (not_le.mpr hneg)
+
 end ZQ
 end Schema
 end SIDEExplicitFormula
