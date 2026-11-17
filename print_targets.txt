@@ -482,3 +482,7 @@ SIDEExplicitFormula.Schema.ZQ.cQ_twenty_four
 SIDEExplicitFormula.Schema.ZQ.cQ_forty_eight
 SIDEExplicitFormula.Schema.ZQ.cQ_not_nonneg
 SIDEExplicitFormula.Schema.ZQ.vonMangoldt_nonneg_control
+SIDEExplicitFormula.Schema.ZQ.rQ_one
+SIDEExplicitFormula.Schema.ZQ.cQ_eq
+SIDEExplicitFormula.Schema.detector
+SIDEExplicitFormula.B321.h2_sign_iff_rh
