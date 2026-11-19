@@ -14,6 +14,7 @@ fraction 1/2, half-width 1) has `S > 0`, so its autocorrelation is a `k` in clas
 (`exists_classK_poleTerm_re_neg`). No premise is bound; nothing here concerns any zero.
 -/
 import SIDEExplicitFormula.TwoPropertyWindow
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
 
 open Complex MeasureTheory
 open scoped ComplexConjugate
@@ -172,7 +173,7 @@ theorem basePlateau_contDiff : ContDiff ℝ 2 basePlateau := by
   exact_mod_cast this
 
 /-- The plateau at or above 0, as PowerWindow's `plateau_nonneg` proves it (a product of two smooth transitions), here so that this
-file imports TwoPropertyWindow alone. -/
+file does not import PowerWindow. -/
 theorem basePlateau_nonneg (u : ℝ) : 0 ≤ basePlateau u := by
   unfold basePlateau plateau
   exact mul_nonneg (Real.smoothTransition.nonneg _) (Real.smoothTransition.nonneg _)
