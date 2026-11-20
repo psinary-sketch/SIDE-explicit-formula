@@ -554,3 +554,13 @@ SIDEExplicitFormula.OnePage.zq_coeff_not_multiplicative
 SIDEExplicitFormula.OnePage.zeta_isMultiplicative_control
 SIDEExplicitFormula.OnePage.cQ_not_nonneg
 SIDEExplicitFormula.OnePage.vonMangoldt_nonneg_control
+SIDEExplicitFormula.B321.bsplineSix
+SIDEExplicitFormula.B321.witnessStep
+SIDEExplicitFormula.B321.witnessPhi
+SIDEExplicitFormula.B321.witnessFreq
+SIDEExplicitFormula.B321.witnessCos
+SIDEExplicitFormula.B321.witnessH
+SIDEExplicitFormula.B321.witnessK
+SIDEExplicitFormula.B321.witnessWidth
+SIDEExplicitFormula.B321.ControlFailureB
+SIDEExplicitFormula.B321.ControlFailureA
