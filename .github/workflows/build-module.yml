@@ -10,6 +10,11 @@
 # From b706 ((R316)(5), W-ORD-WORKFLOW-PROBE-STEP): where the ref carries ChainProbe.lean (at the root, imported by no module), a probe step
 # after the print step and before the closure imports each module of the target above that file's text and runs it; its output goes to a
 # SEPARATE artifact (chain-probe-<run id>), so a chain probe needs no scratch branch.
+# From b764 ((R374)(7), W-ORD-RUNNER-CACHE): a third input, restore, "off" where it is absent. With it "on", the kernel's own build
+# directory (.lake/build) is restored from the runner's cache before the build; after a build that completed under the hold, the directory
+# is saved to the cache where its key is not yet held. The key is read once, from lean-toolchain and lake-manifest.json. The cache's record
+# (out/cache_kernel.txt) and the build's start and end (out/build_times.txt) join the artifact. A tag is cut on a run with the restore off
+# and on no other.
 name: build-module
 
 on:
@@ -21,6 +26,14 @@ on:
       target:
         description: "the lake target to build"
         required: true
+      restore:
+        description: "on: restore the kernel's own build directory from the runner's cache before the build; off, its value where absent: build from source"
+        required: false
+        type: choice
+        options:
+          - "off"
+          - "on"
+        default: "off"
 
 permissions:
   contents: read
@@ -32,6 +45,7 @@ jobs:
     env:
       HOLD_MB: "2560"
       TARGET: ${{ inputs.target }}
+      RESTORE: ${{ inputs.restore }}
     steps:
       - name: Checkout at the ref
         uses: actions/checkout@v4
@@ -42,6 +56,10 @@ jobs:
         run: |
           case "$TARGET" in
             *[!A-Za-z0-9_.\ ]*|"") echo "target refused: $TARGET"; exit 2 ;;
+          esac
+          case "$RESTORE" in
+            on|off) ;;
+            *) echo "restore refused: $RESTORE"; exit 2 ;;
           esac
           mkdir -p out
           git rev-parse HEAD > out/ref.txt
@@ -55,6 +73,30 @@ jobs:
 
       - name: Mathlib cache
         run: lake exe cache get 2>&1 | tail -20 > out/cache.log
+
+      - name: The kernel cache's key, read once from the toolchain and the manifest
+        id: key
+        run: |
+          echo "key=kernel-build-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}" >> "$GITHUB_OUTPUT"
+
+      - name: Restore the kernel's own build from the runner's cache (the input restore on)
+        id: restore
+        if: inputs.restore == 'on'
+        uses: actions/cache/restore@v4
+        with:
+          path: .lake/build
+          key: ${{ steps.key.outputs.key }}
+
+      - name: Record the restore
+        env:
+          KEY: ${{ steps.key.outputs.key }}
+          HIT: ${{ steps.restore.outputs.cache-hit }}
+        run: |
+          echo "restore input: $RESTORE" >> out/cache_kernel.txt
+          echo "key: $KEY" >> out/cache_kernel.txt
+          echo "restore hit: ${HIT:-none}" >> out/cache_kernel.txt
+          if [ -d .lake/build ]; then n=$(find .lake/build -type f | wc -l); else n=0; fi
+          echo "files under .lake/build before the build: $n" >> out/cache_kernel.txt
 
       - name: Build under the hold
         run: |
@@ -72,11 +114,49 @@ jobs:
           ) &
           LOGGER=$!
           set +e
+          echo "build start $(date -u +%Y-%m-%dT%H:%M:%SZ)" >> out/build_times.txt
           lake build $TARGET > out/build.log 2>&1
           echo "$?" > out/build_exit.txt
+          echo "build end $(date -u +%Y-%m-%dT%H:%M:%SZ)" >> out/build_times.txt
           kill "$LOGGER" || true
           awk -F'avail_mb=' '/avail_mb=/ {split($2,a," "); if (min=="" || a[1]+0<min) min=a[1]+0} END {print "LOW " min}' out/mem.log >> out/mem.log
           exit 0
+
+      - name: Read whether the build completed under the hold
+        id: built
+        if: always()
+        run: |
+          if [ "$(cat out/build_exit.txt)" = "0" ] && ! grep -q '^STOP ' out/mem.log; then ok=true; else ok=false; fi
+          echo "ok=$ok" >> "$GITHUB_OUTPUT"
+
+      - name: Look up the kernel cache's key before the save
+        id: probe
+        if: always() && steps.built.outputs.ok == 'true'
+        uses: actions/cache/restore@v4
+        with:
+          path: .lake/build
+          key: ${{ steps.key.outputs.key }}
+          lookup-only: true
+
+      - name: Save the kernel's own build to the runner's cache, where its key is not yet held
+        id: save
+        if: always() && steps.built.outputs.ok == 'true' && steps.probe.outputs.cache-hit != 'true'
+        continue-on-error: true
+        uses: actions/cache/save@v4
+        with:
+          path: .lake/build
+          key: ${{ steps.key.outputs.key }}
+
+      - name: Record the save
+        if: always()
+        env:
+          OK: ${{ steps.built.outputs.ok }}
+          PRESENT: ${{ steps.probe.outputs.cache-hit }}
+          SAVED: ${{ steps.save.outcome }}
+        run: |
+          echo "build completed under the hold: ${OK:-none}" >> out/cache_kernel.txt
+          echo "key present before the save: ${PRESENT:-none}" >> out/cache_kernel.txt
+          echo "save step: ${SAVED:-none}" >> out/cache_kernel.txt
 
       - name: Axioms of the named terminals
         if: always()
