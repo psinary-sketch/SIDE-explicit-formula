@@ -18,6 +18,10 @@
 # From b765 ((R375)(4), W-ORD-RUNNER-CACHE, the design of relay data/b764_misses.txt (4)): the save keyed by the toolchain, the manifest and
 # the commit built (the checked-out HEAD), the restore by the prefix of the toolchain and the manifest, the latest save under that prefix
 # restored; the restored key joins the cache's record; a run with the restore off neither restores nor saves.
+# From b765 by the author's word of 2026-11-21 on the runner's cache (relay data/b765_amendments.json row 2): a fourth input, planted, "off"
+# where it is absent. With it "on", each file that push-b765-planted changes against its parent is taken into the checkout after the restore
+# and before the build, refused unless the file at the commit built equals the parent's; the commit built, and so the cache's key, stays the
+# checked-out HEAD, and no planted commit enters the branch built; the probe and the save are not run; out/planted.txt joins the artifact.
 name: build-module
 
 on:
@@ -37,6 +41,14 @@ on:
           - "off"
           - "on"
         default: "off"
+      planted:
+        description: "on: take each file push-b765-planted changes against its parent into the checkout before the build, no save; off, its value where absent"
+        required: false
+        type: choice
+        options:
+          - "off"
+          - "on"
+        default: "off"
 
 permissions:
   contents: read
@@ -49,6 +61,8 @@ jobs:
       HOLD_MB: "2560"
       TARGET: ${{ inputs.target }}
       RESTORE: ${{ inputs.restore }}
+      PLANTED: ${{ inputs.planted || 'off' }}
+      PLANTED_REF: push-b765-planted
     steps:
       - name: Checkout at the ref
         uses: actions/checkout@v4
@@ -64,9 +78,14 @@ jobs:
             on|off) ;;
             *) echo "restore refused: $RESTORE"; exit 2 ;;
           esac
+          case "$PLANTED" in
+            on|off) ;;
+            *) echo "planted refused: $PLANTED"; exit 2 ;;
+          esac
           mkdir -p out
           git rev-parse HEAD > out/ref.txt
           cat lean-toolchain >> out/ref.txt
+          echo "planted input: $PLANTED" > out/planted.txt
 
       - name: Install elan (official script; the toolchain from lean-toolchain)
         run: |
@@ -106,6 +125,33 @@ jobs:
           if [ -d .lake/build ]; then n=$(find .lake/build -type f | wc -l); else n=0; fi
           echo "files under .lake/build before the build: $n" >> out/cache_kernel.txt
 
+      - name: Take the planted files from push-b765-planted into the checkout (the input planted on)
+        if: inputs.planted == 'on'
+        run: |
+          git fetch --no-tags --depth=2 origin "+refs/heads/$PLANTED_REF:refs/remotes/origin/$PLANTED_REF"
+          tip=$(git rev-parse "refs/remotes/origin/$PLANTED_REF")
+          base=$(git rev-parse "$tip^")
+          echo "planted ref: $PLANTED_REF" >> out/planted.txt
+          echo "planted tip: $tip" >> out/planted.txt
+          echo "planted parent: $base" >> out/planted.txt
+          git diff --name-only "$base" "$tip" > out/planted_files.txt
+          n=0
+          while IFS= read -r f || [ -n "$f" ]; do
+            [ -z "$f" ] && continue
+            case "$f" in
+              *.lean) ;;
+              *) echo "planted file refused (no .lean file): $f" >> out/planted.txt; exit 2 ;;
+            esac
+            if [ "$(git rev-parse "HEAD:$f")" != "$(git rev-parse "$base:$f")" ]; then
+              echo "planted file refused (the file at the commit built differs from the parent's): $f" >> out/planted.txt; exit 2
+            fi
+            git show "$tip:$f" > "$f"
+            echo "planted file: $f sha256 $(sha256sum "$f" | cut -d' ' -f1)" >> out/planted.txt
+            n=$((n+1))
+          done < out/planted_files.txt
+          echo "planted files: $n" >> out/planted.txt
+          echo "the commit built: $(git rev-parse HEAD)" >> out/planted.txt
+
       - name: Build under the hold
         run: |
           (
@@ -139,7 +185,7 @@ jobs:
 
       - name: Look up the kernel cache's key before the save
         id: probe
-        if: always() && inputs.restore == 'on' && steps.built.outputs.ok == 'true'
+        if: always() && inputs.restore == 'on' && inputs.planted != 'on' && steps.built.outputs.ok == 'true'
         uses: actions/cache/restore@v4
         with:
           path: .lake/build
@@ -148,7 +194,7 @@ jobs:
 
       - name: Save the kernel's own build to the runner's cache, where its key is not yet held
         id: save
-        if: always() && inputs.restore == 'on' && steps.built.outputs.ok == 'true' && steps.probe.outputs.cache-hit != 'true'
+        if: always() && inputs.restore == 'on' && inputs.planted != 'on' && steps.built.outputs.ok == 'true' && steps.probe.outputs.cache-hit != 'true'
         continue-on-error: true
         uses: actions/cache/save@v4
         with:
