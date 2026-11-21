@@ -10,6 +10,7 @@ bracket written by Gauss's integral, and the exchange of the two integrals.
 import SIDEExplicitFormula.GaussArchQ
 import Zeta23.ExplicitFormula.Bridge
 import Zeta23.GammaFacts.Series
+import Zeta23.WeilEF.VerticalLine
 
 open MeasureTheory Set
 
@@ -249,10 +250,9 @@ theorem norm_gauss_shift_le {z : ℂ} (hz : 0 ≤ z.re) {t : ℝ} (ht : 0 < t) :
     exact Real.exp_lt_exp.mpr (by linarith)
   have he : ∀ n : ℕ, Real.exp (-(((n : ℝ) + 1) * t)) = Real.exp (-t) * Real.exp (-t) ^ n := by
     intro n
-    first
-    | (rw [← Real.exp_nat_mul, ← Real.exp_add]; congr 1; ring)
-    | (rw [← Real.exp_nat_mul, ← Real.exp_add]; ring_nf)
-    | (rw [← Real.exp_nsmul, ← Real.exp_add]; congr 1; simp only [nsmul_eq_mul]; ring)
+    rw [← Real.exp_nat_mul, ← Real.exp_add]
+    congr 1
+    ring
   have hf : (fun n : ℕ => ‖z‖ * t * Real.exp (-(((n : ℝ) + 1) * t)))
       = fun n : ℕ => ‖z‖ * t * Real.exp (-t) * Real.exp (-t) ^ n := by
     funext n
@@ -273,9 +273,7 @@ theorem mul_div_one_sub_exp_le {t : ℝ} (ht : 0 < t) :
     exact Real.exp_lt_exp.mpr (by linarith)
   have hd : 0 < 1 - Real.exp (-t) := by linarith
   have h2 : Real.exp t * Real.exp (-t) = 1 := by
-    first
-    | (rw [← Real.exp_add, add_neg_cancel, Real.exp_zero])
-    | (rw [← Real.exp_add]; simp)
+    rw [← Real.exp_add, add_neg_cancel, Real.exp_zero]
   have h1 := mul_le_mul_of_nonneg_right (Real.add_one_le_exp t) hr0.le
   rw [h2] at h1
   have h3 := mul_le_mul_of_nonneg_left h1 hr0.le
@@ -292,26 +290,15 @@ theorem integrable_gauss_shift {z : ℂ} (hz : 0 ≤ z.re) :
   have hm : AEStronglyMeasurable
       (fun t : ℝ => (Complex.exp (-(t : ℂ)) - Complex.exp (-((z + 1) * t))) / (1 - Complex.exp (-(t : ℂ))))
       (volume.restrict (Ioi (0 : ℝ))) := by
-    first
-    | exact ContinuousOn.aestronglyMeasurable (fun t ht => ContinuousAt.continuousWithinAt
-        (ContinuousAt.div (by fun_prop) (by fun_prop) (one_sub_cexp_neg_ne_zero ht))) measurableSet_Ioi
-    | exact ContinuousOn.aestronglyMeasurable (ContinuousOn.div (by fun_prop) (by fun_prop)
-        (fun t ht => one_sub_cexp_neg_ne_zero ht)) measurableSet_Ioi
-    | exact (by fun_prop : Measurable (fun t : ℝ =>
-        (Complex.exp (-(t : ℂ)) - Complex.exp (-((z + 1) * t))) / (1 - Complex.exp (-(t : ℂ))))).aestronglyMeasurable
-    | exact (by measurability : Measurable (fun t : ℝ =>
-        (Complex.exp (-(t : ℂ)) - Complex.exp (-((z + 1) * t))) / (1 - Complex.exp (-(t : ℂ))))).aestronglyMeasurable
+    exact ContinuousOn.aestronglyMeasurable (fun t ht => ContinuousAt.continuousWithinAt
+      (ContinuousAt.div (by fun_prop) (by fun_prop) (one_sub_cexp_neg_ne_zero ht))) measurableSet_Ioi
   refine Integrable.mono' hg hm ?_
   refine ae_restrict_of_forall_mem measurableSet_Ioi (fun t ht => ?_)
   have ht' : 0 < t := ht
   have e1 : Real.exp (-((((0 : ℕ) : ℝ) + 1) * t)) = Real.exp (-t) := by
-    first
-    | simp
-    | (congr 1; push_cast; ring)
+    simp
   have e2 : Real.exp (-1 * t) = Real.exp (-t) := by
-    first
-    | simp
-    | (congr 1; ring)
+    simp
   rw [e1, e2]
   calc ‖(Complex.exp (-(t : ℂ)) - Complex.exp (-((z + 1) * t))) / (1 - Complex.exp (-(t : ℂ)))‖
       ≤ ‖z‖ * t * (Real.exp (-t) / (1 - Real.exp (-t))) := norm_gauss_shift_le hz ht'
@@ -337,7 +324,7 @@ theorem integrable_gauss {z : ℂ} (hz : 0 < z.re) :
     IntegrableOn (fun t : ℝ => (Complex.exp (-(t : ℂ)) - Complex.exp (-(z * t))) / (1 - Complex.exp (-(t : ℂ))))
       (Ioi (0 : ℝ)) :=
   Integrable.congr (Integrable.sub (integrable_gauss_shift hz.le) (integrableOn_cexp_neg_mul hz))
-    ((ae_restrict_mem measurableSet_Ioi).mono (fun t ht => gauss_shift_sub z ht))
+    ((ae_restrict_mem measurableSet_Ioi).mono (fun _t ht => gauss_shift_sub z ht))
 
 /-- **Step 7. Gauss's integral for the digamma function:** for `Re z > 0` off the integers,
 `ψ(z) = −γ + ∫_{t>0} (e^{−t} − e^{−z t}) / (1 − e^{−t}) dt`. -/
@@ -375,12 +362,9 @@ theorem re_digamma_half (r : ℝ) :
     (Complex.digamma (1 / 2 + Complex.I * (r : ℂ))).re = -Real.eulerMascheroniConstant
       + ∫ t in Ioi (0 : ℝ), (Real.exp (-t) - Real.exp (-t / 2) * Real.cos (r * t)) / (1 - Real.exp (-t)) := by
   have e : (1 / 2 + Complex.I * (r : ℂ)).re = 1 / 2 := by
-    first
-    | (rw [Complex.add_re, Complex.div_ofNat_re, Complex.one_re, Complex.mul_re, Complex.I_re, Complex.I_im,
-        Complex.ofReal_re, Complex.ofReal_im]; ring)
-    | norm_num
-    | simp
-    | (simp; norm_num)
+    rw [Complex.add_re, Complex.div_ofNat_re, Complex.one_re, Complex.mul_re, Complex.I_re, Complex.I_im,
+      Complex.ofReal_re, Complex.ofReal_im]
+    ring
   have hz : 0 < (1 / 2 + Complex.I * (r : ℂ)).re := by
     rw [e]
     norm_num
@@ -396,11 +380,7 @@ theorem re_digamma_half (r : ℝ) :
         / (1 - Complex.exp (-(t : ℂ)))).re
       = ∫ t in Ioi (0 : ℝ), ((Complex.exp (-(t : ℂ)) - Complex.exp (-((1 / 2 + Complex.I * (r : ℂ)) * t)))
         / (1 - Complex.exp (-(t : ℂ)))).re := by
-    have h := integral_re (integrable_gauss hz)
-    first
-    | exact h.symm
-    | (simp only [RCLike.re_to_complex] at h; exact h.symm)
-    | simpa using h.symm
+    exact (integral_re (integrable_gauss hz)).symm
   rw [digamma_gauss hz hzi, Complex.add_re, Complex.neg_re, Complex.ofReal_re, hre]
   congr 1
   exact setIntegral_congr_fun measurableSet_Ioi (fun t _ => re_gauss_integrand r t)
@@ -411,10 +391,288 @@ theorem bracketQ_eq (r : ℝ) :
     Schema.bracketQ r = 2 * (-Real.eulerMascheroniConstant
       + ∫ t in Ioi (0 : ℝ), (Real.exp (-t) - Real.exp (-t / 2) * Real.cos (r * t)) / (1 - Real.exp (-t)))
       - 2 * Real.log (2 * Real.pi / Real.sqrt 23) := by
-  first
-  | (rw [Schema.bracketQ, re_digamma_half r])
-  | (unfold Schema.bracketQ; rw [re_digamma_half r])
-  | (simp only [Schema.bracketQ, re_digamma_half r])
+  rw [Schema.bracketQ, re_digamma_half r]
+
+/-- **Step 10a.** `1 − cos x ≤ 2 √|x|` for every real `x`. -/
+theorem one_sub_cos_le_two_sqrt (x : ℝ) : 1 - Real.cos x ≤ 2 * Real.sqrt |x| := by
+  have hs0 : 0 ≤ Real.sqrt |x| := Real.sqrt_nonneg _
+  have hss : Real.sqrt |x| * Real.sqrt |x| = |x| := Real.mul_self_sqrt (abs_nonneg x)
+  rcases le_or_gt |x| 1 with h | h
+  · have h1 : 1 - x ^ 2 / 2 ≤ Real.cos x := Real.one_sub_sq_div_two_le_cos (x := x)
+    have hx2 : x ^ 2 = |x| * |x| := by
+      rw [abs_mul_abs_self]
+      ring
+    have hs1 : Real.sqrt |x| ≤ 1 := by
+      rw [← Real.sqrt_one]
+      exact Real.sqrt_le_sqrt h
+    have h4 : |x| * |x| ≤ |x| := by nlinarith [mul_nonneg (abs_nonneg x) (sub_nonneg.mpr h)]
+    have h5 : |x| ≤ Real.sqrt |x| := by nlinarith [mul_nonneg hs0 (sub_nonneg.mpr hs1)]
+    linarith
+  · have h1 : -1 ≤ Real.cos x := Real.neg_one_le_cos (x := x)
+    have hs1 : 1 ≤ Real.sqrt |x| := by
+      rw [← Real.sqrt_one]
+      exact Real.sqrt_le_sqrt h.le
+    linarith
+
+/-- **Step 10b, its algebra.** For `0 < h < 1`, `c ≤ 1`, `s = √t > 0` with `h² (t + 1) ≤ 1`, `1 ≤ q`, `0 ≤ p ≤ q` and
+`1 − c ≤ 2 p s`: `|(h² − h c) / (1 − h²)| ≤ q h (1 + 2/s + 2 s)`. -/
+theorem gauss_alg {h c s q p t : ℝ} (hpos : 0 < h) (hlt : h < 1) (hc1 : c ≤ 1) (hs0 : 0 < s)
+    (hss : s * s = t) (hte : h * h * (t + 1) ≤ 1) (hq1 : 1 ≤ q) (hp0 : 0 ≤ p) (hpq : p ≤ q)
+    (hcq : 1 - c ≤ 2 * (p * s)) :
+    |(h * h - h * c) / (1 - h * h)| ≤ q * (h * (1 + 2 * s⁻¹ + 2 * s)) := by
+  have hhh : h * h ≤ h := mul_le_of_le_one_right hpos.le hlt.le
+  have hD : 0 < 1 - h * h := by linarith
+  have hu0 : 0 < s⁻¹ := inv_pos.mpr hs0
+  have hsu : s * s⁻¹ = 1 := mul_inv_cancel₀ hs0.ne'
+  have hq0 : 0 ≤ q := by linarith
+  have hX : 1 ≤ 1 + 2 * s⁻¹ + 2 * s := by linarith
+  have hqX : 1 ≤ q * (1 + 2 * s⁻¹ + 2 * s) := by
+    nlinarith [mul_le_mul_of_nonneg_left hX hq0]
+  have hB : 2 * s ≤ (2 * s⁻¹ + 2 * s) * (1 - h * h) := by
+    have e : (2 * s⁻¹ + 2 * s) * (1 - h * h) - 2 * s = 2 * s⁻¹ * (1 - h * h * (s * s + 1)) := by
+      linear_combination (2 * h * h * s) * hsu
+    have h0 : 0 ≤ 2 * s⁻¹ * (1 - h * h * (s * s + 1)) := by
+      refine mul_nonneg (by linarith) ?_
+      rw [hss]
+      linarith
+    linarith
+  rw [abs_div, abs_of_pos hD, div_le_iff₀ hD, abs_le]
+  constructor
+  · have i1 := mul_le_mul_of_nonneg_right hqX (mul_nonneg hpos.le hD.le)
+    have i2 := mul_le_mul_of_nonneg_left hhh hpos.le
+    have i3 := mul_le_mul_of_nonneg_left hc1 hpos.le
+    first
+    | linarith
+    | nlinarith [i1, i2, i3]
+  · have i1 := mul_le_mul_of_nonneg_left hcq hpos.le
+    have i2 := mul_le_mul_of_nonneg_right hpq (mul_nonneg (mul_nonneg zero_le_two hpos.le) hs0.le)
+    have i3 := mul_le_mul_of_nonneg_left hB (mul_nonneg hq0 hpos.le)
+    have i4 := mul_nonneg (mul_nonneg hq0 hpos.le) hD.le
+    first
+    | linarith
+    | nlinarith [i1, i2, i3, i4, hhh]
+
+/-- `√|r| ≤ (1 + r²)^{1/4}`. -/
+theorem sqrt_abs_le_rpow (r : ℝ) : Real.sqrt |r| ≤ (1 + r ^ 2) ^ (1 / 4 : ℝ) := by
+  have hy : (0 : ℝ) ≤ 1 + r ^ 2 := by positivity
+  have h1 : |r| ≤ Real.sqrt (1 + r ^ 2) := Real.abs_le_sqrt (by linarith)
+  have h2 : Real.sqrt (Real.sqrt (1 + r ^ 2)) = (1 + r ^ 2) ^ (1 / 4 : ℝ) := by
+    rw [Real.sqrt_eq_rpow, Real.sqrt_eq_rpow, ← Real.rpow_mul hy]
+    first
+    | norm_num
+    | (congr 1; norm_num)
+  rw [← h2]
+  exact Real.sqrt_le_sqrt h1
+
+/-- **Step 10b. A bound on the bracket's integrand:** for `t > 0`,
+`|(e^{−t} − e^{−t/2} cos(r t)) / (1 − e^{−t})| ≤ (1 + r²)^{1/4} · e^{−t/2} (1 + 2/√t + 2√t)`. -/
+theorem abs_gauss_integrand_le (r : ℝ) {t : ℝ} (ht : 0 < t) :
+    |(Real.exp (-t) - Real.exp (-t / 2) * Real.cos (r * t)) / (1 - Real.exp (-t))|
+      ≤ (1 + r ^ 2) ^ (1 / 4 : ℝ) * (Real.exp (-t / 2) * (1 + 2 * (Real.sqrt t)⁻¹ + 2 * Real.sqrt t)) := by
+  have he : Real.exp (-t) = Real.exp (-t / 2) * Real.exp (-t / 2) := by
+    rw [← Real.exp_add]
+    congr 1
+    ring
+  have hte : Real.exp (-t) * (t + 1) ≤ 1 := by
+    have h1 := mul_le_mul_of_nonneg_right (Real.add_one_le_exp t) (Real.exp_pos (-t)).le
+    rw [← Real.exp_add, add_neg_cancel, Real.exp_zero] at h1
+    first
+    | linarith
+    | nlinarith [h1]
+  have hlt : Real.exp (-t / 2) < 1 := by
+    rw [← Real.exp_zero]
+    exact Real.exp_lt_exp.mpr (by linarith)
+  have hcq : 1 - Real.cos (r * t) ≤ 2 * (Real.sqrt |r| * Real.sqrt t) := by
+    have h1 := one_sub_cos_le_two_sqrt (r * t)
+    rwa [abs_mul, abs_of_pos ht, Real.sqrt_mul (abs_nonneg r)] at h1
+  have hq1 : 1 ≤ (1 + r ^ 2) ^ (1 / 4 : ℝ) :=
+    Real.one_le_rpow (by nlinarith [sq_nonneg r] : (1 : ℝ) ≤ 1 + r ^ 2) (by norm_num : (0 : ℝ) ≤ 1 / 4)
+  rw [he] at hte ⊢
+  exact gauss_alg (Real.exp_pos _) hlt (Real.cos_le_one _) (Real.sqrt_pos.mpr ht) (Real.mul_self_sqrt ht.le) hte
+    hq1 (Real.sqrt_nonneg _) (sqrt_abs_le_rpow r) hcq
+
+/-- **Step 10c.** The bound in `t` is integrable on `t > 0`. -/
+theorem integrableOn_gauss_majorant :
+    IntegrableOn (fun t : ℝ => Real.exp (-t / 2) * (1 + 2 * (Real.sqrt t)⁻¹ + 2 * Real.sqrt t)) (Ioi (0 : ℝ)) := by
+  have hb : (0 : ℝ) < 1 / 2 := by norm_num
+  have h0 := integrableOn_rpow_mul_exp_neg_mul_rpow (s := 0) (p := 1) (by norm_num) (by norm_num) hb
+  have h1 := integrableOn_rpow_mul_exp_neg_mul_rpow (s := -(1 / 2)) (p := 1) (by norm_num) (by norm_num) hb
+  have h2 := integrableOn_rpow_mul_exp_neg_mul_rpow (s := 1 / 2) (p := 1) (by norm_num) (by norm_num) hb
+  have hsum : IntegrableOn (fun t : ℝ => t ^ (0 : ℝ) * Real.exp (-(1 / 2) * t ^ (1 : ℝ))
+      + 2 * (t ^ (-(1 / 2) : ℝ) * Real.exp (-(1 / 2) * t ^ (1 : ℝ)))
+      + 2 * (t ^ (1 / 2 : ℝ) * Real.exp (-(1 / 2) * t ^ (1 : ℝ)))) (Ioi (0 : ℝ)) :=
+    Integrable.add (Integrable.add h0 (Integrable.const_mul h1 2)) (Integrable.const_mul h2 2)
+  have key : ∀ t : ℝ, 0 < t → t ^ (0 : ℝ) * Real.exp (-(1 / 2) * t ^ (1 : ℝ))
+      + 2 * (t ^ (-(1 / 2) : ℝ) * Real.exp (-(1 / 2) * t ^ (1 : ℝ)))
+      + 2 * (t ^ (1 / 2 : ℝ) * Real.exp (-(1 / 2) * t ^ (1 : ℝ)))
+      = Real.exp (-t / 2) * (1 + 2 * (Real.sqrt t)⁻¹ + 2 * Real.sqrt t) := by
+    intro t ht
+    have e1 : Real.exp (-(1 / 2) * t ^ (1 : ℝ)) = Real.exp (-t / 2) := by
+      rw [Real.rpow_one]
+      congr 1
+      ring
+    have e2 : t ^ (-(1 / 2) : ℝ) = (Real.sqrt t)⁻¹ := by
+      rw [Real.sqrt_eq_rpow, Real.rpow_neg ht.le]
+    have e3 : t ^ (1 / 2 : ℝ) = Real.sqrt t := by
+      rw [Real.sqrt_eq_rpow]
+    rw [e1, e2, e3, Real.rpow_zero]
+    ring
+  exact Integrable.congr hsum ((ae_restrict_mem measurableSet_Ioi).mono (fun t ht => key t ht))
+
+/-- **Step 10d.** `r ↦ ‖k̂(r)‖ (1 + r²)^{1/4}` is integrable for `k` in classK: `‖k̂(r)‖ ≤ C/(1 + r²)`. -/
+theorem integrable_norm_paperFT_mul_quarter {k : ℝ → ℂ} (hk : classK k) :
+    Integrable (fun r : ℝ => ‖Zeta23.paperFT k r‖ * (1 + r ^ 2) ^ (1 / 4 : ℝ)) := by
+  unfold classK at hk
+  obtain ⟨-, hk2, hkc, -⟩ := hk
+  obtain ⟨Λ, hΛ⟩ := Zeta23.EF.exists_abs_le_of_hasCompactSupport hkc
+  obtain ⟨C, hb0⟩ : ∃ C : ℝ, ∀ r : ℝ, ‖Zeta23.paperFT k r‖ * (1 + r ^ 2) ≤ C :=
+    ⟨_, fun r => Zeta23.EF.norm_paperFT_mul_one_add_sq_le hk2 hΛ r⟩
+  have hcont : Continuous (fun r : ℝ => Zeta23.paperFT k r) :=
+    (Zeta23.WeilEF.differentiable_paperFT hk2.continuous hkc).continuous.comp Complex.continuous_ofReal
+  have hmaj : Integrable (fun r : ℝ => C * ((1 : ℝ) + ‖r‖ ^ 2) ^ (-(3 / 2 : ℝ) / 2)) :=
+    (integrable_rpow_neg_one_add_norm_sq (E := ℝ) (μ := volume)
+      (by rw [Module.finrank_self]; norm_num)).const_mul C
+  have hqc : Continuous (fun r : ℝ => (1 + r ^ 2) ^ (1 / 4 : ℝ)) := by
+    first
+    | exact (continuous_const.add (continuous_pow 2)).rpow_const (fun _ => Or.inr (by norm_num))
+    | fun_prop
+  refine Integrable.mono' hmaj (hcont.norm.mul hqc).aestronglyMeasurable
+    (Filter.Eventually.of_forall fun r => ?_)
+  have hq : 0 < (1 + r ^ 2 : ℝ) := by positivity
+  have hpos : 0 ≤ (1 + r ^ 2 : ℝ) ^ (1 / 4 : ℝ) := Real.rpow_nonneg hq.le _
+  have hb : ‖Zeta23.paperFT k r‖ ≤ C / (1 + r ^ 2) := by
+    rw [le_div_iff₀ hq]
+    exact hb0 r
+  have e : ((1 : ℝ) + ‖r‖ ^ 2) ^ (-(3 / 2 : ℝ) / 2) = (1 + r ^ 2) ^ (1 / 4 : ℝ) / (1 + r ^ 2) := by
+    rw [Real.norm_eq_abs, sq_abs, show (-(3 / 2 : ℝ) / 2) = (1 / 4 : ℝ) - 1 by norm_num, Real.rpow_sub hq,
+      Real.rpow_one]
+  rw [Real.norm_of_nonneg (mul_nonneg (norm_nonneg _) hpos), e]
+  calc ‖Zeta23.paperFT k r‖ * (1 + r ^ 2) ^ (1 / 4 : ℝ) ≤ C / (1 + r ^ 2) * (1 + r ^ 2) ^ (1 / 4 : ℝ) :=
+        mul_le_mul_of_nonneg_right hb hpos
+    _ = C * ((1 + r ^ 2) ^ (1 / 4 : ℝ) / (1 + r ^ 2)) := by ring
+
+/-- **Step 10e.** `(r, t) ↦ k̂(r) (e^{−t} − e^{−t/2} cos(r t)) / (1 − e^{−t})` is integrable on `ℝ × (0, ∞)`, bounded by the
+product of the integrable functions of Steps 10c and 10d. -/
+theorem integrable_gauss_prod {k : ℝ → ℂ} (hk : classK k) :
+    Integrable (Function.uncurry fun (r t : ℝ) => Zeta23.paperFT k r *
+      (((Real.exp (-t) - Real.exp (-t / 2) * Real.cos (r * t)) / (1 - Real.exp (-t)) : ℝ) : ℂ))
+      ((volume : Measure ℝ).prod (volume.restrict (Ioi (0 : ℝ)))) := by
+  have hAB := Integrable.mul_prod (integrable_norm_paperFT_mul_quarter hk) integrableOn_gauss_majorant
+  have hcont : Continuous (fun r : ℝ => Zeta23.paperFT k r) := by
+    have hk' := hk
+    unfold classK at hk'
+    obtain ⟨-, hk2, hkc, -⟩ := hk'
+    exact (Zeta23.WeilEF.differentiable_paperFT hk2.continuous hkc).continuous.comp Complex.continuous_ofReal
+  have hGm : Measurable (fun p : ℝ × ℝ =>
+      (Real.exp (-p.2) - Real.exp (-p.2 / 2) * Real.cos (p.1 * p.2)) / (1 - Real.exp (-p.2))) := by
+    first
+    | fun_prop
+    | exact ((by fun_prop : Continuous fun p : ℝ × ℝ =>
+          Real.exp (-p.2) - Real.exp (-p.2 / 2) * Real.cos (p.1 * p.2)).measurable).div
+        ((by fun_prop : Continuous fun p : ℝ × ℝ => 1 - Real.exp (-p.2)).measurable)
+    | measurability
+  have hm : AEStronglyMeasurable (Function.uncurry fun (r t : ℝ) => Zeta23.paperFT k r *
+      (((Real.exp (-t) - Real.exp (-t / 2) * Real.cos (r * t)) / (1 - Real.exp (-t)) : ℝ) : ℂ))
+      ((volume : Measure ℝ).prod (volume.restrict (Ioi (0 : ℝ)))) := by
+    refine Measurable.aestronglyMeasurable ?_
+    exact (hcont.measurable.comp measurable_fst).mul (Complex.measurable_ofReal.comp hGm)
+  have hprod : (volume : Measure ℝ).prod (volume.restrict (Ioi (0 : ℝ)))
+      = ((volume : Measure ℝ).prod volume).restrict (univ ×ˢ Ioi (0 : ℝ)) := by
+    rw [← Measure.prod_restrict, Measure.restrict_univ]
+  have hae : ∀ᵐ p ∂((volume : Measure ℝ).prod (volume.restrict (Ioi (0 : ℝ)))), p.2 ∈ Ioi (0 : ℝ) := by
+    rw [hprod]
+    filter_upwards [ae_restrict_mem (MeasurableSet.prod MeasurableSet.univ measurableSet_Ioi)] with p hp
+    exact hp.2
+  refine Integrable.mono' hAB hm ?_
+  filter_upwards [hae] with p hp
+  obtain ⟨r, t⟩ := p
+  have ht : 0 < t := hp
+  show ‖Zeta23.paperFT k r *
+      (((Real.exp (-t) - Real.exp (-t / 2) * Real.cos (r * t)) / (1 - Real.exp (-t)) : ℝ) : ℂ)‖
+    ≤ ‖Zeta23.paperFT k r‖ * (1 + r ^ 2) ^ (1 / 4 : ℝ) *
+      (Real.exp (-t / 2) * (1 + 2 * (Real.sqrt t)⁻¹ + 2 * Real.sqrt t))
+  rw [norm_mul, Complex.norm_real, Real.norm_eq_abs]
+  calc ‖Zeta23.paperFT k r‖ * |(Real.exp (-t) - Real.exp (-t / 2) * Real.cos (r * t)) / (1 - Real.exp (-t))|
+      ≤ ‖Zeta23.paperFT k r‖ * ((1 + r ^ 2) ^ (1 / 4 : ℝ) *
+          (Real.exp (-t / 2) * (1 + 2 * (Real.sqrt t)⁻¹ + 2 * Real.sqrt t))) :=
+        mul_le_mul_of_nonneg_left (abs_gauss_integrand_le r ht) (norm_nonneg _)
+    _ = ‖Zeta23.paperFT k r‖ * (1 + r ^ 2) ^ (1 / 4 : ℝ) *
+          (Real.exp (-t / 2) * (1 + 2 * (Real.sqrt t)⁻¹ + 2 * Real.sqrt t)) := by ring
+
+/-- **Step 10f. The integral in `r` at each `t`, by Steps 1 and 2:**
+`(1/2π) ∫ k̂(r) (e^{−t} − e^{−t/2} cos(r t)) / (1 − e^{−t}) dr = (e^{−t} k(0) − e^{−t/2} k(t)) / (1 − e^{−t})`. -/
+theorem integral_paperFT_mul_gauss {k : ℝ → ℂ} (hk : classK k) (t : ℝ) :
+    ((1 / (2 * Real.pi) : ℝ) : ℂ) * ∫ r : ℝ, Zeta23.paperFT k r *
+      (((Real.exp (-t) - Real.exp (-t / 2) * Real.cos (r * t)) / (1 - Real.exp (-t)) : ℝ) : ℂ)
+      = ((Real.exp (-t) : ℂ) * k 0 - (Real.exp (-t / 2) : ℂ) * k t) / (1 - (Real.exp (-t) : ℂ)) := by
+  have hk' := hk
+  unfold classK at hk'
+  obtain ⟨-, hk2, hkc, -⟩ := hk'
+  have hFk := Zeta23.EF.integrable_fourier_of_contDiff_two hk2 hkc
+  have hF := Zeta23.EF.integrable_paperFT_ofReal hFk
+  have hFc := Zeta23.EF.integrable_paperFT_mul_cos hFk t
+  have e : ∀ r : ℝ, Zeta23.paperFT k r *
+      (((Real.exp (-t) - Real.exp (-t / 2) * Real.cos (r * t)) / (1 - Real.exp (-t)) : ℝ) : ℂ)
+      = ((Real.exp (-t) : ℂ) * Zeta23.paperFT k r
+          - (Real.exp (-t / 2) : ℂ) * (Zeta23.paperFT k r * (Real.cos (r * t) : ℂ))) * (1 - (Real.exp (-t) : ℂ))⁻¹ := by
+    intro r
+    push_cast
+    ring
+  simp_rw [e]
+  rw [integral_mul_const, integral_sub (hF.const_mul _) (hFc.const_mul _), integral_const_mul, integral_const_mul]
+  have h0 := inversion_zero hk
+  have h1 := inversion_cos hk t
+  rw [← h0, ← h1]
+  ring
+
+/-- **Step 10. Gauss's integral for the control's archimedean term, proved:** the statement `GaussArchQ` holds, from Step 9's
+bracket, the interchange of the two integrals (Step 10e) and Fourier inversion (Step 10f). -/
+theorem gaussArchQ : GaussArchQ := by
+  unfold GaussArchQ
+  intro k hk
+  have hF : Integrable (fun r : ℝ => Zeta23.paperFT k r) := by
+    have hk' := hk
+    unfold classK at hk'
+    obtain ⟨-, hk2, hkc, -⟩ := hk'
+    exact Zeta23.EF.integrable_paperFT_ofReal (Zeta23.EF.integrable_fourier_of_contDiff_two hk2 hkc)
+  have hI := integrable_gauss_prod hk
+  have hJ : Integrable (fun r : ℝ => ∫ t in Ioi (0 : ℝ), Zeta23.paperFT k r *
+      (((Real.exp (-t) - Real.exp (-t / 2) * Real.cos (r * t)) / (1 - Real.exp (-t)) : ℝ) : ℂ)) :=
+    hI.integral_prod_left
+  have hswap : (∫ r : ℝ, ∫ t in Ioi (0 : ℝ), Zeta23.paperFT k r *
+      (((Real.exp (-t) - Real.exp (-t / 2) * Real.cos (r * t)) / (1 - Real.exp (-t)) : ℝ) : ℂ))
+      = ∫ t in Ioi (0 : ℝ), ∫ r : ℝ, Zeta23.paperFT k r *
+      (((Real.exp (-t) - Real.exp (-t / 2) * Real.cos (r * t)) / (1 - Real.exp (-t)) : ℝ) : ℂ) :=
+    integral_integral_swap hI
+  have hsplit : ∀ r : ℝ, Zeta23.paperFT k r * (Schema.bracketQ r : ℂ)
+      = Zeta23.paperFT k r * ((2 * (Real.log (Real.sqrt 23 / (2 * Real.pi)) - Real.eulerMascheroniConstant) : ℝ) : ℂ)
+        + 2 * ∫ t in Ioi (0 : ℝ), Zeta23.paperFT k r *
+          (((Real.exp (-t) - Real.exp (-t / 2) * Real.cos (r * t)) / (1 - Real.exp (-t)) : ℝ) : ℂ) := by
+    intro r
+    have hc : (∫ t in Ioi (0 : ℝ),
+        (((Real.exp (-t) - Real.exp (-t / 2) * Real.cos (r * t)) / (1 - Real.exp (-t)) : ℝ) : ℂ))
+        = (((∫ t in Ioi (0 : ℝ), (Real.exp (-t) - Real.exp (-t / 2) * Real.cos (r * t)) / (1 - Real.exp (-t))) : ℝ) : ℂ) :=
+      integral_complex_ofReal
+    rw [bracketQ_eq r, integral_const_mul, hc]
+    generalize (∫ t in Ioi (0 : ℝ), (Real.exp (-t) - Real.exp (-t / 2) * Real.cos (r * t)) / (1 - Real.exp (-t))) = I
+    have hl : Real.log (Real.sqrt 23 / (2 * Real.pi)) = -Real.log (2 * Real.pi / Real.sqrt 23) := by
+      rw [← Real.log_inv, inv_div]
+    rw [hl]
+    push_cast
+    ring
+  have hT : (∫ t in Ioi (0 : ℝ), ((1 / (2 * Real.pi) : ℝ) : ℂ) * ∫ r : ℝ, Zeta23.paperFT k r *
+      (((Real.exp (-t) - Real.exp (-t / 2) * Real.cos (r * t)) / (1 - Real.exp (-t)) : ℝ) : ℂ))
+      = ∫ t in Ioi (0 : ℝ), ((Real.exp (-t) : ℂ) * k 0 - (Real.exp (-t / 2) : ℂ) * k t) / (1 - (Real.exp (-t) : ℂ)) := by
+    congr 1
+    funext t
+    exact integral_paperFT_mul_gauss hk t
+  have h0 := inversion_zero hk
+  unfold Schema.archTermQ
+  simp_rw [hsplit]
+  rw [integral_add (hF.mul_const _) (hJ.const_mul _), integral_mul_const, integral_const_mul, hswap, ← hT,
+    integral_const_mul, ← h0]
+  push_cast
+  ring
 
 end GaussArchQSteps
 end B321
