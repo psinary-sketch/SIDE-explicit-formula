@@ -15,6 +15,9 @@
 # is saved to the cache where its key is not yet held. The key is read once, from lean-toolchain and lake-manifest.json. The cache's record
 # (out/cache_kernel.txt) and the build's start and end (out/build_times.txt) join the artifact. A tag is cut on a run with the restore off
 # and on no other.
+# From b765 ((R375)(4), W-ORD-RUNNER-CACHE, the design of relay data/b764_misses.txt (4)): the save keyed by the toolchain, the manifest and
+# the commit built (the checked-out HEAD), the restore by the prefix of the toolchain and the manifest, the latest save under that prefix
+# restored; the restored key joins the cache's record; a run with the restore off neither restores nor saves.
 name: build-module
 
 on:
@@ -74,27 +77,32 @@ jobs:
       - name: Mathlib cache
         run: lake exe cache get 2>&1 | tail -20 > out/cache.log
 
-      - name: The kernel cache's key, read once from the toolchain and the manifest
+      - name: The kernel cache's key, read once from the toolchain and the manifest, with the commit built
         id: key
         run: |
-          echo "key=kernel-build-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}" >> "$GITHUB_OUTPUT"
+          p="kernel-build-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-"
+          echo "prefix=$p" >> "$GITHUB_OUTPUT"
+          echo "key=$p$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
 
-      - name: Restore the kernel's own build from the runner's cache (the input restore on)
+      - name: Restore the kernel's own build from the runner's cache (the input restore on), by the prefix where the key is not held
         id: restore
         if: inputs.restore == 'on'
         uses: actions/cache/restore@v4
         with:
           path: .lake/build
           key: ${{ steps.key.outputs.key }}
+          restore-keys: ${{ steps.key.outputs.prefix }}
 
       - name: Record the restore
         env:
           KEY: ${{ steps.key.outputs.key }}
           HIT: ${{ steps.restore.outputs.cache-hit }}
+          MATCHED: ${{ steps.restore.outputs.cache-matched-key }}
         run: |
           echo "restore input: $RESTORE" >> out/cache_kernel.txt
           echo "key: $KEY" >> out/cache_kernel.txt
           echo "restore hit: ${HIT:-none}" >> out/cache_kernel.txt
+          echo "restored key: ${MATCHED:-none}" >> out/cache_kernel.txt
           if [ -d .lake/build ]; then n=$(find .lake/build -type f | wc -l); else n=0; fi
           echo "files under .lake/build before the build: $n" >> out/cache_kernel.txt
 
@@ -131,7 +139,7 @@ jobs:
 
       - name: Look up the kernel cache's key before the save
         id: probe
-        if: always() && steps.built.outputs.ok == 'true'
+        if: always() && inputs.restore == 'on' && steps.built.outputs.ok == 'true'
         uses: actions/cache/restore@v4
         with:
           path: .lake/build
@@ -140,7 +148,7 @@ jobs:
 
       - name: Save the kernel's own build to the runner's cache, where its key is not yet held
         id: save
-        if: always() && steps.built.outputs.ok == 'true' && steps.probe.outputs.cache-hit != 'true'
+        if: always() && inputs.restore == 'on' && steps.built.outputs.ok == 'true' && steps.probe.outputs.cache-hit != 'true'
         continue-on-error: true
         uses: actions/cache/save@v4
         with:
