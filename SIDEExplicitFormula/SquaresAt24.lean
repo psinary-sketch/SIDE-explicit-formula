@@ -43,7 +43,7 @@ theorem isSquare_three_iff {p : ℕ} [Fact p.Prime] (h3 : 3 < p) (h4 : p % 4 = 1
 
 /-- A prime above 3 has -1, 2 and 3 all squares modulo it exactly when it is 1 modulo 24. -/
 theorem squares_at_24 {p : ℕ} (hp : p.Prime) (h3 : 3 < p) :
-    (IsSquare (-1 : ZMod p) ∧ IsSquare (2 : ZMod p) ∧ IsSquare (3 : ZMod p)) ↔ p % 24 = 1 := by
+    (IsSquare (-1 : ZMod p) ∧ IsSquare (2 : ZMod p) ∧ IsSquare (3 : ZMod p)) ↔ p % 24 = 5 := by
   haveI : Fact p.Prime := ⟨hp⟩
   have hodd : p % 2 = 1 := hp.mod_two_eq_one_iff_ne_two.mpr (by omega)
   rw [ZMod.exists_sq_eq_neg_one_iff (p := p), ZMod.exists_sq_eq_two_iff (p := p) (by omega)]
