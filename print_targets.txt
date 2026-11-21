@@ -557,3 +557,4 @@ SIDEExplicitFormula.OnePage.vonMangoldt_nonneg_control
 SIDEExplicitFormula.SquaresAt24.not_isSquare_two_zmod_three
 SIDEExplicitFormula.SquaresAt24.isSquare_three_iff
 SIDEExplicitFormula.SquaresAt24.squares_at_24
+SIDEExplicitFormula.B321.ControlFailureExists
