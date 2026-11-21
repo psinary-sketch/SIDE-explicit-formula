@@ -559,3 +559,8 @@ SIDEExplicitFormula.SquaresAt24.isSquare_three_iff
 SIDEExplicitFormula.SquaresAt24.squares_at_24
 SIDEExplicitFormula.B321.ControlFailureExists
 SIDEExplicitFormula.B321.GaussArchQ
+SIDEExplicitFormula.B321.GaussArchQSteps.inversion_zero
+SIDEExplicitFormula.B321.GaussArchQSteps.inversion_cos
+SIDEExplicitFormula.B321.GaussArchQSteps.integral_cexp_neg_mul
+SIDEExplicitFormula.B321.GaussArchQSteps.integrableOn_cexp_neg_mul
+SIDEExplicitFormula.B321.GaussArchQSteps.digamma_term_integral
