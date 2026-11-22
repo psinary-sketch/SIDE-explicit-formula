@@ -8,9 +8,9 @@ import Mathlib.Analysis.SpecialFunctions.Log.Basic
 /-!
 # The values of `cQ` to 1023
 
-`r_Q(k)` for `1 ≤ k ≤ 1023` is the length of the list CQData.lean holds at `k` (`rQ_eq_cqR`): every representation of such a `k`
-lies in the box `|m| ≤ 38`, `|n| ≤ 13`, each listed pair represents `k` and no pair is listed twice, and the lists together count
-the box. `log n` for `1 ≤ n ≤ 1023` is the sum over the primes below 1024 of an exponent times `log p`, the product of the powers
+`r_Q(k)` for `1 ≤ k ≤ 1023` is the length of the list CQData.lean holds at `k` (`rQ_eq_cqR`): each listed pair represents `k`,
+no pair is listed twice, and every representation of such a `k`, its two entries bounded by `|m| ≤ 38` and `|n| ≤ 13`, stands at a
+natural index `i < 2079` at which the check lists it (`cq_idx_ok`); no integer interval and no box of pairs is built. `log n` for `1 ≤ n ≤ 1023` is the sum over the primes below 1024 of an exponent times `log p`, the product of the powers
 checked (`log_eq_cqEv`). `cQ n` for `n ≤ 1023` is the combination `∑_p z(n, p) log p` the data holds (`cQ_eq_comb`), by strong
 induction from `cQ_eq`, the coefficients checked against the recursion at each `n` and each prime dividing it. Each check is an
 evaluation by the kernel; no tactic adds an axiom beyond the standard three.
@@ -27,19 +27,38 @@ theorem allDC_at {p : ℕ → Bool} {d lo len n : ℕ} (hl : len ≤ 2 ^ d) (h :
 
 /-! ## `r_Q` from the representations -/
 
-/-- The box every representation of `1 ≤ k ≤ 1023` lies in. -/
-def cqBox : Finset (ℤ × ℤ) := Finset.Icc (-38 : ℤ) 38 ×ˢ Finset.Icc (-13 : ℤ) 13
-
 /-- The representations of `k` the data lists. -/
 def cqReps (k : ℕ) : List (ℤ × ℤ) := repTree.get k
 
 /-- Their number. -/
 def cqR (k : ℕ) : ℕ := (cqReps k).length
 
-/-- The representations of `k` in the box. -/
-def cqFib (k : ℕ) : Finset (ℤ × ℤ) := cqBox.filter (fun q : ℤ × ℤ => Schema.Q0form q.1 q.2 = (k : ℤ))
+/-- Each listed pair represents `k`; no pair is listed twice. -/
+def cqRepOK (k : ℕ) : Bool :=
+  (cqReps k).all (fun q => decide (Schema.Q0form q.1 q.2 = (k : ℤ))) && decide (cqReps k).Nodup
 
-theorem mem_cqBox {k : ℕ} (hk : k ≤ 1023) {m n : ℤ} (h : Schema.Q0form m n = (k : ℤ)) : (m, n) ∈ cqBox := by
+theorem cq_reps_ok : allDC cqRepOK 1 1023 10 = true := by decide +kernel
+
+theorem cqReps_spec {k : ℕ} (hk1 : 1 ≤ k) (hk : k ≤ 1023) :
+    (∀ q ∈ cqReps k, Schema.Q0form q.1 q.2 = (k : ℤ)) ∧ (cqReps k).Nodup := by
+  have h := allDC_at (by norm_num) cq_reps_ok hk1 (by omega : k < 1 + 1023)
+  simp only [cqRepOK, Bool.and_eq_true, List.all_eq_true, decide_eq_true_eq] at h
+  exact h
+
+/-- The pair at the natural index `i`: `m = i / 27 - 38` and `n = i % 27 - 13`. -/
+def cqPair (i : ℕ) : ℤ × ℤ := (((i / 27 : ℕ) : ℤ) - 38, ((i % 27 : ℕ) : ℤ) - 13)
+
+/-- At the index `i`, where the pair's value lies from 1 to 1023, the pair is listed among that value's representations. -/
+def cqIdxOK (i : ℕ) : Bool :=
+  if 1 ≤ Schema.Q0form (cqPair i).1 (cqPair i).2 ∧ Schema.Q0form (cqPair i).1 (cqPair i).2 ≤ 1023 then
+    decide (cqPair i ∈ cqReps (Schema.Q0form (cqPair i).1 (cqPair i).2).toNat)
+  else true
+
+theorem cq_idx_ok : allDC cqIdxOK 0 2079 12 = true := by decide +kernel
+
+/-- The two entries of a representation of `k ≤ 1023`, bounded. -/
+theorem cq_bounds {k : ℕ} (hk : k ≤ 1023) {m n : ℤ} (h : Schema.Q0form m n = (k : ℤ)) :
+    -38 ≤ m ∧ m ≤ 38 ∧ -13 ≤ n ∧ n ≤ 13 := by
   have h4 := Schema.four_mul_Q0form m n
   rw [h] at h4
   have hk' : (k : ℤ) ≤ 1023 := by exact_mod_cast hk
@@ -47,77 +66,49 @@ theorem mem_cqBox {k : ℕ} (hk : k ≤ 1023) {m n : ℤ} (h : Schema.Q0form m n
   have hn2 : -13 ≤ n := by nlinarith [sq_nonneg (2 * m + n)]
   have ha1 : 2 * m + n ≤ 63 := by nlinarith [sq_nonneg n]
   have ha2 : -63 ≤ 2 * m + n := by nlinarith [sq_nonneg n]
-  simp only [cqBox, Finset.mem_product, Finset.mem_Icc]
   omega
 
-theorem boxF_eq_cqFib {k : ℕ} (hk0 : k ≠ 0) (hk : k ≤ 1023) : Schema.ZQ.boxF k = cqFib k := by
-  ext ⟨m, n⟩
-  simp only [Schema.ZQ.boxF, cqFib, Finset.mem_filter, Finset.mem_product, Finset.mem_Icc]
+/-- Every representation of `1 ≤ k ≤ 1023` is listed at `k`, read at its natural index. -/
+theorem cq_reps_complete {k : ℕ} (hk1 : 1 ≤ k) (hk : k ≤ 1023) {q : ℤ × ℤ}
+    (h : Schema.Q0form q.1 q.2 = (k : ℤ)) : q ∈ cqReps k := by
+  obtain ⟨h1, h2, h3, h4⟩ := cq_bounds hk h
+  obtain ⟨A, hA⟩ : ∃ A : ℕ, (A : ℤ) = q.1 + 38 := ⟨(q.1 + 38).toNat, Int.toNat_of_nonneg (by omega)⟩
+  obtain ⟨B, hB⟩ : ∃ B : ℕ, (B : ℤ) = q.2 + 13 := ⟨(q.2 + 13).toNat, Int.toNat_of_nonneg (by omega)⟩
+  have e : cqPair (A * 27 + B) = q := by
+    refine Prod.ext ?_ ?_
+    · show (((A * 27 + B) / 27 : ℕ) : ℤ) - 38 = q.1
+      omega
+    · show (((A * 27 + B) % 27 : ℕ) : ℤ) - 13 = q.2
+      omega
+  have hi := allDC_at (by norm_num) cq_idx_ok (Nat.zero_le (A * 27 + B)) (by omega : A * 27 + B < 0 + 2079)
+  unfold cqIdxOK at hi
+  rw [e, h, Int.toNat_natCast] at hi
+  split at hi
+  · exact of_decide_eq_true hi
+  · rename_i hc
+    exact (hc ⟨by omega, by omega⟩).elim
+
+/-- Membership in the kernel's filtered box is the equation alone. -/
+theorem cq_mem_boxF {k : ℕ} (hk0 : k ≠ 0) (q : ℤ × ℤ) :
+    q ∈ Schema.ZQ.boxF k ↔ Schema.Q0form q.1 q.2 = (k : ℤ) := by
+  simp only [Schema.ZQ.boxF, Finset.mem_filter, Finset.mem_product, Finset.mem_Icc]
   constructor
   · rintro ⟨-, h⟩
-    exact ⟨mem_cqBox hk h, h⟩
-  · rintro ⟨-, h⟩
+    exact h
+  · intro h
     exact ⟨Schema.ZQ.mem_box hk0 h, h⟩
 
-/-- Each listed pair lies in the box and represents `k`; no pair is listed twice. -/
-def cqRepOK (k : ℕ) : Bool :=
-  (cqReps k).all (fun q => decide (-38 ≤ q.1 ∧ q.1 ≤ 38 ∧ -13 ≤ q.2 ∧ q.2 ≤ 13) &&
-    decide (Schema.Q0form q.1 q.2 = (k : ℤ))) && decide (cqReps k).Nodup
-
-theorem cq_reps_ok : allDC cqRepOK 1 1023 10 = true := by decide +kernel
-
-/-- The representations in the box of `1 ≤ k ≤ 1023`, counted, equal the total of the lists. -/
-theorem cq_reps_count :
-    (cqBox.filter (fun q : ℤ × ℤ => 1 ≤ Schema.Q0form q.1 q.2 ∧ Schema.Q0form q.1 q.2 ≤ 1023)).card =
-      ∑ k ∈ Finset.Icc 1 1023, cqR k := by
-  decide +kernel
-
-theorem cqReps_spec {k : ℕ} (hk1 : 1 ≤ k) (hk : k ≤ 1023) :
-    (cqReps k).toFinset ⊆ cqFib k ∧ (cqReps k).Nodup := by
-  have h := allDC_at (by norm_num) cq_reps_ok hk1 (by omega : k < 1 + 1023)
-  simp only [cqRepOK, Bool.and_eq_true, List.all_eq_true, decide_eq_true_eq] at h
-  refine ⟨?_, h.2⟩
-  intro q hq
-  obtain ⟨⟨a1, a2, a3, a4⟩, a5⟩ := h.1 q (List.mem_toFinset.mp hq)
-  simp only [cqFib, cqBox, Finset.mem_filter, Finset.mem_product, Finset.mem_Icc]
-  exact ⟨⟨⟨a1, a2⟩, a3, a4⟩, a5⟩
-
-theorem cq_fib_union :
-    cqBox.filter (fun q : ℤ × ℤ => 1 ≤ Schema.Q0form q.1 q.2 ∧ Schema.Q0form q.1 q.2 ≤ 1023) =
-      (Finset.Icc 1 1023).biUnion cqFib := by
+/-- The listed representations of `1 ≤ k ≤ 1023` are the kernel's filtered box. -/
+theorem cqReps_toFinset {k : ℕ} (hk1 : 1 ≤ k) (hk : k ≤ 1023) : (cqReps k).toFinset = Schema.ZQ.boxF k := by
+  obtain ⟨hs, -⟩ := cqReps_spec hk1 hk
   ext q
-  simp only [Finset.mem_filter, Finset.mem_biUnion, Finset.mem_Icc, cqFib]
-  constructor
-  · rintro ⟨hb, h1, h2⟩
-    have e := Int.toNat_of_nonneg (by omega : (0 : ℤ) ≤ Schema.Q0form q.1 q.2)
-    exact ⟨(Schema.Q0form q.1 q.2).toNat, ⟨by omega, by omega⟩, hb, e.symm⟩
-  · rintro ⟨k, ⟨hk1, hk2⟩, hb, he⟩
-    exact ⟨hb, by omega, by omega⟩
-
-theorem cq_fib_sum :
-    (cqBox.filter (fun q : ℤ × ℤ => 1 ≤ Schema.Q0form q.1 q.2 ∧ Schema.Q0form q.1 q.2 ≤ 1023)).card =
-      ∑ k ∈ Finset.Icc 1 1023, (cqFib k).card := by
-  rw [cq_fib_union]
-  apply Finset.card_biUnion
-  intro j _ k _ hjk
-  show Disjoint (cqFib j) (cqFib k)
-  refine Finset.disjoint_left.mpr (fun q hq hq' => hjk ?_)
-  simp only [cqFib, Finset.mem_filter] at hq hq'
-  have e := hq.2.symm.trans hq'.2
-  exact_mod_cast e
+  rw [List.mem_toFinset, cq_mem_boxF (by omega) q]
+  exact ⟨hs q, fun h => cq_reps_complete hk1 hk h⟩
 
 /-- **`r_Q(k)` is the length of the list the data holds at `k`**, for `1 ≤ k ≤ 1023`. -/
 theorem rQ_eq_cqR {k : ℕ} (hk1 : 1 ≤ k) (hk : k ≤ 1023) : Schema.rQ k = cqR k := by
-  have hle : ∀ j ∈ Finset.Icc 1 1023, cqR j ≤ (cqFib j).card := by
-    intro j hj
-    rw [Finset.mem_Icc] at hj
-    obtain ⟨hs, hnd⟩ := cqReps_spec hj.1 hj.2
-    rw [cqR, ← List.toFinset_card_of_nodup hnd]
-    exact Finset.card_le_card hs
-  have hsum : ∑ j ∈ Finset.Icc 1 1023, cqR j = ∑ j ∈ Finset.Icc 1 1023, (cqFib j).card := by
-    rw [← cq_reps_count, cq_fib_sum]
-  have heq := (Finset.sum_eq_sum_iff_of_le hle).mp hsum k (Finset.mem_Icc.mpr ⟨hk1, hk⟩)
-  rw [Schema.ZQ.rQ_eq_card (k := k) (by omega), boxF_eq_cqFib (by omega) hk, ← heq]
+  rw [Schema.ZQ.rQ_eq_card (k := k) (by omega), ← cqReps_toFinset hk1 hk]
+  exact List.toFinset_card_of_nodup (cqReps_spec hk1 hk).2
 
 /-! ## `log n` over the primes below 1024 -/
 
