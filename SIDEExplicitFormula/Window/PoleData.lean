@@ -1,3 +1,5 @@
+import Mathlib.Data.Real.Basic
+
 /-!
 # The integral of the window`s spline, as data
 

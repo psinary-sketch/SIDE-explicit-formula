@@ -26,6 +26,7 @@ theorem sum_coeffInt : ∑ j ∈ Finset.Icc 16 16380, coeffInt j = intHNum := by
   rw [← Finset.Ico_add_one_right_eq_Icc, Finset.sum_Ico_eq_sum_range, ← intH_ok,
     sumDC_eq aGet 14 16 16365 (by norm_num)]
   refine Finset.sum_congr (by norm_num) (fun i _ => ?_)
+  show coeffInt (16 + i) = aGet (16 + i)
   rw [aGet_eq]
 
 /-- The sum of the window's coefficients is `intHNum / 10 ^ coeffScale`. -/
