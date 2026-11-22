@@ -620,3 +620,17 @@ SIDEExplicitFormula.Window.integral_splineH_mul
 SIDEExplicitFormula.Window.windowKOf_log_eq_basis
 SIDEExplicitFormula.Window.windowK_log_eq_basis
 SIDEExplicitFormula.Window.kappaB_eq_zero
+SIDEExplicitFormula.Window.cubicB_eq_sum
+SIDEExplicitFormula.Window.cubicB_mul_cubicB_eq
+SIDEExplicitFormula.Window.hasDerivAt_kapF
+SIDEExplicitFormula.Window.integral_tpow3_mul_tpow3
+SIDEExplicitFormula.Window.kappaB_eq_intervalIntegral
+SIDEExplicitFormula.Window.kappaB_eq_sum
+SIDEExplicitFormula.Window.kapT_eq
+SIDEExplicitFormula.Window.kapTt_eq
+SIDEExplicitFormula.Window.sum_bw_kapF4
+SIDEExplicitFormula.Window.sum_bw_kapG
+SIDEExplicitFormula.Window.sum_sum_bw_kapF4
+SIDEExplicitFormula.Window.sum_sum_bw_ite
+SIDEExplicitFormula.Window.kapTilde_cast
+SIDEExplicitFormula.Window.kappaB_eq_kapTilde
