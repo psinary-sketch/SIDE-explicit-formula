@@ -742,6 +742,11 @@ SIDEExplicitFormula.Window.sum_coeff
 SIDEExplicitFormula.Window.integral_splineH_window
 SIDEExplicitFormula.Window.poleTerm_windowK_intH
 SIDEExplicitFormula.Window.archTermQ_windowK
+SIDEExplicitFormula.Window.sumDC_split
+SIDEExplicitFormula.Window.k0_blk0
+SIDEExplicitFormula.Window.k0_blk1
+SIDEExplicitFormula.Window.k0_blk2
+SIDEExplicitFormula.Window.k0_blk3
 SIDEExplicitFormula.Window.k0_ok
 SIDEExplicitFormula.Window.windowK_zero
 SIDEExplicitFormula.Window.archTermQ_windowK_k0
