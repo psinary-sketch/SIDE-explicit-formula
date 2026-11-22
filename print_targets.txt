@@ -736,3 +736,8 @@ SIDEExplicitFormula.Window.integral_cubicB_affine_div
 SIDEExplicitFormula.Window.integral_splineH_div
 SIDEExplicitFormula.Window.poleTerm_windowKOf
 SIDEExplicitFormula.Window.poleTerm_windowK
+SIDEExplicitFormula.Window.intH_ok
+SIDEExplicitFormula.Window.sum_coeffInt
+SIDEExplicitFormula.Window.sum_coeff
+SIDEExplicitFormula.Window.integral_splineH_window
+SIDEExplicitFormula.Window.poleTerm_windowK_intH
