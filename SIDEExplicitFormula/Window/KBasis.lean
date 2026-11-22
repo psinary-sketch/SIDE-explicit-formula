@@ -137,16 +137,18 @@ theorem windowK_log_eq_basis {n : ℕ} (hn : 0 < n) :
 theorem kappaB_eq_zero (n : ℕ) (e : ℤ) (he : e ≤ -4 ∨ 4 * (n : ℤ) ≤ e) : kappaB n e = 0 := by
   have hz : (fun u : ℝ => cubicB u * cubicB ((n : ℝ) * u - e)) = fun _ => 0 := by
     funext u
-    rcases le_or_lt u 0 with hu | hu
+    rcases le_or_gt u 0 with hu | hu
     · rw [cubicB_eq_zero_of_nonpos hu, zero_mul]
-    rcases le_or_lt 4 u with hu4 | hu4
+    rcases le_or_gt 4 u with hu4 | hu4
     · rw [cubicB_eq_zero_of_ge hu4, zero_mul]
     have hn0 : (0 : ℝ) ≤ n := Nat.cast_nonneg n
     rcases he with he | he
     · have he' : (e : ℝ) ≤ -4 := by exact_mod_cast he
-      rw [cubicB_eq_zero_of_ge (by nlinarith), mul_zero]
+      have h4 : 4 ≤ (n : ℝ) * u - e := by nlinarith
+      rw [cubicB_eq_zero_of_ge h4, mul_zero]
     · have he' : 4 * (n : ℝ) ≤ e := by exact_mod_cast he
-      rw [cubicB_eq_zero_of_nonpos (by nlinarith), mul_zero]
+      have h0 : (n : ℝ) * u - e ≤ 0 := by nlinarith
+      rw [cubicB_eq_zero_of_nonpos h0, mul_zero]
   unfold kappaB
   rw [hz, integral_zero]
 
