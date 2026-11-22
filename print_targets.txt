@@ -607,3 +607,8 @@ SIDEExplicitFormula.Window.windowH_contDiff
 SIDEExplicitFormula.Window.windowH_eq_zero
 SIDEExplicitFormula.Window.windowK_classK
 SIDEExplicitFormula.Window.windowK_eq_zero
+SIDEExplicitFormula.Window.windowKOf_eq_integral_shift
+SIDEExplicitFormula.Window.gWin_add_mul_gWin
+SIDEExplicitFormula.Window.windowKOf_eq_integral
+SIDEExplicitFormula.Window.windowKOf_log
+SIDEExplicitFormula.Window.windowK_log
