@@ -1,4 +1,5 @@
 import SIDEExplicitFormula.Window.ArchJ2
+import SIDEExplicitFormula.Window.KappaClosed
 
 /-!
 # The inner integral at the window in closed form
@@ -41,7 +42,7 @@ def ellLog (v : ℝ) : ℝ := (∑ k ∈ Finset.range 5, (bw k : ℝ) * tlog (v 
 
 theorem continuous_ellLog : Continuous ellLog := by
   unfold ellLog
-  exact (continuous_finset_sum _ (fun k _ =>
+  exact (continuous_finsetSum _ (fun k _ =>
     continuous_const.mul (continuous_tlog.comp (continuous_id.sub continuous_const)))).div_const 6
 
 /-- The quotient of two cubes where both are on, away from `w = u`. -/
@@ -69,7 +70,7 @@ theorem inner_tpow3 {m u : ℝ} (hm : 0 ≤ m) (hu : 0 < u) :
     IntervalIntegrable (fun w : ℝ => (tpow3 (16 * u - m) - tpow3 (16 * w - m)) / (u - w)) volume 0 u ∧
     ∫ w in (0 : ℝ)..u, (tpow3 (16 * u - m) - tpow3 (16 * w - m)) / (u - w) =
       tpow3 (16 * u - m) * (Real.log (16 * u) - Real.log (16 * u - m) + 11 / 6) := by
-  rcases le_or_lt (16 * u) m with hmu | hmu
+  rcases le_or_gt (16 * u) m with hmu | hmu
   · have hz : Set.EqOn (fun _ : ℝ => (0 : ℝ)) (fun w : ℝ => (tpow3 (16 * u - m) - tpow3 (16 * w - m)) / (u - w))
         (Set.uIcc 0 u) := by
       intro w hw
@@ -185,10 +186,8 @@ theorem windowH_inner {u : ℝ} (hu : 0 < u) :
   have hsum : ∀ j : ℕ, IntervalIntegrable (fun w : ℝ => ∑ k ∈ Finset.range 5, coeff j * ((bw k : ℝ) / 6) *
       ((tpow3 (16 * u - ((j : ℝ) + k)) - tpow3 (16 * w - ((j : ℝ) + k))) / (u - w))) volume 0 u := by
     intro j
-    have h := IntervalIntegrable.sum (Finset.range 5) (fun k _ => hint j k)
-    convert h using 1
-    funext w
-    simp only [Finset.sum_apply]
+    simp only [Finset.sum_range_succ, Finset.sum_range_zero, zero_add]
+    exact ((((hint j 0).add (hint j 1)).add (hint j 2)).add (hint j 3)).add (hint j 4)
   have hterm : ∀ j k : ℕ, ∫ w in (0 : ℝ)..u, coeff j * ((bw k : ℝ) / 6) *
       ((tpow3 (16 * u - ((j : ℝ) + k)) - tpow3 (16 * w - ((j : ℝ) + k))) / (u - w)) =
       coeff j * ((bw k : ℝ) / 6) *
@@ -285,7 +284,10 @@ theorem archJ_double_split :
     (continuous_const.mul (continuous_id.max continuous_const)).log
       (fun x => (mul_pos (by norm_num : (0 : ℝ) < 16) (lt_of_lt_of_le zero_lt_one (le_max_right x 1))).ne')
   have hBg : IntegrableOn (fun u : ℝ => windowH u * windowH u * Real.log (16 * max u 1)) (Set.Ioi 1) :=
-    integrableOn_of_windowH ((hc.mul hc).mul hlog) (fun y hy => by simp only [hy, zero_mul]) _
+    integrableOn_of_windowH (f := fun u : ℝ => windowH u * windowH u * Real.log (16 * max u 1))
+      ((hc.mul hc).mul hlog) (fun y hy => by
+        show windowH y * windowH y * Real.log (16 * max y 1) = 0
+        rw [hy, zero_mul, zero_mul]) _
   have hB : IntegrableOn (fun u : ℝ => windowH u * windowH u * Real.log (16 * u)) (Set.Ioi 1) := by
     refine hBg.congr_fun (fun u hu => ?_) measurableSet_Ioi
     show windowH u * windowH u * Real.log (16 * max u 1) = windowH u * windowH u * Real.log (16 * u)
@@ -294,9 +296,11 @@ theorem archJ_double_split :
     fun j => integrableOn_of_windowH (by fun_prop) (fun y hy => by simp only [hy, zero_mul, mul_zero]) _
   have hC : IntegrableOn (fun u : ℝ => ∑ j ∈ Finset.Icc 16 16380, coeff j * (windowH u * ellLog (16 * u - j)))
       (Set.Ioi 1) :=
-    integrableOn_of_windowH (continuous_finset_sum _ (fun j _ => by fun_prop))
+    integrableOn_of_windowH (continuous_finsetSum _ (fun j _ => by fun_prop))
       (fun y hy => by simp only [hy, zero_mul, mul_zero, Finset.sum_const_zero]) _
-  rw [setIntegral_congr_fun measurableSet_Ioi h1, integral_sub (Integrable.add hA hB) hC, integral_add hA hB,
+  have hAB : IntegrableOn (fun u : ℝ => 11 / 6 * (windowH u * windowH u) + windowH u * windowH u * Real.log (16 * u))
+      (Set.Ioi 1) := hA.add hB
+  rw [setIntegral_congr_fun measurableSet_Ioi h1, integral_sub hAB hC, integral_add hA hB,
     integral_finsetSum _ (fun j _ => hCj j), integral_const_mul, ← windowKx_one, Finset.mul_sum]
   congr 1
   refine Finset.sum_congr rfl (fun j _ => ?_)
