@@ -844,3 +844,8 @@ SIDEExplicitFormula.Window.cubicB_piece2
 SIDEExplicitFormula.Window.cubicB_piece3
 SIDEExplicitFormula.Window.tlog_of_nonneg
 SIDEExplicitFormula.Window.tlog_of_nonpos
+SIDEExplicitFormula.Window.integral_cubicB_affine_band
+SIDEExplicitFormula.Window.integrable_band_term
+SIDEExplicitFormula.Window.integral_windowH_sq_log
+SIDEExplicitFormula.Window.lgI_eq_zero_of_ge
+SIDEExplicitFormula.Window.lgI_eq_zero_of_le
