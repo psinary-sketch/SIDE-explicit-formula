@@ -870,3 +870,12 @@ SIDEExplicitFormula.Window.lgI_closed_one
 SIDEExplicitFormula.Window.lgI_closed_two
 SIDEExplicitFormula.Window.lgI_closed_three
 SIDEExplicitFormula.Window.lgI_neg
+SIDEExplicitFormula.Window.intervalIntegrable_log_add
+SIDEExplicitFormula.Window.integral_poly_log_all
+SIDEExplicitFormula.Window.lamW_spec
+SIDEExplicitFormula.Window.lam_unit
+SIDEExplicitFormula.Window.lam_unit_neg
+SIDEExplicitFormula.Window.lam_piece
+SIDEExplicitFormula.Window.lamI_eq_units
+SIDEExplicitFormula.Window.lam_unit_int
+SIDEExplicitFormula.Window.lamI_closed
