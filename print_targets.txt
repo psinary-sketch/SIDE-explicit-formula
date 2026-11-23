@@ -832,3 +832,15 @@ SIDEExplicitFormula.Window.nf_len_E
 SIDEExplicitFormula.Window.nfac_spec
 SIDEExplicitFormula.Window.logNat_eq
 SIDEExplicitFormula.Window.logNat_bounds
+SIDEExplicitFormula.Window.unit_add_ne_zero
+SIDEExplicitFormula.Window.continuousOn_pow_div_unit
+SIDEExplicitFormula.Window.gPiece_zero
+SIDEExplicitFormula.Window.gPiece_succ
+SIDEExplicitFormula.Window.fPiece_eq
+SIDEExplicitFormula.Window.fPiece_zero_succ
+SIDEExplicitFormula.Window.cubicB_piece0
+SIDEExplicitFormula.Window.cubicB_piece1
+SIDEExplicitFormula.Window.cubicB_piece2
+SIDEExplicitFormula.Window.cubicB_piece3
+SIDEExplicitFormula.Window.tlog_of_nonneg
+SIDEExplicitFormula.Window.tlog_of_nonpos
