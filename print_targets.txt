@@ -750,3 +750,8 @@ SIDEExplicitFormula.Window.k0_blk3
 SIDEExplicitFormula.Window.k0_ok
 SIDEExplicitFormula.Window.windowK_zero
 SIDEExplicitFormula.Window.archTermQ_windowK_k0
+SIDEExplicitFormula.Window.windowK_eq_Kx
+SIDEExplicitFormula.Window.archJ_integrand_real
+SIDEExplicitFormula.Window.archJ_pt_E
+SIDEExplicitFormula.Window.archJ_pt
+SIDEExplicitFormula.Window.archJ_eq_ratio
