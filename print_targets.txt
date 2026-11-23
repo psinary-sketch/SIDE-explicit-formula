@@ -879,3 +879,6 @@ SIDEExplicitFormula.Window.lam_piece
 SIDEExplicitFormula.Window.lamI_eq_units
 SIDEExplicitFormula.Window.lam_unit_int
 SIDEExplicitFormula.Window.lamI_closed
+SIDEExplicitFormula.Window.archJ_basis
+SIDEExplicitFormula.Window.lamI_natSub
+SIDEExplicitFormula.Window.archJ_basis_closed
