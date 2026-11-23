@@ -882,3 +882,5 @@ SIDEExplicitFormula.Window.lamI_closed
 SIDEExplicitFormula.Window.archJ_basis
 SIDEExplicitFormula.Window.lamI_natSub
 SIDEExplicitFormula.Window.archJ_basis_closed
+SIDEExplicitFormula.Window.band_row_local
+SIDEExplicitFormula.Window.archJ_basis_local
