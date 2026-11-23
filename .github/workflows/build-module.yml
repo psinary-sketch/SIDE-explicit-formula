@@ -22,6 +22,11 @@
 # where it is absent. With it "on", each file that push-b765-planted changes against its parent is taken into the checkout after the restore
 # and before the build, refused unless the file at the commit built equals the parent's; the commit built, and so the cache's key, stays the
 # checked-out HEAD, and no planted commit enters the branch built; the probe and the save are not run; out/planted.txt joins the artifact.
+# From b767 ((R377)(5), W-ORD-SOURCE-BUILD, route (i) of relay data/b767_source_build.txt): with the restore off, the build runs in two
+# parts within one run, under the same hold and memory logger: part one builds each module of the target outside
+# SIDEExplicitFormula/Window/ by name (out/part_one_modules.txt, out/build_part_one.log, out/build_part_one_exit.txt), part two the target
+# as before; where part one does not complete under the hold, part two is not run and part one's exit stands as the build's. The memory
+# log and the build's times mark each part. With the restore on, the build is one part, as before.
 name: build-module
 
 on:
@@ -169,8 +174,36 @@ jobs:
           LOGGER=$!
           set +e
           echo "build start $(date -u +%Y-%m-%dT%H:%M:%SZ)" >> out/build_times.txt
-          lake build $TARGET > out/build.log 2>&1
-          echo "$?" > out/build_exit.txt
+          if [ "$RESTORE" = "off" ]; then
+            : > out/part_one_modules.txt
+            for m in $TARGET; do
+              case "$m" in
+                SIDEExplicitFormula.Window.*) ;;
+                *) echo "$m" >> out/part_one_modules.txt ;;
+              esac
+            done
+            echo "part one start $(date -u +%Y-%m-%dT%H:%M:%SZ) modules $(wc -l < out/part_one_modules.txt)" >> out/build_times.txt
+            echo "PART ONE $(date -u +%Y-%m-%dT%H:%M:%SZ)" >> out/mem.log
+            if [ -s out/part_one_modules.txt ]; then
+              lake build $(cat out/part_one_modules.txt) > out/build_part_one.log 2>&1
+              echo "$?" > out/build_part_one_exit.txt
+            else
+              echo "part one: no module of the target outside the folder" > out/build_part_one.log
+              echo "0" > out/build_part_one_exit.txt
+            fi
+            echo "part one end $(date -u +%Y-%m-%dT%H:%M:%SZ)" >> out/build_times.txt
+          fi
+          if [ -f out/build_part_one_exit.txt ] && { [ "$(cat out/build_part_one_exit.txt)" != "0" ] || grep -q '^STOP ' out/mem.log; }; then
+            echo "NOT RUN: part one did not complete under the hold, its exit $(cat out/build_part_one_exit.txt)" > out/build.log
+            cp out/build_part_one_exit.txt out/build_exit.txt
+          else
+            if [ -f out/build_part_one_exit.txt ]; then
+              echo "PART TWO $(date -u +%Y-%m-%dT%H:%M:%SZ)" >> out/mem.log
+              echo "part two start $(date -u +%Y-%m-%dT%H:%M:%SZ)" >> out/build_times.txt
+            fi
+            lake build $TARGET > out/build.log 2>&1
+            echo "$?" > out/build_exit.txt
+          fi
           echo "build end $(date -u +%Y-%m-%dT%H:%M:%SZ)" >> out/build_times.txt
           kill "$LOGGER" || true
           awk -F'avail_mb=' '/avail_mb=/ {split($2,a," "); if (min=="" || a[1]+0<min) min=a[1]+0} END {print "LOW " min}' out/mem.log >> out/mem.log
