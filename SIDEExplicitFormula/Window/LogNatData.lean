@@ -11,6 +11,7 @@ index (each list`s product its index, each factor a key of the primes` tree belo
 
 namespace SIDEExplicitFormula.Window
 
+set_option maxRecDepth 100000 in
 /-- The factorizations of 1 to 3278. -/
 def nfA : List (List (ℕ × ℕ)) := [
   [],
@@ -3292,6 +3293,7 @@ def nfA : List (List (ℕ × ℕ)) := [
   [(29, 1), (113, 1)],
   [(2, 1), (11, 1), (149, 1)]]
 
+set_option maxRecDepth 100000 in
 /-- The factorizations of 3279 to 6556. -/
 def nfB : List (List (ℕ × ℕ)) := [
   [(3, 1), (1093, 1)],
@@ -6573,6 +6575,7 @@ def nfB : List (List (ℕ × ℕ)) := [
   [(3, 1), (5, 1), (19, 1), (23, 1)],
   [(2, 2), (11, 1), (149, 1)]]
 
+set_option maxRecDepth 100000 in
 /-- The factorizations of 6557 to 9834. -/
 def nfC : List (List (ℕ × ℕ)) := [
   [(79, 1), (83, 1)],
@@ -9854,6 +9857,7 @@ def nfC : List (List (ℕ × ℕ)) := [
   [(9833, 1)],
   [(2, 1), (3, 1), (11, 1), (149, 1)]]
 
+set_option maxRecDepth 100000 in
 /-- The factorizations of 9835 to 13112. -/
 def nfD : List (List (ℕ × ℕ)) := [
   [(5, 1), (7, 1), (281, 1)],
@@ -13135,6 +13139,7 @@ def nfD : List (List (ℕ × ℕ)) := [
   [(7, 1), (1873, 1)],
   [(2, 3), (11, 1), (149, 1)]]
 
+set_option maxRecDepth 100000 in
 /-- The factorizations of 13113 to 16390. -/
 def nfE : List (List (ℕ × ℕ)) := [
   [(3, 2), (31, 1), (47, 1)],
