@@ -812,3 +812,8 @@ SIDEExplicitFormula.Window.gamma_bounds
 SIDEExplicitFormula.Window.gamma_width
 SIDEExplicitFormula.Window.logPi_bounds
 SIDEExplicitFormula.Window.logPi_width
+SIDEExplicitFormula.Window.coeff_eq_zero_of_not
+SIDEExplicitFormula.Window.poleCoef_eq
+SIDEExplicitFormula.Window.poleSum_shift
+SIDEExplicitFormula.Window.poleSum_tail
+SIDEExplicitFormula.Window.poleSum_comb
