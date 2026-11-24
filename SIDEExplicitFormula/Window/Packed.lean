@@ -107,6 +107,8 @@ theorem forall_of_all {P : ℤ → Prop} [DecidablePred P] (l : List ℤ)
   | exact of_decide_eq_true (List.all_eq_true.mp h x hx)
   | (simp only [List.all_eq_true, decide_eq_true_eq] at h
      exact h x hx)
+  | (simp at h
+     exact h x hx)
 
 /-! ## Convolution sums -/
 
@@ -238,10 +240,10 @@ theorem conv_of_packed {b M : ℤ} (hb : 2 ≤ b) (n : ℕ) (u v d : ℕ → ℤ
     ∀ k < 2 * n, convR n u v k = d k := by
   rw [packed_mul] at hprod
   refine packed_inj hb (2 * n) (convR n u v) d (fun k _ => ?_) hd hprod
-  have h1 := abs_le.mp (convR_bound hu hv k)
+  obtain ⟨hlo, hhi⟩ := abs_le.mp (convR_bound hu hv k)
   constructor
-  · linarith [h1.1]
-  · linarith [h1.2]
+  · linarith [hlo]
+  · linarith [hhi]
 
 /-- **`conv_of_packedL`**: `conv_of_packed` read on lists: lists `l` and `r` of one length `n` with entries within `M`, a
 list `d` of `2 n` entries within `b / 2`, and the product of the packings of `l` and `r` equal to the packing of `d`. -/
