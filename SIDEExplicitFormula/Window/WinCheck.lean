@@ -1,3 +1,5 @@
+import Mathlib.Data.Int.Notation
+import Mathlib.Data.Nat.Notation
 import Mathlib.Data.List.GetD
 
 /-!
