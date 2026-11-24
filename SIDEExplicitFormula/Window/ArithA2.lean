@@ -1,0 +1,117 @@
+import SIDEExplicitFormula.Window.ArithFrame
+
+/-!
+# L11d: the walk over `m`, chunks 52 to 77
+
+Written by relay tools/b768_arith_data.py from the kernel`s own files; edited by no hand.
+-/
+
+namespace SIDEExplicitFormula
+namespace Window
+
+set_option maxHeartbeats 0 in
+/-- The walk over `m` from 6656, 128 places. -/
+theorem arithA_c52 : arWalk 128 6656 (arX0.dr 6656) = 3817945653045761002768436071859906402238112807738956239106535454499290762121697958400000000000000 := by decide +kernel
+
+set_option maxHeartbeats 0 in
+/-- The walk over `m` from 6784, 128 places. -/
+theorem arithA_c53 : arWalk 128 6784 (arX0.dr 6784) = 453922673689509082028815590341019764365062269414357103691637692837088598867021868800000000000000 := by decide +kernel
+
+set_option maxHeartbeats 0 in
+/-- The walk over `m` from 6912, 128 places. -/
+theorem arithA_c54 : arWalk 128 6912 (arX0.dr 6912) = -508695741707758550833048307055492214039201982127921524177763312156973706629295016960000000000000 := by decide +kernel
+
+set_option maxHeartbeats 0 in
+/-- The walk over `m` from 7040, 128 places. -/
+theorem arithA_c55 : arWalk 128 7040 (arX0.dr 7040) = -2326787607913482532795902204394162704336724536326602545673513803792076648784005626240000000000000 := by decide +kernel
+
+set_option maxHeartbeats 0 in
+/-- The walk over `m` from 7168, 128 places. -/
+theorem arithA_c56 : arWalk 128 7168 (arX0.dr 7168) = 421105112689860726682599440390539040434939062162659375385724369067738406977446508160000000000000 := by decide +kernel
+
+set_option maxHeartbeats 0 in
+/-- The walk over `m` from 7296, 128 places. -/
+theorem arithA_c57 : arWalk 128 7296 (arX0.dr 7296) = 1143942350855364077339093222223234077925815101822870859667207323682931235348507665920000000000000 := by decide +kernel
+
+set_option maxHeartbeats 0 in
+/-- The walk over `m` from 7424, 128 places. -/
+theorem arithA_c58 : arWalk 128 7424 (arX0.dr 7424) = -1721151760985717800526289471611417187865593713399524098278090071629400494224764594560000000000000 := by decide +kernel
+
+set_option maxHeartbeats 0 in
+/-- The walk over `m` from 7552, 128 places. -/
+theorem arithA_c59 : arWalk 128 7552 (arX0.dr 7552) = 97394244168370929800715322027641097723116646006932858087108655107290355283069075200000000000000 := by decide +kernel
+
+set_option maxHeartbeats 0 in
+/-- The walk over `m` from 7680, 128 places. -/
+theorem arithA_c60 : arWalk 128 7680 (arX0.dr 7680) = 2577534760966259637785169606662279277796079279498297894823971826545066063263843910400000000000000 := by decide +kernel
+
+set_option maxHeartbeats 0 in
+/-- The walk over `m` from 7808, 128 places. -/
+theorem arithA_c61 : arWalk 128 7808 (arX0.dr 7808) = 2366092177419819310725557625736043399944893074507235694406236746333628397085364953600000000000000 := by decide +kernel
+
+set_option maxHeartbeats 0 in
+/-- The walk over `m` from 7936, 128 places. -/
+theorem arithA_c62 : arWalk 128 7936 (arX0.dr 7936) = -3862939754246529923294240674793356544029849654589638443275579464530051404988906585600000000000000 := by decide +kernel
+
+set_option maxHeartbeats 0 in
+/-- The walk over `m` from 8064, 128 places. -/
+theorem arithA_c63 : arWalk 128 8064 (arX0.dr 8064) = -2884205814458818249218945400377198748519468353822718485250341367150641698870214892800000000000000 := by decide +kernel
+
+set_option maxHeartbeats 0 in
+/-- The walk over `m` from 8192, 128 places. -/
+theorem arithA_c64 : arWalk 128 8192 (arX0.dr 8192) = 1130301446705181269398073822562564738615824883458225600031806888748156111676483104000000000000000 := by decide +kernel
+
+set_option maxHeartbeats 0 in
+/-- The walk over `m` from 8320, 128 places. -/
+theorem arithA_c65 : arWalk 128 8320 (arX0.dr 8320) = 4124904008442362629352047628369488820879765638651931619812279622447127579248041798400000000000000 := by decide +kernel
+
+set_option maxHeartbeats 0 in
+/-- The walk over `m` from 8448, 128 places. -/
+theorem arithA_c66 : arWalk 128 8448 (arX0.dr 8448) = -2014258469260141899135583995437740982725909393146446952405755529893695617913056960000000000000000 := by decide +kernel
+
+set_option maxHeartbeats 0 in
+/-- The walk over `m` from 8576, 128 places. -/
+theorem arithA_c67 : arWalk 128 8576 (arX0.dr 8576) = -2458583520912565541808071709101986285105037160723704713758110480199858595409274585600000000000000 := by decide +kernel
+
+set_option maxHeartbeats 0 in
+/-- The walk over `m` from 8704, 128 places. -/
+theorem arithA_c68 : arWalk 128 8704 (arX0.dr 8704) = 2290229152467965084036971501349999607100836581470029713327845604502077673489614327040000000000000 := by decide +kernel
+
+set_option maxHeartbeats 0 in
+/-- The walk over `m` from 8832, 128 places. -/
+theorem arithA_c69 : arWalk 128 8832 (arX0.dr 8832) = 2397762180204849720015881899898126871577277659612459767035608943417021720532323950848000000000000 := by decide +kernel
+
+set_option maxHeartbeats 0 in
+/-- The walk over `m` from 8960, 128 places. -/
+theorem arithA_c70 : arWalk 128 8960 (arX0.dr 8960) = -4788179667660033081336379202689331664311515859739659050538636420223548943376709491200000000000000 := by decide +kernel
+
+set_option maxHeartbeats 0 in
+/-- The walk over `m` from 9088, 128 places. -/
+theorem arithA_c71 : arWalk 128 9088 (arX0.dr 9088) = 2268917811746637439982567657930264706847071685851798386483232982139737415563527901440000000000000 := by decide +kernel
+
+set_option maxHeartbeats 0 in
+/-- The walk over `m` from 9216, 128 places. -/
+theorem arithA_c72 : arWalk 128 9216 (arX0.dr 9216) = 1169973999654640941250180752448603549217233837046788160199682230077409291113351001600000000000000 := by decide +kernel
+
+set_option maxHeartbeats 0 in
+/-- The walk over `m` from 9344, 128 places. -/
+theorem arithA_c73 : arWalk 128 9344 (arX0.dr 9344) = 740133765283265055365818898426921701808149777910187958091502204251400189057635904000000000000000 := by decide +kernel
+
+set_option maxHeartbeats 0 in
+/-- The walk over `m` from 9472, 128 places. -/
+theorem arithA_c74 : arWalk 128 9472 (arX0.dr 9472) = 2495675851616279089709911688093941083422329567369006600821225206336213768963324352000000000000000 := by decide +kernel
+
+set_option maxHeartbeats 0 in
+/-- The walk over `m` from 9600, 128 places. -/
+theorem arithA_c75 : arWalk 128 9600 (arX0.dr 9600) = -1952503311104535172159750696783330068617952736855472026561507473403133784931949952000000000000000 := by decide +kernel
+
+set_option maxHeartbeats 0 in
+/-- The walk over `m` from 9728, 128 places. -/
+theorem arithA_c76 : arWalk 128 9728 (arX0.dr 9728) = 3602290919765105007685100265189074162928962667498703778989950457806922423749312000000000000000000 := by decide +kernel
+
+set_option maxHeartbeats 0 in
+/-- The walk over `m` from 9856, 128 places. -/
+theorem arithA_c77 : arWalk 128 9856 (arX0.dr 9856) = 5849880188396840938240986825085195149073772313518967225181690773537114086838259200000000000000 := by decide +kernel
+
+end Window
+end SIDEExplicitFormula
