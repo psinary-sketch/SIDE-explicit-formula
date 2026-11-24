@@ -66,7 +66,7 @@ theorem far_pair (k m : ℕ) (hk : k ≤ 3) (hm : m ≤ 4) :
     rw [Finset.sum_range_succ _ 16369, hz 16369 (by omega), zero_mul, zero_mul, add_zero]
   rw [e2, ← Finset.sum_add_distrib]
   unfold farPhi farGam
-  congr 1
+  rw [add_left_inj]
   refine Finset.sum_congr rfl (fun n _ => ?_)
   ring
 
@@ -110,7 +110,7 @@ theorem gam_coef (c : ℕ) :
     ∑ k ∈ Finset.range 4, ∑ m ∈ Finset.range 5, (bw m : ℝ) / 6 * ((autoD.getD (aKM k m + c) 0 : ℝ) * lG k (c : ℝ)) =
       (gW c (autoD.drop (16360 + c)) : ℝ) / (6 * (farDEN : ℝ)) := by
   rw [gW_eq]
-  simp only [Int.cast_sum, Int.cast_mul, Int.cast_add]
+  simp only [Int.cast_sum, Int.cast_mul]
   rw [Finset.sum_div]
   refine Finset.sum_congr rfl (fun k hk => ?_)
   rw [Finset.sum_div]
@@ -135,8 +135,7 @@ theorem far_comb :
     ∑ t ∈ Finset.range (2 * 16365), (autoD.getD t 0 : ℝ) * farK ((t : ℤ) - ((16365 : ℕ) - 1)) =
       ∑ c ∈ Finset.range 16369, (farGL.getD c 0 : ℝ) / (6 * (farDEN : ℝ)) +
         ∑ n ∈ Finset.range (16369 + 1), (farNumL.getD n 0 : ℝ) / (6 * (farDEN : ℝ)) * Real.log (n : ℝ) := by
-  rw [far_regroup, regroup3, far_gam]
-  congr 1
+  rw [far_regroup, regroup3, far_gam, add_right_inj]
   refine Finset.sum_congr rfl (fun n hn => ?_)
   rcases Nat.eq_zero_or_pos n with h0 | h1
   · subst h0
