@@ -900,3 +900,14 @@ SIDEExplicitFormula.Window.conv_of_packedL
 SIDEExplicitFormula.Window.trial_join_ok
 SIDEExplicitFormula.Window.trial_prod
 SIDEExplicitFormula.Window.trial_conv
+SIDEExplicitFormula.Window.packBase_ge
+SIDEExplicitFormula.Window.joinG_nil
+SIDEExplicitFormula.Window.joinG_cons
+SIDEExplicitFormula.Window.lenG_nil
+SIDEExplicitFormula.Window.lenG_cons
+SIDEExplicitFormula.Window.chunks_flatten_cons
+SIDEExplicitFormula.Window.chunks_map_cons
+SIDEExplicitFormula.Window.packL_flatten_gen
+SIDEExplicitFormula.Window.length_flatten_gen
+SIDEExplicitFormula.Window.chunks_all_cons
+SIDEExplicitFormula.Window.all_flatten
