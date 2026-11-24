@@ -77,5 +77,14 @@ theorem winOK_append (F : ℕ → List ℤ → ℤ) : ∀ (l1 l2 w : List ℤ) (
     have e2 : n + 1 + xs.length = n + (xs.length + 1) := by omega
     simp only [List.cons_append, winOK, ih, List.length_cons, Bool.and_assoc, e1, e2]
 
+/-- A list checked in two parts: the first at the window `base.drop a` from the place `n`, the rest at `base.drop a'` from the
+place `n'`, where `a' = a + k` and `n' = n + k` for the first part's length `k`; so each part is its own declaration. -/
+theorem winOK_chunk (F : ℕ → List ℤ → ℤ) (base l1 l2 : List ℤ) (a n k a' n' : ℕ)
+    (hl : l1.length = k) (ha : a + k = a') (hn : n + k = n')
+    (h1 : winOK F (base.drop a) n l1 = true) (h2 : winOK F (base.drop a') n' l2 = true) :
+    winOK F (base.drop a) n (l1 ++ l2) = true := by
+  rw [winOK_append F l1 l2 (base.drop a) n, h1, Bool.true_and, drop_drop_add base a l1.length, hl, ha, hn]
+  exact h2
+
 end Window
 end SIDEExplicitFormula

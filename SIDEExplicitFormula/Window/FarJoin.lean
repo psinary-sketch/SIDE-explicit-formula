@@ -22,24 +22,28 @@ def farNumL : List ℤ := farNG0 ++ (farNG1 ++ (farNG2 ++ farNG3))
 
 theorem farNumL_len : farNumL.length = 16370 := by
   unfold farNumL
-  simp only [List.length_append, farNG0_len, farNG1_len, farNG2_len, farNG3_len]
+  simp only [List.length_append, farNG0_len, farNG1_len, farNG2_len, farNG3_len] <;> norm_num
 
 theorem farNumL_all : winOK farW (autoD.drop 16360) 0 farNumL = true := by
   unfold farNumL
-  rw [winOK_append, winOK_append, winOK_append, farNG0_len, farNG1_len, farNG2_len, far_ok0, far_ok1, far_ok2, far_ok3]
-  all_goals rfl
+  refine winOK_chunk farW autoD farNG0 _ 16360 0 4096 20456 4096 farNG0_len (by norm_num) (by norm_num) far_ok0 ?_
+  refine winOK_chunk farW autoD farNG1 _ 20456 4096 4096 24552 8192 farNG1_len (by norm_num) (by norm_num) far_ok1 ?_
+  refine winOK_chunk farW autoD farNG2 _ 24552 8192 4096 28648 12288 farNG2_len (by norm_num) (by norm_num) far_ok2 ?_
+  exact far_ok3
 
 /-- The joined list, 16369 places. -/
 def farGL : List ℤ := farGG0 ++ (farGG1 ++ (farGG2 ++ farGG3))
 
 theorem farGL_len : farGL.length = 16369 := by
   unfold farGL
-  simp only [List.length_append, farGG0_len, farGG1_len, farGG2_len, farGG3_len]
+  simp only [List.length_append, farGG0_len, farGG1_len, farGG2_len, farGG3_len] <;> norm_num
 
 theorem farGL_all : winOK gW (autoD.drop 16360) 0 farGL = true := by
   unfold farGL
-  rw [winOK_append, winOK_append, winOK_append, farGG0_len, farGG1_len, farGG2_len, gam_ok0, gam_ok1, gam_ok2, gam_ok3]
-  all_goals rfl
+  refine winOK_chunk gW autoD farGG0 _ 16360 0 4096 20456 4096 farGG0_len (by norm_num) (by norm_num) gam_ok0 ?_
+  refine winOK_chunk gW autoD farGG1 _ 20456 4096 4096 24552 8192 farGG1_len (by norm_num) (by norm_num) gam_ok1 ?_
+  refine winOK_chunk gW autoD farGG2 _ 24552 8192 4096 28648 12288 farGG2_len (by norm_num) (by norm_num) gam_ok2 ?_
+  exact gam_ok3
 
 end Window
 end SIDEExplicitFormula
