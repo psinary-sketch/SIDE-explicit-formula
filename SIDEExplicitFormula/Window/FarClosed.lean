@@ -36,10 +36,12 @@ theorem fG_zero (l : ℕ) : fG l 0 = -1 / ((l : ℝ) + 1) ^ 2 := by
     rw [neg_zero, zero_pow (by omega : m + 1 ≠ 0), zero_div]
   rw [Finset.sum_congr rfl h, Finset.sum_const_zero, zero_add, pow_zero, Nat.cast_zero, sub_zero]
   push_cast
+  generalize ((l : ℝ) + 1) = A
   first
-  | ring
-  | (field_simp
-     ring)
+  | ring1
+  | (rw [neg_div', div_div, ← sq])
+  | (field_simp; ring1)
+  | field_simp
 
 theorem fPiece_form_zero (l : ℕ) (hl : 0 < l) :
     fPiece l 0 = fA l 0 * Real.log (1 + 0) + fB l 0 * Real.log 0 + fG l 0 := by

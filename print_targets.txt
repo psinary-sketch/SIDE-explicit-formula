@@ -978,3 +978,8 @@ SIDEExplicitFormula.Window.shift_ge_sum
 SIDEExplicitFormula.Window.sum_range_pad
 SIDEExplicitFormula.Window.sum_log_succ
 SIDEExplicitFormula.Window.regroup3
+SIDEExplicitFormula.Window.tail_drop_eq
+SIDEExplicitFormula.Window.drop_drop_add
+SIDEExplicitFormula.Window.getD_drop_add
+SIDEExplicitFormula.Window.winOK_spec
+SIDEExplicitFormula.Window.winOK_append
