@@ -1,4 +1,4 @@
-import SIDEExplicitFormula.Window.ArithFrame
+import SIDEExplicitFormula.Window.ArithA2
 
 /-!
 # L11d: the walk over `m`, chunks 104 to 128
