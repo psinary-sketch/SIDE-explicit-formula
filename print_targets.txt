@@ -1843,3 +1843,12 @@ SIDEExplicitFormula.Window.bandNumL_place
 SIDEExplicitFormula.Window.bandGL_place
 SIDEExplicitFormula.Window.band_final
 SIDEExplicitFormula.Window.archJ_comb
+SIDEExplicitFormula.Window.windowK_zero_kap
+SIDEExplicitFormula.Window.windowKx_one_eq
+SIDEExplicitFormula.Window.log_sqrt23
+SIDEExplicitFormula.Window.poleCoef_high
+SIDEExplicitFormula.Window.poleTerm_comb
+SIDEExplicitFormula.Window.primeTermQ_comb
+SIDEExplicitFormula.Window.archTermQ_comb
+SIDEExplicitFormula.Window.comb_sum
+SIDEExplicitFormula.Window.arith_eq_comb
