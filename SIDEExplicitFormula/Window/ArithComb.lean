@@ -60,7 +60,8 @@ theorem primeTermQ_comb :
       ((∑ n ∈ Finset.Ico 2 1024, 2 * Schema.ZQ.cQ n * ((Kt n : ℝ) / (80640 * (n : ℝ) ^ 4 * 10 ^ 34)) : ℝ) : ℂ) := by
   have hk := windowK_classK
   unfold B321.classK at hk
-  have hc : Continuous windowK := hk.2.1.continuous
+  obtain ⟨-, hcd, -, -⟩ := hk
+  have hc : Continuous windowK := hcd.continuous
   have hs : ∀ u : ℝ, Real.log ((1024 : ℕ) : ℝ) < |u| → windowK u = 0 := fun u hu =>
     windowK_eq_zero u (by first | exact_mod_cast hu | (norm_num at hu; exact hu))
   rw [primeTermQ_cQ_eq_finite_sum windowK 1024 (by norm_num) hc hs, Complex.ofReal_sum]
