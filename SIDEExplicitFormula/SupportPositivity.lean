@@ -31,7 +31,9 @@ theorem positive_iff_forall_upto (rhs : (ℝ → ℂ) → ℂ) :
   · intro h L k hk _
     exact h k hk
   · intro h k hk
-    obtain ⟨r, hr⟩ := hk.2.2.1.isCompact.isBounded.subset_closedBall (0 : ℝ)
+    have hk' := hk
+    obtain ⟨-, -, hcs, -⟩ := hk'
+    obtain ⟨r, hr⟩ := hcs.isCompact.isBounded.subset_closedBall (0 : ℝ)
     refine h r k hk (fun u hu => ?_)
     by_contra hne
     have hmem : u ∈ Metric.closedBall (0 : ℝ) r := hr (subset_tsupport k (Function.mem_support.mpr hne))
