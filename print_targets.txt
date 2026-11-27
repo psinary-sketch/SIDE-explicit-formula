@@ -2049,3 +2049,4 @@ SIDEExplicitFormula.familyConfig_h2_sign
 SIDEExplicitFormula.positivity_of_premises
 SIDEExplicitFormula.Window.cq_nonneg_ok
 SIDEExplicitFormula.Window.cQ_least_negative
+SIDEExplicitFormula.Schema.ZQ.OffZero.zq_offline_zero_located
