@@ -2038,3 +2038,5 @@ SIDEExplicitFormula.Window.ar_cov_all
 SIDEExplicitFormula.Window.arith_num
 SIDEExplicitFormula.Window.window_arith_neg
 SIDEExplicitFormula.Window.controlFailureExists
+SIDEExplicitFormula.Schema.online_imp_zeroSideQ_nonneg
+SIDEExplicitFormula.Schema.ZQ.zq_offline_from_coefficients
