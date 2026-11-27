@@ -2050,3 +2050,4 @@ SIDEExplicitFormula.positivity_of_premises
 SIDEExplicitFormula.Window.cq_nonneg_ok
 SIDEExplicitFormula.Window.cQ_least_negative
 SIDEExplicitFormula.Schema.ZQ.OffZero.zq_offline_zero_located
+SIDEExplicitFormula.Schema.ZQ.zq_ne_zero_of_real_one_lt
