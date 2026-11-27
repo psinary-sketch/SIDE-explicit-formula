@@ -2047,3 +2047,5 @@ SIDEExplicitFormula.control_not_positiveUpto
 SIDEExplicitFormula.control_not_positiveUpto_of_le
 SIDEExplicitFormula.familyConfig_h2_sign
 SIDEExplicitFormula.positivity_of_premises
+SIDEExplicitFormula.Window.cq_nonneg_ok
+SIDEExplicitFormula.Window.cQ_least_negative
